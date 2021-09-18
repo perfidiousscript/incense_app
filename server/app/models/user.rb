@@ -1,4 +1,4 @@
-class User > ApplicationRecord
+class User < ApplicationRecord
   include Clearance::User
 
   enum role: [:user, :moderator, :admin]

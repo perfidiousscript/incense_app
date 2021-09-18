@@ -23,6 +23,8 @@ gem 'sentry-ruby', '~>4.7'
 gem 'clearance', '~>2.5'
 gem 'cancancan', '~>3.3'
 
+gem 'faker'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
