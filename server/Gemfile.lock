@@ -244,7 +244,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  aasm
+  aasm (~> 5.2)
   active_model_serializers
   bootsnap (>= 1.4.4)
   byebug
@@ -257,7 +257,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 6.1.4, >= 6.1.4.1)
   rspec-rails (~> 5.0)
-  sentry-ruby
+  sentry-ruby (~> 4.7)
   spring
   tzinfo-data
   vcr (~> 6.0)
