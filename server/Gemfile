@@ -26,7 +26,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~>6.2'
   gem 'vcr', '~>6.0'
   gem 'webmock', '~>3.14'
-  gem 'letter_opener_web', '~>1.7'
+  gem 'letter_opener_web', '~>1.4'
 end
 
 group :development do
