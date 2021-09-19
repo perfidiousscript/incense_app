@@ -1,20 +1,20 @@
 class Api::V1::UsersController < Api::V1::BaseController
   before_action :require_login, except: :create
   load_and_authorize_resource
-  def create
-  create_user = Users::Create.call(params)
 
-  if create_user.success?
-    user = create_user.result
-    sign_in user
-    render json: user, status: :created
-  else
-    raise Errors::Validation.new('user', create_user)
-  end
+  def create
+    user = User.create(user_params.merge({ role: :user }))
+
+    if user.valid?
+      sign_in user
+      render json: user, status: :created
+    else
+      raise Errors::Validation.new('user', user)
+    end
 end
 
 def update
-  update_user = Users::Update.call(current_user, params)
+  Users.update(params)
   if update_user.success?
     render json: update_user.result, status: :ok
   else

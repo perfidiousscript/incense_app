@@ -13,6 +13,5 @@ FactoryBot.define do
       role { :moderator }
     end
 
-
   end
 end
