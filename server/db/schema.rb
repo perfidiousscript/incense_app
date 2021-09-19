@@ -20,11 +20,11 @@ ActiveRecord::Schema.define(version: 2021_09_19_222853) do
     t.string "name", null: false
     t.string "country", null: false
     t.text "description"
-    t.uuid "user_id"
+    t.uuid "approved_by_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["approved_by_id"], name: "index_brands_on_approved_by_id"
     t.index ["name"], name: "index_brands_on_name", unique: true
-    t.index ["user_id"], name: "index_brands_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -42,5 +42,5 @@ ActiveRecord::Schema.define(version: 2021_09_19_222853) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "brands", "users"
+  add_foreign_key "brands", "users", column: "approved_by_id"
 end
