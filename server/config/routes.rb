@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resource :users, only: %i[create update] do
         get :current, on: :collection
       end
+      resources :brands
     end
   end
   namespace :admin do
