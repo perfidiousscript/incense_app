@@ -32,4 +32,34 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
+
+  # describe 'Update User' do
+  #   describe 'as a standard user' do
+  #     it 'should allow the user to update their information', :vcr do
+  #       user = create(:user)
+  #       sign_in_as(user)
+  #       patch :update, params: { id: user.id, user: { role: 1 } }
+  #       expect(json[:given_name]).to eq "Barry"
+  #     end
+  #   end
+  # end
+
+  describe 'Current User' do
+    describe 'when logged in' do
+      it 'should return the current user', :vcr do
+        user = create(:user)
+        sign_in_as(user)
+        get :current, params: { id: user.id }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+    describe 'when not logged in', :vcr do
+      it 'should error' do
+        user = create(:user)
+        get :current, params: { id: user.id }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
 end

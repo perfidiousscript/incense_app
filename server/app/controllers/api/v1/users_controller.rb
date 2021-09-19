@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def create
     user = User.create(user_params.merge({ role: :user }))
-    
+
     if user.valid?
       sign_in user
       render json: user, status: :created
@@ -14,8 +14,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 end
 
 def update
-  Users.update(params)
-  if update_user.success?
+  if current_user.update(params).success?
     render json: update_user.result, status: :ok
   else
     raise Errors::Validation.new('user', update_user)
