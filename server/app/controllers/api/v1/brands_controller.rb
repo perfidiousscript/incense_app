@@ -3,13 +3,15 @@ class Api::V1::BrandsController < Api::V1::BaseController
   load_and_authorize_resource
 
   def create
-    brand = Brand.new(brand_params)
+
+    if current_user.moderator? || current_user.admin?
+      new_brand_params = brand_params.merge({approved_by_id: current_user.id})
+      brand = Brand.create(new_brand_params)
+    else
+      brand = Brand.create(brand_params)
+    end
+
     if brand.valid?
-      if current_user.moderator? || current_user.admin?
-        brand.save({approved_by:current_user.id})
-      else
-        brand.save
-      end
       render json: brand, status: :created
     else
       raise Errors::Validation.new('brand', brand)
