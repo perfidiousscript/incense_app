@@ -96,4 +96,37 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       end
     end
   end
+
+  describe 'Approve Brand' do
+    it 'should allow a moderator to approve a brand ' do
+      brand = create(:brand)
+      moderator = create(:user, :moderator)
+
+      expect(Brand.first.approved?).to eq false
+
+      sign_in_as moderator
+
+      patch :approve, params: {
+        brand_id: brand.id
+      }
+
+      assert_response :ok
+      expect(Brand.first.approved?).to eq true
+    end
+    it 'should not allow a non-moderator to approve a brand ' do
+      brand = create(:brand)
+      user = create(:user, :user)
+
+      expect(Brand.first.approved?).to eq false
+
+      sign_in_as user
+
+      patch :approve, params: {
+        brand_id: brand.id
+      }
+
+      assert_response :forbidden
+      expect(Brand.first.approved?).to eq false
+    end
+  end
 end

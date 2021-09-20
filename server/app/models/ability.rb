@@ -10,6 +10,7 @@ class Ability
       can [:show, :update], User, id: user.id
       can [:create], Brand
       if user.moderator?
+        can [:approve], Brand
       end
       if user.admin?
         can :manage, :all
