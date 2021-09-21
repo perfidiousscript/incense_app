@@ -4,6 +4,7 @@ class CreateBrands < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.string :country, null: false
       t.text :description
+      t.text :image_url
       t.references :approved_by, type: :uuid, foreign_key: {to_table: :users}
       t.timestamps
     end

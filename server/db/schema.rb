@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_09_21_154911) do
     t.string "name", null: false
     t.string "country", null: false
     t.text "description"
+    t.text "image_url"
     t.uuid "approved_by_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -29,9 +30,10 @@ ActiveRecord::Schema.define(version: 2021_09_21_154911) do
 
   create_table "incenses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
+    t.text "description"
+    t.text "image_url"
     t.uuid "brand_id", null: false
     t.uuid "approved_by_id"
-    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["approved_by_id"], name: "index_incenses_on_approved_by_id"

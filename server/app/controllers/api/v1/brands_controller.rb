@@ -4,7 +4,6 @@ class Api::V1::BrandsController < Api::V1::BaseController
   load_and_authorize_resource
 
   def create
-
     if current_user.moderator? || current_user.admin?
       new_brand_params = brand_params.merge({approved_by_id: current_user.id})
       brand = Brand.create(new_brand_params)
@@ -36,6 +35,6 @@ class Api::V1::BrandsController < Api::V1::BaseController
   end
 
   def brand_params
-    params.require(:brand).permit(:name,:description,:country)
+    params.require(:brand).permit(:name,:description,:country, :image_url)
   end
 end

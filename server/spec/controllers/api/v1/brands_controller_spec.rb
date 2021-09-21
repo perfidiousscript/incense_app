@@ -19,6 +19,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: brand.description,
           country: brand.country,
+          image_url: brand.image_url
         }}
 
         assert_response :created
@@ -51,6 +52,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: 'great japanese incense brand',
           country: 'Chicago',
+          image_url: brand.image_url
         }}
 
         assert_response :unprocessable_entity
@@ -70,6 +72,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: brand.description,
           country: brand.country,
+          image_url: brand.image_url
         }}
 
         assert_response :created
@@ -88,6 +91,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: brand.description,
           country: brand.country,
+          image_url: brand.image_url
         }}
 
         assert_response :created
