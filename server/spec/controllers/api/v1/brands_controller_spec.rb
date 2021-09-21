@@ -133,4 +133,78 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       expect(Brand.first.approved?).to eq false
     end
   end
+
+  describe 'show brand' do
+    describe 'without credentials'do
+      it 'should return an approved brand' do
+        brand = create(:brand, :approved)
+
+        get :show, params: {
+          id: brand.id
+        }
+
+        assert_response :ok
+      end
+      it 'should not return an unapproved brand' do
+        brand = create(:brand)
+        get :show, params: {
+          id: brand.id
+        }
+
+        assert_response :not_found
+      end
+    end
+    describe 'logged in as regular user' do
+      it 'should return an approved brand' do
+        user = create(:user)
+        brand = create(:brand, :approved)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: brand.id
+        }
+
+        assert_response :ok
+      end
+      it 'should not return an unapproved brand' do
+        user = create(:user)
+        brand = create(:brand)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: brand.id
+        }
+
+        assert_response :not_found
+      end
+    end
+    describe 'logged in as moderator' do
+      it 'should return an approved brand' do
+        user = create(:user, :moderator)
+        brand = create(:brand, :approved)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: brand.id
+        }
+
+        assert_response :ok
+      end
+      it 'should return an unapproved brand' do
+        user = create(:user, :moderator)
+        brand = create(:brand)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: brand.id
+        }
+
+        assert_response :ok
+      end
+    end
+  end
 end

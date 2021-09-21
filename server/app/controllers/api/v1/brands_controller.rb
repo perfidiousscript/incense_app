@@ -1,6 +1,6 @@
 class Api::V1::BrandsController < Api::V1::BaseController
   before_action :require_login, except: [:show, :index]
-  before_action :find_brand, only: [:show, :approve]
+  before_action :find_brand, only: :approve
   load_and_authorize_resource
 
   def create
@@ -16,6 +16,23 @@ class Api::V1::BrandsController < Api::V1::BaseController
     else
       raise Errors::Validation.new('brand', brand)
     end
+  end
+
+  def show
+    brand = Brand.includes(:incenses).find_by(id: params[:id])
+
+    unless brand.approved?
+      raise Errors::NotFound.new('brand') unless current_user && (current_user.moderator? || current_user.admin?)
+    end
+
+    if brand != nil
+      render json: brand
+    else
+      raise Errors::NotFound.new('brand')
+    end
+  end
+
+  def index
   end
 
   def approve

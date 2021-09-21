@@ -4,9 +4,13 @@ FactoryBot.define do
     description { Faker::Company.buzzword }
     image_url { 'www.cool-picture.com' }
     brand
+
+    trait :approved do
+      after(:create) do |incense|
+        user = create(:user, :moderator)
+        incense.approved_by_id = user.id
+      end
+    end
   end
 
-  trait :approved_by do
-    approved_by_id { Faker::UUID }
-  end
 end

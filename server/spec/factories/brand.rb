@@ -4,9 +4,12 @@ FactoryBot.define do
     description { Faker::Company.buzzword }
     image_url {'www.cool-picture.com'}
     country { 'Japan' }
-    
+
     trait :approved do
-      approved_by_id { '001' }
+      before(:create) do |brand|
+        mod_user = create(:user, :moderator)
+        brand.approved_by_id = mod_user.id
+      end
     end
   end
 end
