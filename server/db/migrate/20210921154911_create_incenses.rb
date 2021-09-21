@@ -4,7 +4,7 @@ class CreateIncenses < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.text :description
       t.text :image_url
-      t.references :brand, type: :uuid, null: false, foreign_key: true
+      t.references :brand, type: :uuid, null: false, index: true, foreign_key: true
       t.references :approved_by, type: :uuid, foreign_key: {to_table: :users}
       t.timestamps
     end
