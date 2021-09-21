@@ -18,10 +18,20 @@ class Api::V1::IncensesController < Api::V1::BaseController
     end
   end
 
+  def approve
+    @incense.update({approved_by_id: current_user.id})
+
+    if @incense.valid?
+      render json: @brand, status: :ok
+    else
+      raise Errors::UnprocessableEntity.new('could not approve incense')
+    end
+  end
+
   private
 
   def find_incense
-    @incense = Incense.find_by_id(params[:brand_id])
+    @incense = Incense.find_by_id(params[:incense_id])
   end
 
   def incense_params

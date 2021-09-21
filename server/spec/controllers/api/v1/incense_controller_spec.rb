@@ -92,4 +92,41 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
       end
     end
   end
+
+  describe 'Approval' do
+    describe 'as a user without permissions' do
+      it 'should not allow approval' do
+        user = create(:user)
+        incense = create(:incense)
+
+        expect(Brand.first.approved?).to eq false
+
+        sign_in_as user
+
+        patch :approve, params: {
+          incense_id: incense.id
+        }
+
+        assert_response :forbidden
+        expect(Brand.first.approved?).to eq false
+      end
+    end
+    describe 'as a moderatory' do
+      it 'should allow approval' do
+        moderator = create(:user, :moderator)
+        incense = create(:incense)
+
+        expect(Incense.first.approved?).to eq false
+
+        sign_in_as moderator
+
+        patch :approve, params: {
+          incense_id: incense.id
+        }
+
+        assert_response :ok
+        expect(Incense.first.approved?).to eq true
+      end
+    end
+  end
 end
