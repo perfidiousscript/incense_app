@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::BrandsController, type: :controller do
-  brand_params_list = %i(name description country)
+  brand_params_list = %i(name description country image_url)
 
   before :each do
     request.env["HTTP_ACCEPT"] = 'application/json'
