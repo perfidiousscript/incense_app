@@ -6,7 +6,7 @@ FactoryBot.define do
     brand
 
     trait :approved do
-      after(:create) do |incense|
+      before(:create) do |incense|
         user = create(:user, :moderator)
         incense.approved_by_id = user.id
       end

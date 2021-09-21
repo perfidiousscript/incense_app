@@ -93,7 +93,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
     end
   end
 
-  describe 'Approval' do
+  describe '#Approval' do
     describe 'as a user without permissions' do
       it 'should not allow approval' do
         user = create(:user)
@@ -111,7 +111,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(Brand.first.approved?).to eq false
       end
     end
-    describe 'as a moderatory' do
+    describe 'as a moderator' do
       it 'should allow approval' do
         moderator = create(:user, :moderator)
         incense = create(:incense)
@@ -128,5 +128,84 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(Incense.first.approved?).to eq true
       end
     end
+  end
+
+  describe '#Show' do
+
+    describe 'as a user not logged in' do
+      it 'should return an approved brand' do
+        incense = create(:incense, :approved)
+
+        get :show, params: {
+          id: incense.id
+        }
+
+        assert_response :ok
+      end
+      it 'should not return an unapproved brand' do
+        incense = create(:incense)
+
+        get :show, params: {
+          id: incense.id
+        }
+
+        assert_response :not_found
+      end
+    end
+
+    describe 'as a logged in basic user' do
+      it 'should return an approved brand' do
+        user = create(:user)
+        incense = create(:incense, :approved)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: incense.id
+        }
+
+        assert_response :ok
+      end
+      it 'should not return an unapproved brand' do
+        user = create(:user)
+        incense = create(:incense)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: incense.id
+        }
+
+        assert_response :not_found
+      end
+    end
+
+    describe 'as a logged in moderator user' do
+      it 'should return an approved incense' do
+        user = create(:user, :moderator)
+        incense = create(:incense, :approved)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: incense.id
+        }
+
+        assert_response :ok
+      end
+      it 'should return an unapproved incense' do
+        user = create(:user, :moderator)
+        incense = create(:incense)
+
+        sign_in_as user
+
+        get :show, params: {
+          id: incense.id
+        }
+
+        assert_response :ok
+      end
+    end
+
   end
 end

@@ -18,6 +18,18 @@ class Api::V1::IncensesController < Api::V1::BaseController
     end
   end
 
+  def show
+    unless @incense.approved?
+      raise Errors::NotFound.new('incense') unless current_user && (current_user.moderator? || current_user.admin?)
+    end
+
+    if @incense != nil
+      render json: @incense
+    else
+      raise Errors::NotFound.new('incense')
+    end
+  end
+
   def approve
     @incense.update({approved_by_id: current_user.id})
 
