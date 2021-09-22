@@ -6,6 +6,7 @@ class Ability
     can [:current, :create], User
     can [:show, :index], Brand
     can [:show, :index], Incense
+    can [:show, :index], Ingredient
 
     if user.present?
       can [:show, :update], User, id: user.id
@@ -14,6 +15,7 @@ class Ability
       if user.moderator?
         can [:approve, :update], Brand
         can [:approve, :update], Incense
+        can [:create, :update], Ingredient
       end
       if user.admin?
         can :manage, :all
