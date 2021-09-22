@@ -135,6 +135,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
     describe 'as a user not logged in' do
       it 'should return an approved brand' do
         incense = create(:incense, :approved)
+        ingredient = create(:ingredient)
+        ingredient_classification = create(:ingredient_classification, incense: incense, ingredient: ingredient)
 
         get :show, params: {
           id: incense.id

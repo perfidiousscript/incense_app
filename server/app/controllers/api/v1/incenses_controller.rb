@@ -49,4 +49,8 @@ class Api::V1::IncensesController < Api::V1::BaseController
   def incense_params
     params.require(:incense).permit(:name,:brand_id,:description,:image_url)
   end
+
+  def serializer_includes
+    [:ingredients]
+  end
 end
