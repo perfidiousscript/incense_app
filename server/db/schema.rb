@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_154810) do
+ActiveRecord::Schema.define(version: 2021_09_22_155437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -40,6 +40,15 @@ ActiveRecord::Schema.define(version: 2021_09_22_154810) do
     t.index ["brand_id"], name: "index_incenses_on_brand_id"
   end
 
+  create_table "ingredient_classifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "incense_id", null: false
+    t.uuid "ingredient_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["incense_id"], name: "index_ingredient_classifications_on_incense_id"
+    t.index ["ingredient_id"], name: "index_ingredient_classifications_on_ingredient_id"
+  end
+
   create_table "ingredients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.text "decription"
@@ -66,4 +75,6 @@ ActiveRecord::Schema.define(version: 2021_09_22_154810) do
   add_foreign_key "brands", "users", column: "approved_by_id"
   add_foreign_key "incenses", "brands"
   add_foreign_key "incenses", "users", column: "approved_by_id"
+  add_foreign_key "ingredient_classifications", "incenses"
+  add_foreign_key "ingredient_classifications", "ingredients"
 end
