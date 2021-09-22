@@ -31,7 +31,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
       it 'should error with no brand' do
         user = create(:user)
-        brand = create(:brand, :approved)
         incense = build(:incense)
 
         sign_in_as user
@@ -47,7 +46,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(Incense.count).to eq 0
       end
 
-      it 'should error if brand already exists' do
+      it 'should error if incense already exists' do
         user = create(:user)
         brand = create(:brand, :approved)
         incense = create(:incense)
@@ -99,7 +98,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         user = create(:user)
         incense = create(:incense)
 
-        expect(Brand.first.approved?).to eq false
+        expect(Incense.first.approved?).to eq false
 
         sign_in_as user
 
@@ -108,7 +107,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         }
 
         assert_response :forbidden
-        expect(Brand.first.approved?).to eq false
+        expect(Incense.first.approved?).to eq false
       end
     end
     describe 'as a moderator' do
@@ -133,7 +132,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
   describe '#Show' do
 
     describe 'as a user not logged in' do
-      it 'should return an approved brand' do
+      it 'should show an approved incense' do
         incense = create(:incense, :approved)
         ingredient = create(:ingredient)
         ingredient_classification = create(:ingredient_classification, incense: incense, ingredient: ingredient)
@@ -143,8 +142,10 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         }
 
         assert_response :ok
+        expect(json[:id]).to eq(incense[:id])
+        expect(json[:ingredients][0][:id]).to eq(ingredient[:id])
       end
-      it 'should not return an unapproved brand' do
+      it 'should not return an unapproved incense' do
         incense = create(:incense)
 
         get :show, params: {
@@ -156,7 +157,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
     end
 
     describe 'as a logged in basic user' do
-      it 'should return an approved brand' do
+      it 'should return an approved incense' do
         user = create(:user)
         incense = create(:incense, :approved)
 
@@ -168,7 +169,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
         assert_response :ok
       end
-      it 'should not return an unapproved brand' do
+      it 'should not return an unapproved incense' do
         user = create(:user)
         incense = create(:incense)
 
