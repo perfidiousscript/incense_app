@@ -223,6 +223,21 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(json.length).to eq(2)
       end
 
+      it 'returns incenses which are associated with a brand' do
+        brand_1 = create(:brand)
+        brand_2 = create(:brand)
+
+        incense_1 = create(:incense, :approved, brand: brand_1)
+        incense_2 = create(:incense, :approved, brand: brand_2)
+
+        get :index, params: {
+          brand_id: brand_1.id
+        }
+
+        expect(json.length).to eq(1)
+        expect(json[0]['id']).to eq(incense_1['id'])
+      end
+
       it 'only returns incenses with a searched ingredient' do
         ingredient = create(:ingredient)
         incense_1 = create(:incense, :approved)

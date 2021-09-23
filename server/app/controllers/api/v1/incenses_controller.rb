@@ -31,7 +31,12 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def index
+
     incenses = Incense.approved
+
+    if params[:brand_id].present?
+      incenses = incenses.where(brand: params[:brand_id])
+    end
 
     if params[:includes_ingredient_ids].present?
       incenses = incenses.joins(:ingredients).where(ingredients: {id: params[:includes_ingredient_ids].split(',')})
