@@ -135,7 +135,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
       it 'should show an approved incense' do
         incense = create(:incense, :approved)
         ingredient = create(:ingredient)
-        ingredient_classification = create(:ingredient_classification, incense: incense, ingredient: ingredient)
+        create(:ingredient_classification, incense: incense, ingredient: ingredient)
 
         get :show, params: {
           id: incense.id
@@ -209,6 +209,79 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         assert_response :ok
       end
     end
+  end
 
+  describe '#index' do
+    describe 'without being logged in'do
+      it 'returns all approved incenses' do
+        incense_1 = create(:incense, :approved)
+        incense_2 = create(:incense, :approved)
+        incense_3 = create(:incense)
+
+        get :index
+
+        expect(json.length).to eq(2)
+      end
+
+      it 'only returns incenses with a searched ingredient' do
+        ingredient = create(:ingredient)
+        incense_1 = create(:incense, :approved)
+        incense_2 = create(:incense, :approved)
+        incense_3 = create(:incense, :approved)
+
+        create(:ingredient_classification, incense: incense_1, ingredient: ingredient)
+        create(:ingredient_classification, incense: incense_2, ingredient: ingredient)
+
+        get :index, params: {
+          includes_ingredient_ids: ingredient.id
+        }
+
+        expect(json.length).to eq(2)
+        expect(json.map{|s|s['id']}).to eq([incense_1.id, incense_2.id])
+      end
+
+      it 'only includes incenses without an excluded ingredient' do
+        ingredient_1 = create(:ingredient)
+        ingredient_2 = create(:ingredient, name: 'myrrh')
+        incense_1 = create(:incense, :approved)
+        incense_2 = create(:incense, :approved)
+        incense_3 = create(:incense, :approved)
+
+        create(:ingredient_classification, incense: incense_1, ingredient: ingredient_1)
+        create(:ingredient_classification, incense: incense_2, ingredient: ingredient_1)
+        create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
+
+        get :index, params: {
+          excludes_ingredient_ids: ingredient_1.id
+        }
+
+        expect(json.length).to eq(1)
+        expect(json[0]['id']).to eq(incense_3.id)
+      end
+
+      it 'includes incense with included ingredient, excludes those with excluded ingredient' do
+        ingredient_1 = create(:ingredient)
+        ingredient_2 = create(:ingredient, name: 'myrrh')
+        incense_1 = create(:incense, :approved)
+        incense_2 = create(:incense, :approved)
+        incense_3 = create(:incense, :approved)
+
+        create(:ingredient_classification, incense: incense_1, ingredient: ingredient_1)
+
+        create(:ingredient_classification, incense: incense_2, ingredient: ingredient_1)
+        create(:ingredient_classification, incense: incense_2, ingredient: ingredient_2)
+
+        create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
+
+        get :index, params: {
+          includes_ingredient_ids: ingredient_1.id,
+          excludes_ingredient_ids: ingredient_2.id
+        }
+
+        expect(json.length).to eq(1)
+        expect(json[0]['id']).to eq(incense_1.id)
+      end
+
+    end
   end
 end

@@ -30,6 +30,21 @@ class Api::V1::IncensesController < Api::V1::BaseController
     end
   end
 
+  def index
+    incenses = Incense.approved
+
+    if params[:includes_ingredient_ids].present?
+      incenses = incenses.joins(:ingredients).where(ingredients: {id: params[:includes_ingredient_ids].split(',')})
+    end
+
+    if params[:excludes_ingredient_ids].present?
+      incenses = incenses - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
+    end
+
+    render json: incenses
+
+  end
+
   def approve
     @incense.update({approved_by_id: current_user.id})
 
