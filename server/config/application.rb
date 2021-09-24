@@ -37,6 +37,17 @@ module Server
 
     config.filter_parameters << :password
 
+    # Enable cookies for API only app
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.insert_after(ActionDispatch::Cookies, ActionDispatch::Session::CookieStore)
+
+    config.middleware.use Rack::MethodOverride
+    # Set UUID as default primary key type on tables
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
+
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
