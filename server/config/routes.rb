@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
-      resource :users, only: %i[create update] do
+      resource :users, only: %i[create show update] do
         get :current, on: :collection
       end
       resources :brands do
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end
   namespace :admin do
     namespace :v1 do
-      resources :users, only: %i[index show update]
+      resources :users, only: %i[index update]
     end
   end
 end

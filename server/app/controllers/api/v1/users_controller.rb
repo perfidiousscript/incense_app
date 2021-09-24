@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  before_action :require_login, except: :create
+  before_action :require_login, except: [:create, :show]
   load_and_authorize_resource
 
   def create
@@ -11,25 +11,43 @@ class Api::V1::UsersController < Api::V1::BaseController
     else
       raise Errors::Validation.new('user', user)
     end
-end
-
-def update
-  if current_user.update(params).success?
-    render json: update_user.result, status: :ok
-  else
-    raise Errors::Validation.new('user', update_user)
   end
-end
 
-def current
-  if current_user
-    render json: current_user, status: :ok
-  else
-    raise Errors::Unauthorized.new
+  def update
+    if current_user.update(params).success?
+      render json: update_user.result, status: :ok
+    else
+      raise Errors::Validation.new('user', update_user)
+    end
   end
-end
 
-def user_params
-  params.require(:user).permit(:username, :email, :password)
-end
+  def show
+    user = User.includes(:reviews)
+    case
+    when params[:id]
+      user = user.find(params[:id])
+    when params[:email]
+      user = user.find_by_email(params[:email])
+    when params[:username]
+      user = user.find_by_username(params[:username])
+    end
+
+    if user != nil
+      render json: user
+    else
+      raise Errors::NotFound.new('user')
+    end
+  end
+
+  def current
+    if current_user
+      render json: current_user, status: :ok
+    else
+      raise Errors::Unauthorized.new
+    end
+  end
+
+  def user_params
+    params.require(:user).permit(:username, :email, :password)
+  end
 end

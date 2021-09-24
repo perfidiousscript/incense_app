@@ -62,4 +62,16 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
+  describe 'Show User' do
+    fit 'should show a user and their reviews' do
+      user = create(:user)
+      review = create(:review, user: user)
+
+      get :show, params: {id: user.id}
+
+      expect(response).to have_http_status(:ok)
+      expect(json['reviews'].length).to eq(1)
+    end
+  end
+
 end

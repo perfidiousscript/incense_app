@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Clearance::User
+  has_many :reviews
 
   enum role: [:user, :moderator, :admin]
 
