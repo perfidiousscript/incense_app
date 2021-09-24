@@ -1,6 +1,6 @@
 class CreateReviews < ActiveRecord::Migration[6.1]
   def change
-    create_table :reviews do |t|
+    create_table :reviews, id: :uuid do |t|
       t.references :incense, type: :uuid, null: false, foreign_key: true
       t.references :user, type: :uuid, null: false, foreign_key: true
       t.integer :price_paid
