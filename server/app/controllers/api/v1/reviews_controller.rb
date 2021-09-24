@@ -18,9 +18,17 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   end
 
   def show
+    review = Review.find(params[:id])
+
+    if review != nil
+      render json: review
+    else
+      raise Errors::NotFound.new('review')
+    end
   end
 
   def index
+
   end
 
   private

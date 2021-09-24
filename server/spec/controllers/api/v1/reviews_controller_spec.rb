@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
 
-  fdescribe 'create new review' do
+  describe 'create new review' do
     it 'should create a new incense with valid params' do
       user = create(:user)
       incense = create(:incense)
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       assert_response :created
       expect(Review.count).to eq 1
     end
-    
+
     it 'should error with invalid params' do
       user = create(:user)
       incense = create(:incense)
@@ -87,6 +87,19 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
       assert_response :unprocessable_entity
       expect(Review.count).to eq 0
+    end
+  end
+
+  fdescribe 'show' do
+    it 'should show a review' do
+      review = create(:review)
+
+      get :show, params: {
+        id: review.id
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(json[:id]).to eq(review.id)
     end
   end
 
