@@ -15,6 +15,11 @@ Rails.application.routes.draw do
       resources :reviews
     end
   end
+  namespace :moderator do
+    namespace :v1 do
+      resources :approvals, only: %i[index]
+    end
+  end
   namespace :admin do
     namespace :v1 do
       resources :users, only: %i[index update]

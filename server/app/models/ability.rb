@@ -18,6 +18,7 @@ class Ability
         can [:approve, :update], Brand
         can [:approve, :update], Incense
         can [:create, :update], Ingredient
+        can [:index], Approval
       end
       if user.admin?
         can :manage, :all

@@ -12,6 +12,7 @@ class Incense < ApplicationRecord
   #has_many :notes through: reviews
 
   scope :approved, -> {where.not(approved_by_id: nil)}
+  scope :pending_approval, -> {where(approved_by_id: nil)}
 
   def approved?
     approved_by_id != nil

@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
 
-  fdescribe 'create new review' do
+  describe 'create new review' do
     it 'should create a new incense with valid params' do
       user = create(:user)
       incense = create(:incense)
