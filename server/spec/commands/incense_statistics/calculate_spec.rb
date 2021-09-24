@@ -13,6 +13,7 @@ RSpec.describe IncenseStatistics::Calculate do
       expect(calculation.success?).to be true
       expect(IncenseStatistic.count).to be(1)
       expect(IncenseStatistic.first[:sweet_avg]).to eq(3)
+      expect(IncenseStatistic.first[:sweet_sd]).to eq(0.81)
 
     end
     it 'works with decimals' do
