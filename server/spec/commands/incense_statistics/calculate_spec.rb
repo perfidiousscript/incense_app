@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe IncenseStatistics::Calculate do
   describe 'performs' do
-    fit 'works' do
+    it 'works' do
       incense = create(:incense, :approved)
       create(:review, incense: incense, sweet: 3)
       create(:review, incense: incense, sweet: 3)
@@ -11,7 +11,8 @@ RSpec.describe IncenseStatistics::Calculate do
       calculation = IncenseStatistics::Calculate.call(incense)
 
       expect(calculation.success?).to be true
-      #add more specs to check results here
+      expect(IncenseStatistic.count).to be(1)
+      expect(IncenseStatistic.first[:sweet_avg]).to be(3)
 
     end
   end

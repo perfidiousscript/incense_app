@@ -9,6 +9,7 @@ class Incense < ApplicationRecord
   has_many :ingredients, through: :ingredient_classifications
 
   has_many :reviews
+  has_one :incense_statistic
   #has_many :notes through: reviews
 
   scope :approved, -> {where.not(approved_by_id: nil)}
