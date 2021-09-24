@@ -8,9 +8,10 @@ RSpec.describe IncenseStatistics::Calculate do
       create(:review, incense: incense, sweet: 3)
       create(:review, incense: incense, sweet: 3)
 
-      calculation = IncenseStatistics::Calculate.call(incense.id)
+      calculation = IncenseStatistics::Calculate.call(incense)
 
       expect(calculation.success?).to be true
+      #add more specs to check results here
 
     end
   end
