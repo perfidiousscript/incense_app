@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
 
-  describe 'create new review' do
+  fdescribe 'create new review' do
     it 'should create a new incense with valid params' do
       user = create(:user)
       incense = create(:incense)
@@ -88,6 +88,24 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       assert_response :unprocessable_entity
       expect(Review.count).to eq 0
     end
+
+    it 'disallows creating two reviews for same incense' do
+      user = create(:user)
+      incense = create(:incense)
+      review = create(:review, user: user, incense: incense)
+
+      sign_in_as user
+
+      post :create, params: {
+        incense_id: incense.id,
+        review: {
+          spicy: 3,
+        }
+      }
+
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
   describe 'show' do
@@ -100,6 +118,62 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
       expect(response).to have_http_status(:ok)
       expect(json[:id]).to eq(review.id)
+    end
+  end
+
+  describe 'update' do
+    it 'should update a review' do
+      user = create(:user)
+      review = create(:review, user: user)
+      new_review_body = 'Actually kind of like it better now.'
+
+      sign_in_as user
+
+      patch :update, params: {
+        id: review.id,
+        review: {
+          spicy: 3,
+          review_body: new_review_body
+        }
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(json[:spicy]).to be(3)
+      expect(json[:review_body]).to eq(new_review_body)
+    end
+
+    it 'errors if incense_id is passed' do
+      user = create(:user)
+      review = create(:review, user: user)
+      review_id = review.id
+
+      sign_in_as user
+
+      patch :update, params: {
+        id: review.id,
+        review: {
+          incense_id: '001',
+        }
+      }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(review.id).to be(review_id)
+    end
+
+    it 'does not allow updating another users review' do
+      user = create(:user)
+      review = create(:review)
+
+      sign_in_as user
+
+      patch :update, params: {
+        id: review.id,
+        review: {
+          spicy: 1,
+        }
+      }
+
+      expect(response).to have_http_status(:forbidden)
     end
   end
 

@@ -3,6 +3,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   load_and_authorize_resource
 
   def create
+    raise Errors::UnprocessableEntity.new('cannot create two reviews for the same incense, update existing review instead') if Review.find_by(user_id: current_user.id, incense_id: params[:incense_id])
     new_review_params = review_params.merge(user_id: current_user.id)
     review = Review.create(new_review_params)
 
@@ -15,6 +16,17 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   end
 
   def update
+    raise Errors::UnprocessableEntity.new('cannot change reviews incense_id') if review_params.key?(:incense_id)
+
+    review = Review.find_by(user_id: current_user.id, id: params[:id])
+
+    raise Errors::NotFound.new('review') if review == nil
+
+    if review.update(review_params)
+      render json: review
+    else
+      raise Errors::Validation.new('cart', review)
+    end
   end
 
   def show
