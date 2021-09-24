@@ -238,7 +238,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(json[0]['id']).to eq(incense_1['id'])
       end
 
-      fit 'returns incenses which come from a given country' do
+      it 'returns incenses which come from a given country' do
         brand_1 = create(:brand, country: 'Japan')
         brand_2 = create(:brand, country: 'India')
 
@@ -306,6 +306,32 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         get :index, params: {
           includes_ingredient_ids: ingredient_1.id,
           excludes_ingredient_ids: ingredient_2.id
+        }
+
+        expect(json.length).to eq(1)
+        expect(json[0]['id']).to eq(incense_1.id)
+      end
+
+      it 'searches in multiple fields' do
+        brand_1 = create(:brand, country: 'Japan')
+        brand_2 = create(:brand, country: 'India')
+        ingredient_1 = create(:ingredient)
+        ingredient_2 = create(:ingredient, name: 'myrrh')
+        incense_1 = create(:incense, :approved, brand: brand_1)
+        incense_2 = create(:incense, :approved, brand: brand_1)
+        incense_3 = create(:incense, :approved, brand: brand_2)
+
+        create(:ingredient_classification, incense: incense_1, ingredient: ingredient_1)
+
+        create(:ingredient_classification, incense: incense_2, ingredient: ingredient_1)
+        create(:ingredient_classification, incense: incense_2, ingredient: ingredient_2)
+
+        create(:ingredient_classification, incense: incense_3, ingredient: ingredient_1)
+
+        get :index, params: {
+          includes_ingredient_ids: ingredient_1.id,
+          excludes_ingredient_ids: ingredient_2.id,
+          country: 'Japan'
         }
 
         expect(json.length).to eq(1)

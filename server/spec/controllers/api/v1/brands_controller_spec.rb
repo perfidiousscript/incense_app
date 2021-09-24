@@ -154,6 +154,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
         assert_response :not_found
       end
     end
+
     describe 'logged in as regular user' do
       it 'should return an approved brand' do
         user = create(:user)
@@ -205,6 +206,30 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
 
         assert_response :ok
       end
+    end
+  end
+
+  describe 'index brands' do
+    it 'should return approved brands' do
+      brand_1 = create(:brand, :approved)
+      brand_2 = create(:brand)
+
+      get :index
+
+      expect(json.length).to eq(1)
+      expect(json[0]['id']).to eq(brand_1.id)
+    end
+
+    it 'should return brands from a given country' do
+      brand_1 = create(:brand, :approved, country: 'Japan')
+      brand_2 = create(:brand, :approved, country: 'China')
+
+      get :index, params: {
+        country: 'Japan'
+      }
+
+      expect(json.length).to eq(1)
+      expect(json[0]['id']).to eq(brand_1.id)
     end
   end
 end

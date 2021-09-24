@@ -33,6 +33,14 @@ class Api::V1::BrandsController < Api::V1::BaseController
   end
 
   def index
+    brands = Brand.approved
+
+    if params[:country].present?
+      brands = brands.where(country: params[:country])
+    end
+
+    render json: brands
+
   end
 
   def approve

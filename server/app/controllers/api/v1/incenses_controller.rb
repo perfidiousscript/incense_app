@@ -35,7 +35,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
     incenses = Incense.approved
 
     if params[:brand_id].present?
-      incenses = incenses.where(brand: params[:brand_id].split(','))
+      incenses = incenses.merge(Incense.where(brand: params[:brand_id].split(',')))
     end
 
     if params[:country].present?
