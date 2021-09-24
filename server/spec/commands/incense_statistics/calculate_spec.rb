@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe IncenseStatistics::Calculate do
-  fdescribe 'performs' do
+  describe 'performs' do
     it 'works' do
       incense = create(:incense, :approved)
       create(:review, incense: incense, sweet: 2)

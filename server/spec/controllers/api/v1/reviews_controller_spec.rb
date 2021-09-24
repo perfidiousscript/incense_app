@@ -101,7 +101,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       post :create, params: {
         incense_id: incense.id,
         review: {
-          spicy: 3,
+          spicy: 3.0,
         }
       }
 
@@ -157,7 +157,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       }
 
       expect(response).to have_http_status(:ok)
-      expect(json[:spicy]).to be(3)
+      expect(json[:spicy]).to be(3.0)
       expect(json[:review_body]).to eq(new_review_body)
     end
 

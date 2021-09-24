@@ -9,6 +9,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
 
     if review.valid?
       render json: review, status: :created
+      IncenseStatistics::Calculate.call(review.incense)
     else
       raise Errors::Validation.new('review', review)
     end
@@ -24,6 +25,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
 
     if review.update(review_params)
       render json: review
+      IncenseStatistics::Calculate.call(review.incense)
     else
       raise Errors::Validation.new('cart', review)
     end
