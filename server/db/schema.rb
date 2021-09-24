@@ -30,32 +30,32 @@ ActiveRecord::Schema.define(version: 2021_09_24_172628) do
 
   create_table "incense_statistics", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "incense_id", null: false
-    t.integer "rating_avg"
-    t.integer "price_paid_avg"
-    t.integer "burn_time_avg"
-    t.integer "burn_time_sd"
-    t.integer "sweet_avg"
-    t.integer "sweet_sd"
-    t.integer "smokey_avg"
-    t.integer "smokey_sd"
-    t.integer "woody_avg"
-    t.integer "woody_sd"
-    t.integer "ethereal_avg"
-    t.integer "ethereal_sd"
-    t.integer "savory_avg"
-    t.integer "savory_sd"
-    t.integer "fruity_avg"
-    t.integer "fruity_sd"
-    t.integer "citrus_avg"
-    t.integer "citrus_sd"
-    t.integer "herbal_avg"
-    t.integer "herbal_sd"
-    t.integer "spicy_avg"
-    t.integer "spicy_sd"
-    t.integer "floral_avg"
-    t.integer "floral_sd"
-    t.integer "earthy_avg"
-    t.integer "earthy_sd"
+    t.float "rating_avg"
+    t.float "price_paid_avg"
+    t.float "burn_time_avg"
+    t.float "burn_time_sd"
+    t.float "sweet_avg"
+    t.float "sweet_sd"
+    t.float "smokey_avg"
+    t.float "smokey_sd"
+    t.float "woody_avg"
+    t.float "woody_sd"
+    t.float "ethereal_avg"
+    t.float "ethereal_sd"
+    t.float "savory_avg"
+    t.float "savory_sd"
+    t.float "fruity_avg"
+    t.float "fruity_sd"
+    t.float "citrus_avg"
+    t.float "citrus_sd"
+    t.float "herbal_avg"
+    t.float "herbal_sd"
+    t.float "spicy_avg"
+    t.float "spicy_sd"
+    t.float "floral_avg"
+    t.float "floral_sd"
+    t.float "earthy_avg"
+    t.float "earthy_sd"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["incense_id"], name: "index_incense_statistics_on_incense_id"
@@ -94,21 +94,21 @@ ActiveRecord::Schema.define(version: 2021_09_24_172628) do
     t.uuid "incense_id", null: false
     t.uuid "user_id", null: false
     t.integer "price_paid"
-    t.integer "rating", default: 2
+    t.float "rating", default: 2.0
     t.text "review_body"
     t.integer "burn_time"
     t.integer "year_purchased"
-    t.integer "sweet", default: 0, null: false
-    t.integer "smokey", default: 0, null: false
-    t.integer "woody", default: 0, null: false
-    t.integer "ethereal", default: 0, null: false
-    t.integer "savory", default: 0, null: false
-    t.integer "fruity", default: 0, null: false
-    t.integer "citrus", default: 0, null: false
-    t.integer "herbal", default: 0, null: false
-    t.integer "spicy", default: 0, null: false
-    t.integer "floral", default: 0, null: false
-    t.integer "earthy", default: 0, null: false
+    t.float "sweet", default: 0.0, null: false
+    t.float "smokey", default: 0.0, null: false
+    t.float "woody", default: 0.0, null: false
+    t.float "ethereal", default: 0.0, null: false
+    t.float "savory", default: 0.0, null: false
+    t.float "fruity", default: 0.0, null: false
+    t.float "citrus", default: 0.0, null: false
+    t.float "herbal", default: 0.0, null: false
+    t.float "spicy", default: 0.0, null: false
+    t.float "floral", default: 0.0, null: false
+    t.float "earthy", default: 0.0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["incense_id"], name: "index_reviews_on_incense_id"

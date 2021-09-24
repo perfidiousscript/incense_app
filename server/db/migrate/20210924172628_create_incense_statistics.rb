@@ -2,32 +2,32 @@ class CreateIncenseStatistics < ActiveRecord::Migration[6.1]
   def change
     create_table :incense_statistics, id: :uuid do |t|
       t.references :incense, type: :uuid, null: false, foreign_key: true
-      t.integer :rating_avg
-      t.integer :price_paid_avg
-      t.integer :burn_time_avg
-      t.integer :burn_time_sd
-      t.integer :sweet_avg
-      t.integer :sweet_sd
-      t.integer :smokey_avg
-      t.integer :smokey_sd
-      t.integer :woody_avg
-      t.integer :woody_sd
-      t.integer :ethereal_avg
-      t.integer :ethereal_sd
-      t.integer :savory_avg
-      t.integer :savory_sd
-      t.integer :fruity_avg
-      t.integer :fruity_sd
-      t.integer :citrus_avg
-      t.integer :citrus_sd
-      t.integer :herbal_avg
-      t.integer :herbal_sd
-      t.integer :spicy_avg
-      t.integer :spicy_sd
-      t.integer :floral_avg
-      t.integer :floral_sd
-      t.integer :earthy_avg
-      t.integer :earthy_sd
+      t.float :rating_avg
+      t.float :price_paid_avg
+      t.float :burn_time_avg
+      t.float :burn_time_sd
+      t.float :sweet_avg
+      t.float :sweet_sd
+      t.float :smokey_avg
+      t.float :smokey_sd
+      t.float :woody_avg
+      t.float :woody_sd
+      t.float :ethereal_avg
+      t.float :ethereal_sd
+      t.float :savory_avg
+      t.float :savory_sd
+      t.float :fruity_avg
+      t.float :fruity_sd
+      t.float :citrus_avg
+      t.float :citrus_sd
+      t.float :herbal_avg
+      t.float :herbal_sd
+      t.float :spicy_avg
+      t.float :spicy_sd
+      t.float :floral_avg
+      t.float :floral_sd
+      t.float :earthy_avg
+      t.float :earthy_sd
       t.timestamps
     end
   end
