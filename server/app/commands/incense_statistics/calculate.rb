@@ -13,7 +13,7 @@ class IncenseStatistics::Calculate
     reviews = Review.where(incense_id: @incense.id)
     calculated_fields.each do |field|
 
-      new_stats_hash["#{field}_avg"] = reviews.average(field)
+      new_stats_hash["#{field}_avg"] = reviews.average(field).floor(2)
     end
     incense_statistic.update(new_stats_hash)
   end
