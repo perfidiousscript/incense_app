@@ -5,4 +5,5 @@ class IncenseSerializer < ActiveModel::Serializer
   :brand
 
   has_many :ingredients
+  has_one :incense_statistics
 end

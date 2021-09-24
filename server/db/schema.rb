@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 2021_09_24_172628) do
     t.integer "spicy_sd"
     t.integer "floral_avg"
     t.integer "floral_sd"
+    t.integer "earthy_avg"
+    t.integer "earthy_sd"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["incense_id"], name: "index_incense_statistics_on_incense_id"
@@ -106,6 +108,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_172628) do
     t.integer "herbal", default: 0, null: false
     t.integer "spicy", default: 0, null: false
     t.integer "floral", default: 0, null: false
+    t.integer "earthy", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["incense_id"], name: "index_reviews_on_incense_id"

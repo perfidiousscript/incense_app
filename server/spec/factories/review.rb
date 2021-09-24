@@ -17,5 +17,6 @@ FactoryBot.define do
     herbal { rand(0..5) }
     spicy { rand(0..5) }
     floral { rand(0..5) }
+    earthy { rand(0..5) }
   end
 end

@@ -34,6 +34,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
           herbal: review.herbal,
           spicy: review.spicy,
           floral: review.floral,
+          earthy: review.earthy
         }
       }
 
@@ -82,6 +83,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
           herbal: review.herbal,
           spicy: review.spicy,
           floral: review.floral,
+          earthy: review.earthy
         }
       }
 
@@ -105,6 +107,23 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
 
       expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it 'disallows creating a review with value greater than 5' do
+      user = create(:user)
+      incense = create(:incense)
+      review = build(:review, incense: incense)
+
+      sign_in_as user
+
+      expect{post :create, params: {
+        review: {
+          incense_id: review.incense_id,
+          rating: 50,
+        }
+      }}.to raise_error(ArgumentError)
+
+      expect(Review.count).to eq 0
     end
   end
 

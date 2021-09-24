@@ -26,6 +26,8 @@ class CreateIncenseStatistics < ActiveRecord::Migration[6.1]
       t.integer :spicy_sd
       t.integer :floral_avg
       t.integer :floral_sd
+      t.integer :earthy_avg
+      t.integer :earthy_sd
       t.timestamps
     end
   end

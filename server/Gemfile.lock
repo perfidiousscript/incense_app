@@ -225,6 +225,7 @@ GEM
     sentry-ruby-core (4.7.2)
       concurrent-ruby
       faraday
+    simple_command (0.1.0)
     sixarm_ruby_unaccent (1.2.0)
     spring (3.0.0)
     sprockets (4.0.2)
@@ -267,6 +268,7 @@ DEPENDENCIES
   rails (~> 6.1.4, >= 6.1.4.1)
   rspec-rails (~> 5.0)
   sentry-ruby (~> 4.7)
+  simple_command (~> 0.1.0)
   spring
   tzinfo-data
   vcr (~> 6.0)

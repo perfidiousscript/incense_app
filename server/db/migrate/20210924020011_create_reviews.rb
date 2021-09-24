@@ -18,6 +18,7 @@ class CreateReviews < ActiveRecord::Migration[6.1]
       t.integer :herbal, default: 0, null: false
       t.integer :spicy, default: 0, null: false
       t.integer :floral, default: 0, null: false
+      t.integer :earthy, default: 0, null:false
       t.timestamps
     end
   end

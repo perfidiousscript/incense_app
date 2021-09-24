@@ -60,6 +60,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
                                    :spicy,
                                    :citrus,
                                    :floral,
+                                   :earthy,
                                    :burn_time,
                                    :year_purchased
                                  )

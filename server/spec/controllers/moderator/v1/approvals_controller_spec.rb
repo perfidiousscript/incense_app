@@ -6,7 +6,7 @@ RSpec.describe Moderator::V1::ApprovalsController, type: :controller do
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
 
-  fdescribe 'index approvals' do
+  describe 'index approvals' do
     it 'errors if user is not a mod' do
       user = create(:user)
       create(:brand)
