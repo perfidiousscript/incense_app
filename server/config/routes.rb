@@ -11,7 +11,8 @@ Rails.application.routes.draw do
       resources :incenses do
         patch :approve
       end
-      resource :ingredients
+      resources :ingredients
+      resources :reviews
     end
   end
   namespace :admin do
