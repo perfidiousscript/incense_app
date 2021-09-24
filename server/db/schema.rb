@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_155437) do
+ActiveRecord::Schema.define(version: 2021_09_24_020011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -57,6 +57,30 @@ ActiveRecord::Schema.define(version: 2021_09_22_155437) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.uuid "incense_id", null: false
+    t.uuid "user_id", null: false
+    t.integer "price_paid"
+    t.integer "rating", default: 2
+    t.text "review_body"
+    t.integer "burn_time"
+    t.integer "year_purchased"
+    t.integer "sweet", default: 0, null: false
+    t.integer "smokey", default: 0, null: false
+    t.integer "woody", default: 0, null: false
+    t.integer "ethereal", default: 0, null: false
+    t.integer "savory", default: 0, null: false
+    t.integer "fruity", default: 0, null: false
+    t.integer "citrus", default: 0, null: false
+    t.integer "herbal", default: 0, null: false
+    t.integer "spicy", default: 0, null: false
+    t.integer "floral", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["incense_id"], name: "index_reviews_on_incense_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "username", null: false
@@ -77,4 +101,6 @@ ActiveRecord::Schema.define(version: 2021_09_22_155437) do
   add_foreign_key "incenses", "users", column: "approved_by_id"
   add_foreign_key "ingredient_classifications", "incenses"
   add_foreign_key "ingredient_classifications", "ingredients"
+  add_foreign_key "reviews", "incenses"
+  add_foreign_key "reviews", "users"
 end
