@@ -28,9 +28,35 @@ ActiveRecord::Schema.define(version: 2021_09_24_172628) do
     t.index ["name"], name: "index_brands_on_name", unique: true
   end
 
-  create_table "incense_statistics", force: :cascade do |t|
+  create_table "incense_statistics", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "incense_id", null: false
+    t.integer "rating_avg"
+    t.integer "price_paid_avg"
+    t.integer "burn_time_avg"
+    t.integer "burn_time_sd"
+    t.integer "sweet_avg"
+    t.integer "sweet_sd"
+    t.integer "smokey_avg"
+    t.integer "smokey_sd"
+    t.integer "woody_avg"
+    t.integer "woody_sd"
+    t.integer "ethereal_avg"
+    t.integer "ethereal_sd"
+    t.integer "savory_avg"
+    t.integer "savory_sd"
+    t.integer "fruity_avg"
+    t.integer "fruity_sd"
+    t.integer "citrus_avg"
+    t.integer "citrus_sd"
+    t.integer "herbal_avg"
+    t.integer "herbal_sd"
+    t.integer "spicy_avg"
+    t.integer "spicy_sd"
+    t.integer "floral_avg"
+    t.integer "floral_sd"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["incense_id"], name: "index_incense_statistics_on_incense_id"
   end
 
   create_table "incenses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -102,6 +128,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_172628) do
   end
 
   add_foreign_key "brands", "users", column: "approved_by_id"
+  add_foreign_key "incense_statistics", "incenses"
   add_foreign_key "incenses", "brands"
   add_foreign_key "incenses", "users", column: "approved_by_id"
   add_foreign_key "ingredient_classifications", "incenses"
