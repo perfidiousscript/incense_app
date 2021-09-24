@@ -90,7 +90,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
     end
   end
 
-  fdescribe 'show' do
+  describe 'show' do
     it 'should show a review' do
       review = create(:review)
 
