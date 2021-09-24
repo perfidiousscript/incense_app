@@ -95,6 +95,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    descriptive_statistics (2.5.1)
     diff-lcs (1.4.4)
     email_validator (2.2.3)
       activemodel
@@ -259,6 +260,7 @@ DEPENDENCIES
   cancancan (~> 3.3)
   clearance (~> 2.5)
   countries
+  descriptive_statistics (~> 2.5)
   factory_bot_rails (~> 6.2)
   faker
   letter_opener_web (~> 1.4)

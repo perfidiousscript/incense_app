@@ -16,9 +16,12 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # gem 'rack-cors'
 
 gem 'active_model_serializers'
-gem 'simple_command', '~> 0.1.0'
 gem 'aasm', '~>5.2'
 gem 'sentry-ruby', '~>4.7'
+
+# stats command
+gem 'simple_command', '~> 0.1.0'
+gem 'descriptive_statistics', '~>2.5'
 
 # auth
 gem 'clearance', '~>2.5'
