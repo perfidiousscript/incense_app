@@ -212,7 +212,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
   end
 
   describe '#index' do
-    describe 'without being logged in'do
+    fdescribe 'without being logged in'do
       it 'returns all approved incenses' do
         incense_1 = create(:incense, :approved)
         incense_2 = create(:incense, :approved)
@@ -267,7 +267,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         }
 
         expect(json.length).to eq(2)
-        expect(json.map{|s|s['id']}).to eq([incense_1.id, incense_2.id])
+        expect(json.map{|s|s['id']}).to include(incense_1.id)
+        expect(json.map{|s|s['id']}).to include(incense_2.id)
       end
 
       it 'only includes incenses without an excluded ingredient' do

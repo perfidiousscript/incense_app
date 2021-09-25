@@ -196,7 +196,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
     end
   end
 
-  fdescribe 'runs IncenseStatistics after review change' do
+  describe 'runs IncenseStatistics after review change' do
     it 'runs after successful review creation' do
       user = create(:user, :moderator)
       incense = create(:incense, :approved)
@@ -218,6 +218,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       expect(IncenseStatistic.count).to eq(1)
       expect(IncenseStatistic.first[:sweet_avg]).to eq(3.33)
     end
+
     it 'does not run after invalid review creation' do
       user = create(:user, :moderator)
       incense = create(:incense, :approved)
@@ -237,6 +238,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(IncenseStatistic.count).to eq(0)
     end
+
     it 'runs after successful review update' do
       user = create(:user, :moderator)
       incense = create(:incense, :approved)

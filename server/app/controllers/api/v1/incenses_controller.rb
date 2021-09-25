@@ -32,7 +32,9 @@ class Api::V1::IncensesController < Api::V1::BaseController
 
   def index
 
-    incenses = Incense.approved
+    page_number = params[:page_number] || 1
+
+    incenses = Incense.approved.order(:name)
 
     if params[:brand_id].present?
       incenses = incenses.merge(Incense.where(brand: params[:brand_id].split(',')))
@@ -47,8 +49,10 @@ class Api::V1::IncensesController < Api::V1::BaseController
     end
 
     if params[:excludes_ingredient_ids].present?
-      incenses = incenses - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
+      incenses = incenses.joins(:ingredients).where.not(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
     end
+
+    incenses = incenses.page(page_number)
 
     render json: incenses
 
