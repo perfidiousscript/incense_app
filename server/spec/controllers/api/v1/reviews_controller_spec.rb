@@ -196,4 +196,89 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
     end
   end
 
+  fdescribe 'runs IncenseStatistics after review change' do
+    it 'runs after successful review creation' do
+      user = create(:user, :moderator)
+      incense = create(:incense, :approved)
+      create(:review, incense: incense, sweet: 3)
+      create(:review, incense: incense, sweet: 3)
+
+      expect(IncenseStatistic.count).to eq(0)
+
+      sign_in_as user
+
+      post :create, params: {
+        review: {
+          incense_id: incense.id,
+          sweet: 4.0,
+        }
+      }
+
+      expect(response).to have_http_status(:created)
+      expect(IncenseStatistic.count).to eq(1)
+      expect(IncenseStatistic.first[:sweet_avg]).to eq(3.33)
+    end
+    it 'does not run after invalid review creation' do
+      user = create(:user, :moderator)
+      incense = create(:incense, :approved)
+      create(:review, incense: incense, sweet: 3)
+      create(:review, incense: incense, sweet: 3)
+
+      expect(IncenseStatistic.count).to eq(0)
+
+      sign_in_as user
+
+      post :create, params: {
+        review: {
+          sweet: 4.0,
+        }
+      }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(IncenseStatistic.count).to eq(0)
+    end
+    it 'runs after successful review update' do
+      user = create(:user, :moderator)
+      incense = create(:incense, :approved)
+      create(:review, incense: incense, sweet: 3)
+      review = create(:review, incense: incense, user: user, sweet: 3)
+
+      expect(IncenseStatistic.count).to eq(0)
+
+      sign_in_as user
+
+      patch :update, params: {
+        id: review.id,
+        review: {
+          sweet: 4.0,
+        }
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(IncenseStatistic.count).to eq(1)
+      expect(IncenseStatistic.first[:sweet_avg]).to eq(3.5)
+    end
+    it 'does not run after invalid review update' do
+      user = create(:user, :moderator)
+      incense = create(:incense, :approved)
+      create(:review, incense: incense, sweet: 3)
+      review = create(:review, incense: incense, user: user, sweet: 3)
+
+      expect(IncenseStatistic.count).to eq(0)
+
+      sign_in_as user
+
+      patch :update, params: {
+        id: review.id,
+        review: {
+          incense_id: 'dead-beef',
+          sweet: 4.0,
+        }
+      }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(IncenseStatistic.count).to eq(0)
+    end
+  end
+
 end

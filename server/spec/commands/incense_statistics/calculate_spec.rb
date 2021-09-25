@@ -30,5 +30,4 @@ RSpec.describe IncenseStatistics::Calculate do
 
     end
   end
-
 end
