@@ -69,6 +69,9 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    annotate (3.1.1)
+      activerecord (>= 3.2, < 7.0)
+      rake (>= 10.4, < 14.0)
     argon2 (2.0.3)
       ffi (~> 1.14)
       ffi-compiler (~> 1.0)
@@ -137,6 +140,18 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.0)
     jsonapi-renderer (0.2.2)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     launchy (2.5.0)
       addressable (~> 2.7)
     letter_opener (1.7.0)
@@ -255,6 +270,7 @@ PLATFORMS
 DEPENDENCIES
   aasm (~> 5.2)
   active_model_serializers
+  annotate
   bootsnap (>= 1.4.4)
   byebug
   cancancan (~> 3.3)
@@ -263,6 +279,7 @@ DEPENDENCIES
   descriptive_statistics (~> 2.5)
   factory_bot_rails (~> 6.2)
   faker
+  kaminari
   letter_opener_web (~> 1.4)
   listen (~> 3.3)
   pg (~> 1.1)
