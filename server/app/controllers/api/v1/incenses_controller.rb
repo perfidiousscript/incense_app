@@ -21,11 +21,11 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def show
-    unless @incense.approved?
-      raise Errors::NotFound.new('incense') unless current_user && (current_user.moderator? || current_user.admin?)
-    end
-
     if @incense != nil
+      unless @incense.approved?
+        raise Errors::NotFound.new('incense') unless current_user && (current_user.moderator? || current_user.admin?)
+      end
+
       render json: @incense
     else
       raise Errors::NotFound.new('incense')
@@ -74,7 +74,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
   private
 
   def find_incense
-    @incense = Incense.find_by_id(params[:incense_id])
+    @incense = Incense.includes(:ingredients).find_by_id(params[:incense_id])
   end
 
   def incense_params
