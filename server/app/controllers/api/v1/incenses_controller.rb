@@ -34,10 +34,10 @@ class Api::V1::IncensesController < Api::V1::BaseController
 
     page_number = params[:page_number] || 1
 
-    incenses = Incense.approved.order(:name)
+    incenses = Incense.approved
 
     if params[:brand_id].present?
-      incenses = incenses.merge(Incense.where(brand: params[:brand_id].split(',')))
+      incenses = incenses.where(brand: params[:brand_id].split(','))
     end
 
     if params[:country].present?
@@ -49,13 +49,14 @@ class Api::V1::IncensesController < Api::V1::BaseController
     end
 
     if params[:excludes_ingredient_ids].present?
-      incenses = incenses.joins(:ingredients).where.not(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
+      # Attempt at running everything via SQL 
+      # incenses = incenses.and(Incense.approved.joins(:ingredients).where.not(ingredients: {id: params[:excludes_ingredient_ids].split(',')}))
+      incenses = incenses.order(:name).page(page_number) - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
+      render json: incenses
+    else
+      incenses = incenses.order(:name).page(page_number)
+      render json: incenses
     end
-
-    incenses = incenses.page(page_number)
-
-    render json: incenses
-
   end
 
   def approve

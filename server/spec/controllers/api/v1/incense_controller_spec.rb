@@ -212,7 +212,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
   end
 
   describe '#index' do
-    fdescribe 'without being logged in'do
+    describe 'without being logged in'do
       it 'returns all approved incenses' do
         incense_1 = create(:incense, :approved)
         incense_2 = create(:incense, :approved)
@@ -241,16 +241,19 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
       it 'returns incenses which come from a given country' do
         brand_1 = create(:brand, country: 'Japan')
         brand_2 = create(:brand, country: 'India')
+        brand_3 = create(:brand, country: 'Japan')
 
         incense_1 = create(:incense, :approved, brand: brand_1)
         incense_2 = create(:incense, :approved, brand: brand_2)
+        incense_3 = create(:incense, :approved, brand: brand_3)
 
         get :index, params: {
           country: 'Japan'
         }
 
-        expect(json.length).to eq(1)
-        expect(json[0]['id']).to eq(incense_1['id'])
+        expect(json.length).to eq(2)
+        expect(json.map{|s|s['id']}).to include(incense_1.id)
+        expect(json.map{|s|s['id']}).to include(incense_3.id)
       end
 
       it 'only returns incenses with a searched ingredient' do
