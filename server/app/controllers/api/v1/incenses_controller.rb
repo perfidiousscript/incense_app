@@ -3,6 +3,8 @@ class Api::V1::IncensesController < Api::V1::BaseController
   before_action :find_incense, only: [:show, :approve]
   load_and_authorize_resource
 
+  # We allow users without credentials to create unapproved incenses.
+  # Mods and admins create inceses which are approved by them.
   def create
     if current_user.moderator? || current_user.admin?
       new_incense_params = incense_params.merge({approved_by_id: current_user.id})
@@ -14,7 +16,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
     if incense.valid?
       render json: incense, status: :created
     else
-      raise Errors::Validation.new('brand', incense)
+      raise Errors::Validation.new('incense', incense)
     end
   end
 
@@ -31,7 +33,6 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def index
-
     page_number = params[:page_number] || 1
 
     incenses = Incense.approved

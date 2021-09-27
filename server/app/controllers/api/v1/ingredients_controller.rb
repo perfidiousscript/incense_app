@@ -5,18 +5,43 @@ class Api::V1::IngredientsController < Api::V1::BaseController
   def create
     ingredient = Ingredient.create(ingredient_params)
 
-    if ingredient.success?
-      render json: ingredient, status: created
+    if ingredient.valid?
+      render json: ingredient, status: :created
+    else
+      raise Errors::Validation.new('ingredient', ingredient)
     end
   end
 
   def update
+    ingredient = Ingredient.find(params[:id])
+
+    raise Errors::NotFound.new('ingredient') if ingredient.nil?
+
+    ingredient.update(ingredient_params)
+
+    if ingredient.valid?
+      render json: ingredient, status: :ok
+    else
+      aise Errors::Validation.new('ingredient', ingredient)
+    end
   end
 
   def show
+    if params[:id]
+      ingredient = Ingredient.find(params[:id])
+    end
+
+    unless ingredient == nil
+      render json: ingredient
+    else
+      raise Errors::NotFound.new('ingredient')
+    end
   end
 
   def index
+    ingredients = Ingredient.all.order(:name)
+
+    render json: incenses
   end
 
   private
