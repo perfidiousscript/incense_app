@@ -1,6 +1,6 @@
 class Api::V1::IncensesController < Api::V1::BaseController
   before_action :require_login, except: [:show, :index]
-  before_action :find_incense, only: [:show, :approve]
+  before_action :find_incense, only: [:show, :approve, :update]
   load_and_authorize_resource
 
   # We allow users without credentials to create unapproved incenses.
@@ -17,6 +17,19 @@ class Api::V1::IncensesController < Api::V1::BaseController
       render json: incense, status: :created
     else
       raise Errors::Validation.new('incense', incense)
+    end
+  end
+
+  def update
+    if @incense != nil
+      @incense.update(incense_params)
+      if @incense.valid?
+        render json: @incense, status: :ok
+      else
+        Errors::Validation.new('incense', @incense)
+      end
+    else
+      raise Errors::NotFound.new('incense')
     end
   end
 
