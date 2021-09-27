@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::API
   include Clearance::Controller
 
+  before_action :set_raven_context
+
   def authenticate_admin_user!
     redirect_to sign_in_path unless current_user && current_user.admin?
   end

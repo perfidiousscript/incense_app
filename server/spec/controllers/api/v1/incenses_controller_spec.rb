@@ -130,9 +130,24 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
     end
   end
 
-  describe '#Show' do
+  fdescribe '#Show' do
     describe 'as a user not logged in' do
       it 'should show an approved incense' do
+        incense = create(:incense, :approved)
+        ingredient = create(:ingredient)
+        create(:ingredient_classification, incense: incense, ingredient: ingredient)
+
+        get :show, params: {
+          id: incense.id
+        }
+
+
+        assert_response :ok
+        expect(json[:id]).to eq(incense[:id])
+        expect(json[:ingredients][0][:id]).to eq(ingredient[:id])
+      end
+
+      it 'should contain the incense statistic' do
         incense = create(:incense, :approved)
         ingredient = create(:ingredient)
         create(:ingredient_classification, incense: incense, ingredient: ingredient)
@@ -198,7 +213,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
         assert_response :ok
       end
-      
+
       it 'should return an unapproved incense' do
         user = create(:user, :moderator)
         incense = create(:incense)

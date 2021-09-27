@@ -39,7 +39,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
         raise Errors::NotFound.new('incense') unless current_user && (current_user.moderator? || current_user.admin?)
       end
 
-      render json: @incense
+      render json: @incense, include: :incense_statistic
     else
       raise Errors::NotFound.new('incense')
     end
@@ -87,14 +87,11 @@ class Api::V1::IncensesController < Api::V1::BaseController
   private
 
   def find_incense
-    @incense = Incense.includes(:ingredients).find_by_id(params[:incense_id])
+    @incense = Incense.includes(:ingredients).includes(:incense_statistic).find_by_id(params[:incense_id])
   end
 
   def incense_params
     params.require(:incense).permit(:name,:brand_id,:description,:image_url)
   end
 
-  def serializer_includes
-    [:ingredients]
-  end
 end
