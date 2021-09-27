@@ -22,7 +22,7 @@ class Api::V1::IngredientsController < Api::V1::BaseController
     if ingredient.valid?
       render json: ingredient, status: :ok
     else
-      aise Errors::Validation.new('ingredient', ingredient)
+      raise Errors::Validation.new('ingredient', ingredient)
     end
   end
 

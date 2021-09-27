@@ -110,6 +110,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(Incense.first.approved?).to eq false
       end
     end
+
     describe 'as a moderator' do
       it 'should allow approval' do
         moderator = create(:user, :moderator)
@@ -130,7 +131,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
   end
 
   describe '#Show' do
-
     describe 'as a user not logged in' do
       it 'should show an approved incense' do
         incense = create(:incense, :approved)
@@ -145,6 +145,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(json[:id]).to eq(incense[:id])
         expect(json[:ingredients][0][:id]).to eq(ingredient[:id])
       end
+
       it 'should not return an unapproved incense' do
         incense = create(:incense)
 
@@ -169,6 +170,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
         assert_response :ok
       end
+
       it 'should not return an unapproved incense' do
         user = create(:user)
         incense = create(:incense)
@@ -196,6 +198,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
         assert_response :ok
       end
+      
       it 'should return an unapproved incense' do
         user = create(:user, :moderator)
         incense = create(:incense)
