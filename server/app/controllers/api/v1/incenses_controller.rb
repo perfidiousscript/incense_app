@@ -52,7 +52,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
       # Attempt at running everything via SQL
       # incenses = incenses.and(Incense.approved.joins(:ingredients).where.not(ingredients: {id: params[:excludes_ingredient_ids].split(',')}))
       incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
-      Kaminari.paginate_array(incenses).page(page_number)
+      incenses = Kaminari.paginate_array(incenses).page(page_number)
       render json: incenses
     else
       incenses = incenses.order(:name).page(page_number)

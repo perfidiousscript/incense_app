@@ -293,10 +293,11 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(json[0]['id']).to eq(incense_3.id)
       end
 
-      it 'only has not problem paginating incenses without an excluded ingredient' do
+      it 'has no problem paginating incenses without an excluded ingredient' do
         ingredient_1 = create(:ingredient)
         ingredient_2 = create(:ingredient, name: 'myrrh')
-        25.times do
+
+        26.times do
           incense = create(:incense, :approved)
           create(:ingredient_classification, incense: incense, ingredient: ingredient_1)
         end
@@ -306,8 +307,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           create(:ingredient_classification, incense: incense, ingredient: ingredient_1)
           create(:ingredient_classification, incense: incense, ingredient: ingredient_2)
         end
-
-
 
         get :index, params: {
           excludes_ingredient_ids: ingredient_2.id
