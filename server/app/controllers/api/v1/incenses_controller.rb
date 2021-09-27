@@ -49,9 +49,10 @@ class Api::V1::IncensesController < Api::V1::BaseController
     end
 
     if params[:excludes_ingredient_ids].present?
-      # Attempt at running everything via SQL 
+      # Attempt at running everything via SQL
       # incenses = incenses.and(Incense.approved.joins(:ingredients).where.not(ingredients: {id: params[:excludes_ingredient_ids].split(',')}))
-      incenses = incenses.order(:name).page(page_number) - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
+      incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
+      Kaminari.paginate_array(incenses).page(page_number)
       render json: incenses
     else
       incenses = incenses.order(:name).page(page_number)
