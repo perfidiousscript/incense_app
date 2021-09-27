@@ -1,7 +1,7 @@
 class Api::V1::SessionsController < Clearance::BaseController
   include HandlesExceptions
 
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
   skip_before_action :require_login, only: [:create, :destroy], raise: false
 
   before_action :set_raven_context
