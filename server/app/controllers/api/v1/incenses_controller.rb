@@ -7,10 +7,14 @@ class Api::V1::IncensesController < Api::V1::BaseController
   # Mods and admins create inceses which are approved by them.
   def create
     if current_user.moderator? || current_user.admin?
-      new_incense_params = incense_params.merge({approved_by_id: current_user.id})
-      incense = Incense.create(new_incense_params)
+      incense = Incense.create(incense_params.merge({approved_by_id: current_user.id}))
     else
       incense = Incense.create(incense_params)
+    end
+
+    unless params[:incense][:ingredient_ids] == nil
+      validate_ingredient_ids!
+      incense.ingredient_ids = params[:incense][:ingredient_ids]
     end
 
     if incense.valid?
@@ -92,6 +96,17 @@ class Api::V1::IncensesController < Api::V1::BaseController
 
   def incense_params
     params.require(:incense).permit(:name,:brand_id,:description,:image_url)
+  end
+
+  def validate_ingredient_ids!
+    invalid_ids = params[:incense][:ingredient_ids] - Ingredient.where(id: params[:incense][:ingredient_ids]).ids
+    unless invalid_ids.empty?
+      error = Errors::Validation.new('ingredient')
+      invalid_ids.each do |invalid_id|
+         error.errors.add("ingredient_id: #{invalid_id}", "invalid")
+       end
+       raise error
+    end
   end
 
 end

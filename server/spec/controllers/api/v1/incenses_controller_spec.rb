@@ -9,7 +9,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
   describe 'Create New Incense' do
     describe 'as a basic user' do
-      it 'should create an unapproved incense'do
+      it 'should create an unapproved incense' do
         user = create(:user)
         brand = create(:brand, :approved)
         incense = build(:incense)
@@ -27,6 +27,50 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         assert_response :created
         expect(Incense.count).to eq 1
         expect(Incense.first.approved?).to eq false
+      end
+
+      it 'should create with ingredients' do
+        user = create(:user)
+        brand = create(:brand, :approved)
+        ingredient_1 = create(:ingredient)
+        ingredient_2 = create(:ingredient, name: 'myrrh')
+        incense = build(:incense)
+
+
+        sign_in_as user
+        post :create, params: {
+          incense: {
+            name: incense.name,
+            description: incense.description,
+            image_url: incense.image_url,
+            brand_id: brand.id,
+            ingredient_ids: [ingredient_1.id, ingredient_2.id]
+          }
+        }
+
+        assert_response :created
+        expect(Incense.first.ingredients.count).to eq 2
+      end
+
+      it 'should error with bad ingredient' do
+        user = create(:user)
+        brand = create(:brand, :approved)
+        ingredient_1 = create(:ingredient)
+        incense = build(:incense)
+
+
+        sign_in_as user
+        post :create, params: {
+          incense: {
+            name: incense.name,
+            description: incense.description,
+            image_url: incense.image_url,
+            brand_id: brand.id,
+            ingredient_ids: [ingredient_1.id, 'deadbeef']
+          }
+        }
+
+        assert_response :unprocessable_entity
       end
 
       it 'should error with no brand' do
