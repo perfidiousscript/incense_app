@@ -2,14 +2,14 @@ import * as z from "zod";
 
 export type User = z.infer<typeof User>;
 export const User = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   email: z.string(),
   username: z.string(),
 });
 
 export type Brand = z.infer<typeof Brand>;
 export const Brand = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   country: z.string(),
   description: z.string(),
   image_url: z.string(),
@@ -18,7 +18,7 @@ export const Brand = z.object({
 
 export type IncenseStatistic = z.infer<typeof IncenseStatistic>;
 export const IncenseStatistic = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   burn_time_avg: z.number(),
   burn_time_sd: z.number(),
   citrus_avg: z.number(),
@@ -49,7 +49,7 @@ export const IncenseStatistic = z.object({
 
 export type Incense = z.infer<typeof Incense>;
 export const Incense = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   description: z.text(),
   image_url: z.text(),
   name: z.text(),
@@ -59,7 +59,7 @@ export const Incense = z.object({
 
 export type Ingredient = z.infer<typeof Ingredient>;
 export const Ingredient = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   description: z.string(),
   image_url: z.string().optional(),
   name: z.string(),
@@ -67,7 +67,7 @@ export const Ingredient = z.object({
 
 export type Review = z.infer<typeof Review>;
 export const Review = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   burn_time: z.number(),
   citrus: z.number(),
   earthy: z.number(),
