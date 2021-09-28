@@ -22,6 +22,7 @@
 #
 class BrandSerializer < ActiveModel::Serializer
   attributes :id,
+  :name,
   :country,
   :description,
   :image_url
