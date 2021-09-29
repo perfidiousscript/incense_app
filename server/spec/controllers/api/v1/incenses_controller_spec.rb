@@ -190,6 +190,22 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         expect(json[:ingredients][0][:id]).to eq(ingredient[:id])
       end
 
+      it 'should return incense reviews with their rankings' do
+          incense = create(:incense, :approved)
+          ingredient = create(:ingredient)
+          create(:ingredient_classification, incense: incense, ingredient: ingredient)
+          review = create(:review, :with_ranking, incense: incense)
+          create(:review_vote, review: review)
+
+          get :show, params: {
+            id: incense.id
+          }
+
+          assert_response :ok
+          expect(json[:reviews].length).to eq(1)
+          expect(json[:reviews][0][:review_ranking][:downs]).to eq(0)
+      end
+
       it 'should not return an unapproved incense' do
         incense = create(:incense)
 
