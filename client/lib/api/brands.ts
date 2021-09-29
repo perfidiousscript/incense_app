@@ -9,7 +9,6 @@ export default {
       url: Base.url(`/brands/${id}`),
     }).then(({ body }) => Brand.parse(body));
   },
-
   list(): Promise<Brand[]> {
     return Request.make({
       method: HttpMethod.GET,

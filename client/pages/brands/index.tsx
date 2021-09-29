@@ -2,6 +2,7 @@ import { NextPageContext, NextPage } from "next";
 
 import App from "components/App";
 import Head from "next/head";
+import Brands from "/lib/api/brands";
 import { useQuery } from "react-query";
 
 type InitialProps = {
@@ -10,10 +11,7 @@ type InitialProps = {
 
 const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
   function brandsFetch() {
-    // const { isLoading, isError, data, error } = useQuery("brands", indexBrands);
-    const { isLoading, isError, data, error } = useQuery("brands", () =>
-      fetch("http://localhost:3001/api/v1/brands").then((res) => res.json())
-    );
+    const { isLoading, isError, data, error } = useQuery("brands", Brands.list);
 
     if (isLoading) {
       return <span>Loading...</span>;
@@ -22,7 +20,7 @@ const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
     if (isError) {
       return <span>Error: {error.message}</span>;
     }
-    console.log(data);
+
     return (
       <ul>
         {data.map((brand) => (
