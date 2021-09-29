@@ -14,6 +14,7 @@ class Ability
       can [:create], Brand
       can [:create], Incense
       can [:create, :update], Review, user_id: user.id
+      can [:create, :update, :destroy], ReviewVote, 
       if user.moderator?
         can [:approve, :update], Brand
         can [:approve, :update], Incense
