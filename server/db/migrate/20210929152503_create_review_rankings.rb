@@ -4,6 +4,8 @@ class CreateReviewRankings < ActiveRecord::Migration[6.1]
       t.references :review, type: :uuid, null: false, foreign_key: true
       t.integer :ups, default: 0
       t.integer :downs, default: 0
+      t.integer :ranking, default: 0
+      t.integer :magnitude, default: 0
       t.timestamps
     end
   end

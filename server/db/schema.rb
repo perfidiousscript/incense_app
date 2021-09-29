@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(version: 2021_09_29_152503) do
     t.uuid "review_id", null: false
     t.integer "ups", default: 0
     t.integer "downs", default: 0
+    t.integer "ranking", default: 0
+    t.integer "magnitude", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["review_id"], name: "index_review_rankings_on_review_id"
