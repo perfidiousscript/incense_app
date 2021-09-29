@@ -10,9 +10,9 @@ type InitialProps = {
 };
 
 const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
-  function brandsFetch() {
-    const { isLoading, isError, data, error } = useQuery("brands", Brands.list);
+  const { isLoading, isError, data, error } = useQuery("brands", Brands.list);
 
+  function brandsFetch() {
     if (isLoading) {
       return <span>Loading...</span>;
     }
@@ -21,17 +21,20 @@ const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
       return <span>Error: {error.message}</span>;
     }
 
-    return (
-      <ul>
-        {data.map((brand) => (
-          <li key={brand.id}>
-            <span>{brand.image_url}</span>
-            <span>{brand.name}</span>
-            <span>{brand.country}</span>
-          </li>
-        ))}
-      </ul>
-    );
+    if (data) {
+      return (
+        <ul>
+          {data.map((brand) => (
+            <li key={brand.id}>
+              <span>{brand.id}</span>
+              <span>{brand.imageUrl}</span>
+              <span>{brand.name}</span>
+              <span>{brand.country}</span>
+            </li>
+          ))}
+        </ul>
+      );
+    }
   }
 
   return (

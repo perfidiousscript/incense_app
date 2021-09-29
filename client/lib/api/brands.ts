@@ -2,8 +2,14 @@ import Request from "lib/request";
 import Base from "lib/api/base";
 import { Brand, HttpMethod } from "types";
 
+type QueryKeyObject = {
+  pageParam: undefined;
+  queryKey: String[];
+};
+
 export default {
-  get(id: string): Promise<Brand> {
+  get(queryKeyObject: QueryKeyObject): Promise<Brand> {
+    let id = queryKeyObject.queryKey[1];
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/brands/${id}`),
