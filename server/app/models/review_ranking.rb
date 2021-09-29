@@ -4,6 +4,8 @@
 #
 #  id         :uuid             not null, primary key
 #  downs      :integer          default(0)
+#  magnitude  :integer          default(0)
+#  ranking    :integer          default(0)
 #  ups        :integer          default(0)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

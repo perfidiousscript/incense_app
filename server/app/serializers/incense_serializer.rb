@@ -28,5 +28,6 @@ class IncenseSerializer < ActiveModel::Serializer
   :brand
 
   has_many :ingredients
+  has_many :reviews
   has_one :incense_statistic
 end
