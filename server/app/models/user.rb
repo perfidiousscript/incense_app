@@ -22,6 +22,7 @@
 class User < ApplicationRecord
   include Clearance::User
   has_many :reviews
+  has_many :review_votes
 
   enum role: [:user, :moderator, :admin]
 
