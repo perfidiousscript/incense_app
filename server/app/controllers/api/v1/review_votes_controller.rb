@@ -1,6 +1,5 @@
 class Api::V1::ReviewVotesController < Api::V1::BaseController
   before_action :require_login
-  before_action :find_review_vote, only: [:update, :destroy]
   load_and_authorize_resource
 
   def create
@@ -16,22 +15,21 @@ class Api::V1::ReviewVotesController < Api::V1::BaseController
     end
   end
 
-  def update
-    raise Errors::NotFound.new('review vote') if @review_vote.nil?
-
-    if @review_vote.update(review_vote_params)
-      render json: @review_vote, status: :ok
-    end
-  end
 
   def destroy
+    review_vote = ReviewVote.find_by(user_id: current_user.id, id: params[:id])
+    raise Error::NotFound if review_vote.nil?
+
+    if review_vote.destroy!
+      render :no_content
+    else
+      raise Error::Unexpected('cannot delete vote')
+    end
+
+
   end
 
   private
-
-  def find_review_vote
-    @review_vote = ReviewVote.find_by(user_id: current_user.id, id: params[:id])
-  end
 
   def review_vote_params
     params.require(:review_vote).permit(:review_id, :vote_type)

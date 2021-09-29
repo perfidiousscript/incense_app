@@ -42,41 +42,39 @@ RSpec.describe Api::V1::ReviewVotesController, type: :controller do
     end
   end
 
-  describe 'update review vote' do
-    it 'should update an existing review vote' do
+  describe 'destroy review vote' do
+    it 'should destroy vote owned by current_user' do
       user = create(:user)
       review = create(:review)
       review_vote = create(:review_vote, user: user, review: review)
 
+      expect(ReviewVote.count).to eq(1)
+
       sign_in_as user
 
-      patch :update, params: {
-        id: review_vote.id,
-        review_vote: {
-          vote_type: 'down'
-        }
+      delete :destroy, params: {
+        id: review_vote.id
       }
 
-      expect(response).to have_http_status :ok
-      expect(json['vote_type']).to eq('down')
+      expect(ReviewVote.count).to eq(0)
     end
 
-    it 'should not allow updating another users review vote' do
+    it 'should not destroy vote owned by another' do
       user = create(:user)
       user_2 = create(:user)
       review = create(:review)
       review_vote = create(:review_vote, user: user, review: review)
 
+      expect(ReviewVote.count).to eq(1)
+
       sign_in_as user_2
 
-      patch :update, params: {
-        id: review_vote.id,
-        review_vote: {
-          vote_type: 'down'
-        }
+      delete :destroy, params: {
+        id: review_vote.id
       }
 
-      expect(response).to have_http_status :forbidden
+      expect(response).to have_http_status(:forbidden)
+      expect(ReviewVote.count).to eq(1)
     end
   end
 

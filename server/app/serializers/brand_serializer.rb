@@ -27,5 +27,5 @@ class BrandSerializer < ActiveModel::Serializer
   :description,
   :image_url
 
-  has_many :incenses
+  # has_many :incenses
 end

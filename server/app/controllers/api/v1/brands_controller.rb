@@ -26,7 +26,7 @@ class Api::V1::BrandsController < Api::V1::BaseController
     end
 
     if brand != nil
-      render json: brand
+      render json: brand 
     else
       raise Errors::NotFound.new('brand')
     end
