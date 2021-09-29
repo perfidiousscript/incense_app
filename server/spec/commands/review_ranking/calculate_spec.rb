@@ -13,6 +13,8 @@ RSpec.describe ReviewRanking::Calculate do
       expect(calculation.success?).to be (true)
       expect(review_ranking['ups']).to eq(3)
       expect(review_ranking['downs']).to eq(2)
+      expect(review_ranking['ranking']).to eq(1)
+      expect(review_ranking['magnitude']).to eq(5)
     end
   end
 end
