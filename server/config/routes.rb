@@ -12,9 +12,8 @@ Rails.application.routes.draw do
         patch :approve
       end
       resources :ingredients
-      resources :reviews do
-        resources :review_vote, only: %i[create update destroy]
-      end
+      resources :reviews
+      resources :review_votes, only: %i[create update destroy]
     end
   end
   namespace :moderator do

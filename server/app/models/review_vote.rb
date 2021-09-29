@@ -25,6 +25,6 @@ class ReviewVote < ApplicationRecord
 
   enum vote_type: [:down, :up]
 
-  validates :review_id, :user_id, :vote_type presence: true
-  validates :vote_type, inclusion: { in: vote_type.keys, message: :invalid }
+  validates :review_id, :user_id, :vote_type, presence: true
+  validates :vote_type, inclusion: { in: vote_types.keys, message: :invalid }
 end

@@ -105,7 +105,6 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
         }
       }
 
-
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
