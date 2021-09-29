@@ -9,6 +9,7 @@ class Api::V1::ReviewVotesController < Api::V1::BaseController
 
     if review_vote.valid?
       # Calculate here or elsewhere?
+      ReviewRanking::Calculate.call(review_vote.review)
       render json: review_vote, status: :created
     else
       raise Errors::Validation.new('review vote', review_vote)

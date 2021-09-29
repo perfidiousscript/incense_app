@@ -18,5 +18,11 @@ FactoryBot.define do
     spicy { rand(0..5) }
     floral { rand(0..5) }
     earthy { rand(0..5) }
+
+    trait :with_ranking do
+      after(:create) do |review|
+        create(:review_ranking, review: review)
+      end
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_28_235847) do
+ActiveRecord::Schema.define(version: 2021_09_29_152503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -90,6 +90,15 @@ ActiveRecord::Schema.define(version: 2021_09_28_235847) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "review_rankings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "review_id", null: false
+    t.integer "ups", default: 0
+    t.integer "downs", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["review_id"], name: "index_review_rankings_on_review_id"
+  end
+
   create_table "review_votes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "review_id", null: false
@@ -146,6 +155,7 @@ ActiveRecord::Schema.define(version: 2021_09_28_235847) do
   add_foreign_key "incenses", "users", column: "approved_by_id"
   add_foreign_key "ingredient_classifications", "incenses"
   add_foreign_key "ingredient_classifications", "ingredients"
+  add_foreign_key "review_rankings", "reviews"
   add_foreign_key "review_votes", "reviews"
   add_foreign_key "review_votes", "users"
   add_foreign_key "reviews", "incenses"

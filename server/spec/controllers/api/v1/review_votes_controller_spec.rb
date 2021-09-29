@@ -9,7 +9,7 @@ RSpec.describe Api::V1::ReviewVotesController, type: :controller do
   describe 'create new review vote' do
     it 'should create a new vote' do
       user = create(:user)
-      review = create(:review)
+      review = create(:review, :with_ranking)
 
       sign_in_as user
 

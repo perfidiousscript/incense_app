@@ -39,6 +39,9 @@ class Review < ApplicationRecord
   belongs_to :incense
   # has_many :notes
 
+  has_one :review_ranking
+  has_many :review_votes
+
   property_list = %i|sweet smokey woody ethereal savory fruity herbal spicy citrus floral earthy|
 
   property_list.each do |property|

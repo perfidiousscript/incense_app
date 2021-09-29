@@ -9,6 +9,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
 
     if review.valid?
       IncenseStatistics::Calculate.call(review.incense)
+      ReviewVote.create(review: review)
       render json: review, status: :created
     else
       raise Errors::Validation.new('review', review)
