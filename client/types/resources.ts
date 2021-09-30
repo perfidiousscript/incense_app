@@ -3,7 +3,7 @@ import * as z from "zod";
 export type User = z.infer<typeof User>;
 export const User = z.object({
   id: z.string().uuid(),
-  email: z.string(),
+  email: z.string().optional(),
   username: z.string(),
 });
 

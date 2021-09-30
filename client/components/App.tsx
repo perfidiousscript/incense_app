@@ -6,12 +6,7 @@ import Nav from "components/Nav";
 import Config from "lib/config";
 
 const App: FC<{}> = ({ children }) => {
-  return (
-    <ThemeProvider theme={Theme}>
-      // <Nav />
-      {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={Theme}>{children}</ThemeProvider>;
 };
 
 export default App;

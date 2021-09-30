@@ -1,13 +1,19 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import Nav from "components/Nav";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { AuthProvider } from "lib/auth";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
+
+export const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Nav />
+        <Component {...pageProps} />
+      </AuthProvider>
     </QueryClientProvider>
   );
-}
-export default MyApp;
+};
+export default App;

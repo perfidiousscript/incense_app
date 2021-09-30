@@ -9,7 +9,7 @@ type InitialProps = {
   incenses: Incense[];
 };
 
-const IncensesBrowse: NextPage<InitialProps> = ({ incenses }) => {
+const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
   function incensesFetch() {
     const { isLoading, isError, data, error } = useQuery(
       "incenses",
@@ -56,4 +56,4 @@ const IncensesBrowse: NextPage<InitialProps> = ({ incenses }) => {
   );
 };
 
-export default IncensesBrowse;
+export default IncensesIndex;
