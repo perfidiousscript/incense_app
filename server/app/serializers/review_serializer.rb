@@ -51,6 +51,7 @@ class ReviewSerializer < ActiveModel::Serializer
              :floral,
              :earthy,
              :burn_time,
-             :year_purchased
+             :year_purchased,
+             :created_at
       has_one :review_ranking
 end

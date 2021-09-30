@@ -17,4 +17,23 @@ Incense.all.each do |incense|
   rand(1..2).times do
     IngredientClassification.create!(ingredient: Ingredient.take, incense: incense)
   end
+  Review.create!(
+    user: user,
+    incense: incense,
+                  review_body: 'pretty good stuff',
+                  rating: rand(0..5),
+                  price_paid: rand(10..100),
+                  sweet: rand(0..5),
+                 smokey: rand(0..5),
+                 woody: rand(0..5),
+                 ethereal: rand(0..5),
+                 savory: rand(0..5),
+                 fruity: rand(0..5),
+                 herbal: rand(0..5),
+                 spicy: rand(0..5),
+                 citrus: rand(0..5),
+                 floral: rand(0..5),
+                 earthy: rand(0..5),
+                 burn_time: rand(10..120),
+                 year_purchased: rand(1980..2021))
 end
