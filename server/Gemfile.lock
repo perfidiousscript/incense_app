@@ -133,6 +133,8 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    friendly_id (5.4.2)
+      activerecord (>= 4.0.0)
     globalid (0.5.2)
       activesupport (>= 5.0)
     hashdiff (1.0.1)
@@ -281,6 +283,7 @@ DEPENDENCIES
   descriptive_statistics (~> 2.5)
   factory_bot_rails (~> 6.2)
   faker
+  friendly_id (~> 5.4.0)
   kaminari
   letter_opener_web (~> 1.4)
   listen (~> 3.3)

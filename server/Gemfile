@@ -27,6 +27,8 @@ gem 'descriptive_statistics', '~>2.5'
 gem 'clearance', '~>2.5'
 gem 'cancancan', '~>3.3'
 
+gem 'friendly_id', '~> 5.4.0'
+
 gem 'faker'
 
 gem 'kaminari'
