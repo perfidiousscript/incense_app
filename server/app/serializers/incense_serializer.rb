@@ -23,11 +23,13 @@
 #
 class IncenseSerializer < ActiveModel::Serializer
   attributes :id,
+  :name,
   :description,
   :image_url,
   :brand
 
   has_many :ingredients
   has_many :reviews
+  has_one :brand
   has_one :incense_statistic
 end
