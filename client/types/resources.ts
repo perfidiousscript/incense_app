@@ -55,16 +55,6 @@ export const Ingredient = z.object({
   name: z.string(),
 });
 
-export type Incense = z.infer<typeof Incense>;
-export const Incense = z.object({
-  id: z.string().uuid(),
-  description: z.string(),
-  imageUrl: z.string(),
-  name: z.string(),
-  incenseStatistic: IncenseStatistic.optional(),
-  ingredients: Ingredient.array().optional(),
-});
-
 export type Review = z.infer<typeof Review>;
 export const Review = z.object({
   id: z.string().uuid(),
@@ -86,4 +76,17 @@ export const Review = z.object({
   yearPurchased: z.number().optional(),
   createdAt: z.string(),
   user: User,
+});
+
+export type Incense = z.infer<typeof Incense>;
+export const Incense = z.object({
+  id: z.string().uuid(),
+  description: z.string(),
+  imageUrl: z.string(),
+  name: z.string(),
+  incenseStatistic: IncenseStatistic.nullable().optional(),
+  ingredients: Ingredient.array().optional(),
+  brand: Brand,
+  ingredients: Ingredient.array(),
+  reviews: Review.array(),
 });

@@ -1,11 +1,6 @@
 import Request from "lib/request";
 import Base from "lib/api/base";
-import { Brand, HttpMethod } from "types";
-
-type QueryKeyObject = {
-  pageParam: undefined;
-  queryKey: String[];
-};
+import { Brand, HttpMethod, QueryKeyObject } from "types";
 
 export default {
   get(queryKeyObject: QueryKeyObject): Promise<Brand> {

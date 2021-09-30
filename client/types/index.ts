@@ -26,5 +26,10 @@ export interface HttpResponse {
   body: object | null;
 }
 
+export interface QueryKeyObject {
+  pageParam: undefined;
+  queryKey: String[];
+}
+
 // export * from "types/actions";
 export * from "types/resources";
