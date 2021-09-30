@@ -19,6 +19,7 @@ export const Brand = z.object({
 export type IncenseStatistic = z.infer<typeof IncenseStatistic>;
 export const IncenseStatistic = z.object({
   id: z.string().uuid(),
+  reviewBody: z.string(),
   burnTimeAvg: z.number(),
   burnTimeSd: z.number(),
   citrusAvg: z.number(),
@@ -66,7 +67,7 @@ export const Review = z.object({
   fruity: z.number(),
   herbal: z.number(),
   pricePaid: z.number(),
-  rating: z.number(),
+  rating: z.string(),
   reviewBody: z.string(),
   savory: z.number(),
   smokey: z.number(),
@@ -75,7 +76,6 @@ export const Review = z.object({
   woody: z.number(),
   yearPurchased: z.number().optional(),
   createdAt: z.string(),
-  user: User,
 });
 
 export type Incense = z.infer<typeof Incense>;

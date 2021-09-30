@@ -5,6 +5,7 @@ import App from "components/App";
 import Head from "next/head";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
+import { reviewProperties } from "/lib/constants";
 
 type InitialProps = {
   incense: Incense;
@@ -40,10 +41,29 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
             <span>{data.name}</span>
             <span>{data.description}</span>
           </div>
+          <div>Ingredients</div>
           {data.ingredients.map((ingredient) => {
-            <div>
-              <div>{ingredient.name}</div>
-            </div>;
+            return (
+              <div key={ingredient.id}>
+                <div>{ingredient.name}</div>
+              </div>
+            );
+          })}
+          <div>Reviews</div>
+          {data.reviews.map((review) => {
+            return (
+              <div key={review.id}>
+                <div>{review.reviewBody}</div>
+                <div>{review.rating}</div>
+                <div>
+                  {reviewProperties.map((property) => (
+                    <p>
+                      {property}:{review[property]}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            );
           })}
         </div>
       </div>
@@ -51,4 +71,4 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
   );
 };
 
-export default BrandShow;
+export default IncenseShow;
