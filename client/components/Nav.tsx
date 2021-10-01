@@ -7,8 +7,8 @@ import { useAuth } from "lib/auth";
 // import Text from 'components/Text';
 
 const Nav: FC<{}> = () => {
-  // const { user } = useAuth();
-  const user = true;
+  const { user } = useAuth();
+
   return (
     <div>
       <div className={styles.siteTitle}>
@@ -21,7 +21,10 @@ const Nav: FC<{}> = () => {
         <Link href={`/brands`}>Brands</Link>
       </div>
       {user ? (
-        <button>Sign Out</button>
+        <div>
+          <div>{user.username}</div>
+          <button>Sign Out</button>
+        </div>
       ) : (
         <Link href={`/signin`}>
           <a>Sign In / Sign Up</a>

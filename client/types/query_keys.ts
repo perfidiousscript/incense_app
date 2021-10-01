@@ -1,4 +1,10 @@
 export interface LoadUserQueryKey {
   username: string;
-  passwrod: string;
+  password: string;
+}
+
+export interface RegisterUserQueryKey {
+  email: string;
+  username: string;
+  password: string;
 }

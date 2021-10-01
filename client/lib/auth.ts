@@ -1,8 +1,10 @@
 import { initReactQueryAuth } from "react-query-auth";
-import { loadUser, loginFn, registerFn, logoutFn } from "lib/api/user";
+import User from "lib/api/user";
 
-interface User {
+interface UserInterface {
   id: string;
+  email: string;
+  password: string;
   username: string;
 }
 
@@ -11,14 +13,15 @@ interface Error {
 }
 
 const authConfig = {
-  loadUser,
-  loginFn,
-  registerFn,
-  logoutFn,
+  loadUser: User.loadUser,
+  loginFn: User.loginFn,
+  registerFn: User.registerFn,
+  logoutFn: User.logoutFn,
+  waitInitial: false,
 };
 
 export const { AuthProvider, useAuth } = initReactQueryAuth<
-  User,
+  UserInterface,
   Error,
   LoginCredentials,
   RegisterCredentials

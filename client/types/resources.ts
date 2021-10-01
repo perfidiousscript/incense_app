@@ -1,12 +1,5 @@
 import * as z from "zod";
 
-export type User = z.infer<typeof User>;
-export const User = z.object({
-  id: z.string().uuid(),
-  email: z.string().optional(),
-  username: z.string(),
-});
-
 export type Brand = z.infer<typeof Brand>;
 export const Brand = z.object({
   id: z.string().uuid(),
@@ -76,6 +69,14 @@ export const Review = z.object({
   woody: z.number(),
   yearPurchased: z.number().optional(),
   createdAt: z.string(),
+});
+
+export type User = z.infer<typeof User>;
+export const User = z.object({
+  id: z.string().uuid(),
+  email: z.string().optional(),
+  username: z.string(),
+  reviews: Review.array(),
 });
 
 export type Incense = z.infer<typeof Incense>;
