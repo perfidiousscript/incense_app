@@ -83,7 +83,7 @@ GEM
     cancancan (3.3.0)
     case_transform (0.2)
       activesupport
-    clearance (2.5.0)
+    clearance (2.2.1)
       actionmailer (>= 5.0)
       activemodel (>= 5.0)
       activerecord (>= 5.0)
@@ -278,7 +278,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   cancancan (~> 3.3)
-  clearance (~> 2.5)
+  clearance (= 2.2.1)
   countries
   descriptive_statistics (~> 2.5)
   factory_bot_rails (~> 6.2)

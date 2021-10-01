@@ -24,7 +24,10 @@ gem 'simple_command', '~> 0.1.0'
 gem 'descriptive_statistics', '~>2.5'
 
 # auth
-gem 'clearance', '~>2.5'
+# Clearance versions >= 2.2.1 don't send cookies,
+# so we need this old version until https://github.com/thoughtbot/clearance/issues/938
+# is fixed.
+gem 'clearance', '2.2.1'
 gem 'cancancan', '~>3.3'
 
 gem 'friendly_id', '~> 5.4.0'
