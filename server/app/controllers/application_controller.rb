@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   include Clearance::Controller
 
   before_action :set_raven_context
@@ -12,8 +12,8 @@ class ApplicationController < ActionController::API
   end
 
   def set_raven_context
-    Raven.user_context(id: current_user.id, email: current_user.email) if current_user
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    Sentry.user_context(id: current_user.id, email: current_user.email) if current_user
+    Sentry.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 
 end

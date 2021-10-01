@@ -21,6 +21,7 @@
 #
 class User < ApplicationRecord
   include Clearance::User
+
   has_many :reviews
   has_many :review_votes
 

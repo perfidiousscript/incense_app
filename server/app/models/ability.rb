@@ -8,7 +8,6 @@ class Ability
     can [:show, :index], Incense
     can [:show, :index], Ingredient
     can [:show, :index], Review
-
     if user.present?
       can [:show, :update], User, id: user.id
       can [:create], Brand

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resources :ingredients
       resources :reviews
       resources :review_votes, only: %i[create update destroy]
+      resource :sessions, only: %i[create destroy]
     end
   end
   namespace :moderator do

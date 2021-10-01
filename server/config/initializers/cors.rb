@@ -8,13 +8,13 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
         credentials: true
     end
   end
-  # if Rails.env.production?
-  #   allow do
-  #     origins 'gentleguide.vercel.app', 'https://www.gentle.guide'
-  #     resource '*',
-  #       headers: :any,
-  #       methods: [:get, :post, :put, :patch, :delete, :options, :head],
-  #       credentials: true
-  #   end
-  # end
+  if Rails.env.production?
+    allow do
+      origins 'https://www.incense-hermitage.com'
+      resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head],
+        credentials: true
+    end
+  end
 end

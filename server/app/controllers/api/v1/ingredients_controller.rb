@@ -41,7 +41,7 @@ class Api::V1::IngredientsController < Api::V1::BaseController
   def index
     ingredients = Ingredient.all.order(:name)
 
-    render json: incenses
+    render json: ingredients
   end
 
   private
