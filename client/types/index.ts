@@ -1,6 +1,4 @@
-// import rootReducer from 'state/reducers';
-//
-// export type GlobalState = ReturnType<typeof rootReducer>;
+import * as z from "zod";
 
 export enum Status {
   IDLE = "IDLE",
@@ -25,6 +23,13 @@ export interface HttpResponse {
   status: number;
   body: object | null;
 }
+
+export type LogInError = z.infer<typeof LogInError>;
+export const LogInError = z.object({
+  type: z.string(),
+  detail: z.string(),
+  status: z.string(),
+});
 
 export interface QueryKeyObject {
   pageParam: undefined;

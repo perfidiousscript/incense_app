@@ -2,15 +2,15 @@ import { FC } from "react";
 import Link from "next/link";
 import styles from "../styles/Nav.module.css";
 import { useAuth } from "lib/auth";
-//
-// import Box from 'components/Box';
-// import Text from 'components/Text';
+import { useMutation } from "react-query";
 
 const Nav: FC<{}> = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+
+  const logOutUser = useMutation(logout);
 
   return (
-    <div>
+    <div className={styles.navBar}>
       <div className={styles.siteTitle}>
         <Link href={`/`}>Incense Hermitage</Link>
       </div>
@@ -23,12 +23,10 @@ const Nav: FC<{}> = () => {
       {user ? (
         <div>
           <div>{user.username}</div>
-          <button>Sign Out</button>
+          <button onClick={logOutUser.mutate}>Sign Out</button>
         </div>
       ) : (
-        <Link href={`/signin`}>
-          <a>Sign In / Sign Up</a>
-        </Link>
+        <Link href={`/signin`}>Sign In / Sign Up</Link>
       )}
     </div>
   );

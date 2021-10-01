@@ -5,6 +5,7 @@ import {
   HttpMethod,
   LoadUserQueryKey,
   RegisterUserQueryKey,
+  LogInError,
 } from "types";
 
 export default {
@@ -14,7 +15,7 @@ export default {
       url: Base.url(`/users/current`),
     }).then(({ body }) => User.parse(body));
   },
-  loginFn(queryKeyObject: LoadUserQueryKey): Promise<User> {
+  loginFn(queryKeyObject: LoadUserQueryKey): Promise<User | LogInError> {
     let email = queryKeyObject.email;
     let password = queryKeyObject.password;
     return Request.make({
@@ -43,7 +44,7 @@ export default {
       },
     }).then(({ body }) => User.parse(body));
   },
-  logoutFn(): Promise<null> {
+  logoutFn(): Promise<any> {
     return Request.make({
       method: HttpMethod.DELETE,
       url: Base.url(`/sessions`),

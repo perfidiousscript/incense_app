@@ -10,7 +10,6 @@ const queryClient = new QueryClient();
 export const App = ({ Component, pageProps }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
       <AuthProvider>
         <Nav />
         <Component {...pageProps} />
