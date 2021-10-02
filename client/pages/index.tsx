@@ -10,6 +10,13 @@ const Home: NextPage = () => {
         <title>Incense Hermitage</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div>
+        Welcome to the Incense Hermitage, a place to explore, rate and review
+        incense from around the world.
+        <br />
+        Incense Hermitage currently lists X,000 different Incense from X00
+        Brands
+      </div>
     </div>
   );
 };

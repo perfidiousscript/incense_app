@@ -8,13 +8,25 @@
 }
 .siteTitle {
   font-size: 2em;
+  line-height: 2.5em;
+  flex-grow: 2;
+  text-align: center;
 }
 
-.navButton {
+.navUnit {
   align-self: center;
-  border: 1px solid black;
-  height: 80%;
+  border-left: 1px solid black;
+  height: 100%;
   width: 18%;
   text-align: center;
-  line-height: 3.5em;
+  line-height: 4.5em;
+  background: white;
+}
+
+.navSub {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background: white;
+  position: relative;
 }
