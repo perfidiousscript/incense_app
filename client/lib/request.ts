@@ -43,14 +43,19 @@ export default {
       headers,
       body: options.body ? JSON.stringify(options.body) : undefined,
     });
+
     const text = await response.text();
+
     if (text === "") {
       if (!response.ok) throw createResponse(response, null);
       return createResponse(response, null);
     }
+
     const json = JSON.parse(text);
     const camelized = humps.camelizeKeys(json);
+
     if (!response.ok) throw createResponse(response, camelized);
+
     return createResponse(response, camelized);
   },
 };

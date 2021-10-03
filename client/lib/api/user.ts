@@ -15,9 +15,10 @@ export default {
       url: Base.url(`/users/current`),
     }).then(({ body }) => User.parse(body));
   },
-  loginFn(queryKeyObject: LoadUserQueryKey): Promise<User | LogInError> {
+  loginFn(queryKeyObject: LoadUserQueryKey): Promise<User> {
     let email = queryKeyObject.email;
     let password = queryKeyObject.password;
+
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/sessions`),

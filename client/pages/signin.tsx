@@ -13,18 +13,25 @@ const Signin: NextPage<{}> = () => {
 
   const signIn = useMutation((event) => {
     event.preventDefault();
-    login({ email: email, password: password });
+    return login({ email: email, password: password });
   });
+
+  function signInError() {
+    if (signIn.isError) {
+      let errorDetail = signIn.error.body.error.detail;
+      return <div>Error:{errorDetail}</div>;
+    }
+  }
 
   if (user) {
     return <div>Already logged in!</div>;
-  } else if (signIn.isIdle || signIn.isSuccess) {
+  } else if (signIn.isIdle || signIn.isSuccess || signIn.isError) {
     return (
       <App>
         <Head>
           <title>IH::Signin</title>
         </Head>
-        {signIn.isError ? <div>{signIn.error}</div> : null}
+        {signInError()}
         <form
           style={{
             display: "flex",
@@ -53,9 +60,7 @@ const Signin: NextPage<{}> = () => {
             Sign In
           </button>
         </form>
-        <Link href={`/signup`}>
-          <p>Sign Up</p>
-        </Link>
+        <p>Sign Up</p>
       </App>
     );
   } else if (signIn.isLoading) {

@@ -20,7 +20,6 @@ const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
     if (isError) {
       return <span>Error: {error.message}</span>;
     }
-
     if (data) {
       return (
         <ul>
