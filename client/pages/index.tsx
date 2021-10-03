@@ -11,6 +11,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
+        <a href="https://fontmeme.com/japanese/">
+          <img
+            src="https://fontmeme.com/permalink/211003/2729eb11a2152ed2ad1241437cb12e3c.png"
+            alt="japanese"
+            border="0"
+          />
+        </a>
+      </div>
+      <div>
         Welcome to the Incense Hermitage, a place to explore, rate and review
         incense from around the world.
         <br />
