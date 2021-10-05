@@ -6,6 +6,7 @@
 #  description    :text
 #  image_url      :text
 #  name           :string           not null
+#  slug           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  approved_by_id :uuid
@@ -15,6 +16,7 @@
 #
 #  index_incenses_on_approved_by_id  (approved_by_id)
 #  index_incenses_on_brand_id        (brand_id)
+#  index_incenses_on_slug            (slug) UNIQUE
 #
 # Foreign Keys
 #
