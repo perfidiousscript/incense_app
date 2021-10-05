@@ -1,54 +1,118 @@
-import { NextPageContext, NextPage } from "next";
-
+import { NextPage } from "next";
+import { useState } from "react";
 import App from "components/App";
 import Head from "next/head";
 import Incenses from "/lib/api/incenses";
-import { useQuery } from "react-query";
+import { useMutation } from "react-query";
+import { styles } from "/styles/Incenses.module.css";
 
-type InitialProps = {
-  brands: Incense[];
-};
+const IncensesSearch: NextPage<{}> = () => {
+  const [brandName, setBrandName] = useState("");
+  const [country, setCountry] = useState("");
+  const [includedIngredients, setIncludedIngredients] = useState("");
+  const [excludedIngredients, setExcludedIngredients] = useState("");
 
-const IncensesSearch: NextPage<InitialProps> = ({ incenses }) => {
-  const { isLoading, isError, data, error } = useQuery("brands", Brands.list);
+  const searchResult = useMutation((event) => {
+    return Incenses.search({
+      brand: brandName,
+      country: country,
+      includedIngredients: includedIngredients,
+      excludedIngredients: excludedIngredients,
+    });
+  });
 
-  function brandsFetch() {
-    if (isLoading) {
+  const submit = (event) => {
+    event.preventDefault();
+    searchResult.mutate();
+  };
+
+  function incensesFetch() {
+    if (searchResult.isLoading) {
       return <span>Loading...</span>;
     }
 
-    if (isError) {
-      return <span>Error: {error.message}</span>;
+    if (searchResult.isError) {
+      return <span>Error: {searchResult.error.body.error.detail}</span>;
     }
 
-    return (
-      <ul>
-        {data.map((brand) => (
-          <li key={brand.id}>
-            <span>{brand.id}</span>
-            <span>{brand.imageUrl}</span>
-            <span>{brand.name}</span>
-            <span>{brand.country}</span>
-          </li>
-        ))}
-      </ul>
-    );
+    if (searchResult.data) {
+      console.log("searchResult.data: ", searchResult);
+      return (
+        <div className="incenseList">
+          {searchResult.data.map((incense) => (
+            <div className="incense">
+              <span>{incense.name}</span>
+              <span>{incense.brand.name}</span>
+              <span>{incense.brand.country}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
   }
 
   return (
     <App>
       <Head>
-        <title>Incense-Hermitage::Brands</title>
+        <title>IH::Search</title>
       </Head>
 
       <div>
         <div>
-          <p>Brands</p>
-          <div>{brandsFetch()}</div>
+          <p>Search Incenses</p>
+          <form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              maxWidth: "500px",
+            }}
+            onSubmit={submit}
+          >
+            <label htmlFor="brandName">Brand Name</label>
+            <input
+              name="brandName"
+              onChange={({ target: { value } }) => setBrandName(value)}
+              type="text"
+              disabled={searchResult.isLoading}
+              value={brandName}
+            />
+            <label htmlFor="country">Country</label>
+            <input
+              name="country"
+              onChange={({ target: { value } }) => setCountry(value)}
+              type="country"
+              disabled={searchResult.isLoading}
+              value={country}
+            />
+            <label htmlFor="includedIngredients">Included Ingredients</label>
+            <input
+              name="includedIngredients"
+              onChange={({ target: { value } }) =>
+                setIncludedIngredients(value)
+              }
+              type="includedIngredients"
+              disabled={searchResult.isLoading}
+              value={includedIngredients}
+            />
+            <label htmlFor="excludedIngredients">Excluded Ingredients</label>
+            <input
+              name="excludedIngredients"
+              onChange={({ target: { value } }) =>
+                setExcludedIngredients(value)
+              }
+              type="excludedIngredients"
+              disabled={searchResult.isLoading}
+              value={excludedIngredients}
+            />
+            <button type="submit" disabled={searchResult.isLoading}>
+              Search
+            </button>
+          </form>
+          <div>{incensesFetch()}</div>
         </div>
       </div>
     </App>
   );
 };
 
-export default BrandsIndex;
+export default IncensesSearch;

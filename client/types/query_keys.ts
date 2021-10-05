@@ -8,3 +8,10 @@ export interface RegisterUserQueryKey {
   username: string;
   password: string;
 }
+
+export interface IncenseSearchMutation {
+  brand: string;
+  country: string;
+  includedIngredients: string;
+  excludedIngredients: string;
+}

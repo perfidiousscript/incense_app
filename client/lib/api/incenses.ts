@@ -1,27 +1,29 @@
 import Request from "lib/request";
 import Base from "lib/api/base";
-import { Incense, HttpMethod, QueryKeyObject } from "types";
+import { Incense, HttpMethod, QueryKey, IncenseSearchMutation } from "types";
 
 export default {
-  get(queryKeyObject: QueryKeyObject): Promise<Incense> {
+  get(queryKeyObject: QueryKey): Promise<Incense> {
     let id = queryKeyObject.queryKey[1];
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/incenses/${id}`),
     }).then(({ body }) => Incense.parse(body));
   },
-  search(queryKeyObject: QueryKeyObject): Promise<Incense[]> {
+  search(queryKeyObject: IncenseSearchMutation): Promise<Incense[]> {
+    console.log("queryKeyObject: ", queryKeyObject);
+    let params = query;
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/incenses`),
       params: {
-        brand_id: queryKeyObject["brandId"],
+        brand_id: queryKeyObject["brand"],
         country: queryKeyObject["country"],
-        includes_ingredient_ids: queryKeyObject["includesIngredientIds"],
-        excludes_ingredient_ids: queryKeyObject["excludesIngredientIds"],
+        includes_ingredient_ids: queryKeyObject["includedIngredients"],
+        excludes_ingredient_ids: queryKeyObject["excludedIngredients"],
       },
     }).then(({ body }) => {
-      Incense.array().parse(body);
+      return Incense.array().parse(body);
     });
   },
   listAll(): Promise<Incense[]> {

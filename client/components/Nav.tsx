@@ -20,7 +20,9 @@ const Nav: FC<{}> = () => {
           <div className={styles.navSub}>
             <Link href="/incenses">Browse Incenses</Link>
           </div>
-          <div className={styles.navSub}>Search Incenses</div>
+          <div className={styles.navSub}>
+            <Link href="/incenses/search">Search Incenses</Link>
+          </div>
         </div>
       );
     } else {
@@ -71,7 +73,9 @@ const Nav: FC<{}> = () => {
       </div>
       <div className={styles.navUnit}>{renderIncensesUnit()}</div>
       <div className={styles.navUnit}>{renderBrandsUnit()}</div>
-      <div className={styles.navUnit}>About</div>
+      <div className={styles.navUnit}>
+        <Link href="/about">About</Link>
+      </div>
       {user ? (
         <div className={styles.navUnit} onClick={logOutUser.mutate}>
           Sign Out
