@@ -19,14 +19,14 @@ class Api::V1::BrandsController < Api::V1::BaseController
   end
 
   def show
-    brand = Brand.includes(:incenses).find_by(id: params[:id])
+    brand = Brand.includes(:incenses).friendly.find(id: params[:id])
 
     unless brand.approved?
       raise Errors::NotFound.new('brand') unless current_user && (current_user.moderator? || current_user.admin?)
     end
 
     if brand != nil
-      render json: brand 
+      render json: brand
     else
       raise Errors::NotFound.new('brand')
     end
@@ -60,7 +60,7 @@ class Api::V1::BrandsController < Api::V1::BaseController
   private
 
   def find_brand
-    @brand = Brand.find_by_id(params[:brand_id])
+    @brand = Brand.friendly.find(params[:brand_id])
   end
 
   def brand_params

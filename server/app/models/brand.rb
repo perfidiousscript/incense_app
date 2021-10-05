@@ -21,6 +21,8 @@
 #  fk_rails_...  (approved_by_id => users.id)
 #
 class Brand < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :country, inclusion: { in: ISO3166::Country.all.map(&:name) }

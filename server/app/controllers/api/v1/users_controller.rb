@@ -25,11 +25,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     user = User.includes(:reviews)
     case
     when params[:id]
-      user = user.find(params[:id])
+      user = user.friendly.find(params[:id])
     when params[:email]
       user = user.find_by_email(params[:email])
-    when params[:username]
-      user = user.find_by_username(params[:username])
     end
 
     if user != nil

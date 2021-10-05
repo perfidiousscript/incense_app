@@ -22,6 +22,8 @@
 #  fk_rails_...  (brand_id => brands.id)
 #
 class Incense < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   validates :name, presence: true
   validates :name, uniqueness: true
 

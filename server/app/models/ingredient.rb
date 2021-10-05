@@ -10,6 +10,8 @@
 #  updated_at  :datetime         not null
 #
 class Ingredient < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   validates :name, presence: true
   validates :name, uniqueness: true
 
