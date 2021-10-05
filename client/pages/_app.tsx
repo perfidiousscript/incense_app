@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import Head from "next/head";
 import type { AppProps } from "next/app";
 import Nav from "components/Nav";
 import { QueryClientProvider, QueryClient } from "react-query";
@@ -9,12 +10,17 @@ const queryClient = new QueryClient();
 
 export const App = ({ Component, pageProps }) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Nav />
-        <Component {...pageProps} />
-      </AuthProvider>
-    </QueryClientProvider>
+    <>
+      <Head>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Nav />
+          <Component {...pageProps} />
+        </AuthProvider>
+      </QueryClientProvider>
+    </>
   );
 };
 export default App;
