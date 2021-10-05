@@ -8,7 +8,6 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Incense Hermitage</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
         <a href="https://fontmeme.com/japanese/">

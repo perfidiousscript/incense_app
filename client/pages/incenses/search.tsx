@@ -7,14 +7,14 @@ import { useMutation } from "react-query";
 import { styles } from "/styles/Incenses.module.css";
 
 const IncensesSearch: NextPage<{}> = () => {
-  const [brandName, setBrandName] = useState("");
+  const [brandId, setBrandId] = useState("");
   const [country, setCountry] = useState("");
   const [includedIngredients, setIncludedIngredients] = useState("");
   const [excludedIngredients, setExcludedIngredients] = useState("");
 
   const searchResult = useMutation((event) => {
     return Incenses.search({
-      brand: brandName,
+      brandId: brandId,
       country: country,
       includedIngredients: includedIngredients,
       excludedIngredients: excludedIngredients,
@@ -40,9 +40,11 @@ const IncensesSearch: NextPage<{}> = () => {
       return (
         <div className="incenseList">
           {searchResult.data.map((incense) => (
-            <div className="incense">
+            <div className="incense" key={incense.id}>
               <span>{incense.name}</span>
+              <span> </span>
               <span>{incense.brand.name}</span>
+              <span> </span>
               <span>{incense.brand.country}</span>
             </div>
           ))}
@@ -68,13 +70,13 @@ const IncensesSearch: NextPage<{}> = () => {
             }}
             onSubmit={submit}
           >
-            <label htmlFor="brandName">Brand Name</label>
+            <label htmlFor="brandId">Brand Name</label>
             <input
-              name="brandName"
-              onChange={({ target: { value } }) => setBrandName(value)}
+              name="brandId"
+              onChange={({ target: { value } }) => setBrandId(value)}
               type="text"
               disabled={searchResult.isLoading}
-              value={brandName}
+              value={brandId}
             />
             <label htmlFor="country">Country</label>
             <input
