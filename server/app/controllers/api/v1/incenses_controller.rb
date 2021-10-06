@@ -45,7 +45,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
         raise Errors::NotFound.new('incense') unless current_user && (current_user.moderator? || current_user.admin?)
       end
 
-      render json: incense, include: [:ingredients, :incense_statistic, [reviews: :review_ranking]]
+      render json: incense, include: [:brand, :ingredients, :incense_statistic, [reviews: :review_ranking]]
     else
       raise Errors::NotFound.new('incense')
     end

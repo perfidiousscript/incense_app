@@ -60,6 +60,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
 
         sign_in_as user
+
         post :create, params: {
           incense: {
             name: incense.name,
@@ -147,7 +148,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         patch :approve, params: {
-          incense_id: incense.id
+          incense_id: incense.slug
         }
 
         assert_response :forbidden
@@ -165,7 +166,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as moderator
 
         patch :approve, params: {
-          incense_id: incense.id
+          incense_id: incense.slug
         }
 
         assert_response :ok
@@ -182,7 +183,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense, ingredient: ingredient)
 
         get :show, params: {
-          id: incense.id
+          id: incense.slug
         }
 
         assert_response :ok
@@ -198,7 +199,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           create(:review_vote, review: review)
 
           get :show, params: {
-            id: incense.id
+            id: incense.slug
           }
 
           assert_response :ok
@@ -210,7 +211,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         incense = create(:incense)
 
         get :show, params: {
-          id: incense.id
+          id: incense.slug
         }
 
         assert_response :not_found
@@ -225,7 +226,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.id
+          id: incense.slug
         }
 
         assert_response :ok
@@ -238,7 +239,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.id
+          id: incense.slug
         }
 
         assert_response :not_found
@@ -253,7 +254,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.id
+          id: incense.slug
         }
 
         assert_response :ok
@@ -266,7 +267,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.id
+          id: incense.slug
         }
 
         assert_response :ok
@@ -329,7 +330,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_2, ingredient: ingredient)
 
         get :index, params: {
-          includes_ingredient: ingredient.id
+          includes_ingredients: ingredient.slug
         }
 
         expect(json.length).to eq(2)
@@ -349,7 +350,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
 
         get :index, params: {
-          excludes_ingredient: ingredient_1.id
+          excludes_ingredients: ingredient_1.slug
         }
 
         expect(json.length).to eq(1)
@@ -393,8 +394,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
 
         get :index, params: {
-          includes_ingredient: ingredient_1.id,
-          excludes_ingredient: ingredient_2.id
+          includes_ingredients: ingredient_1.slug,
+          excludes_ingredients: ingredient_2.slug
         }
 
         expect(json.length).to eq(1)
@@ -418,8 +419,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_1)
 
         get :index, params: {
-          includes_ingredient: ingredient_1.id,
-          excludes_ingredient: ingredient_2.id,
+          includes_ingredients: ingredient_1.slug,
+          excludes_ingredients: ingredient_2.slug,
           country: 'Japan'
         }
 

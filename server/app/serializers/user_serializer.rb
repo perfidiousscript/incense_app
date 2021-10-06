@@ -22,7 +22,7 @@
 #  index_users_on_username        (username) UNIQUE
 #
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username
+  attributes :id, :username, :role
 
   has_many :reviews
 end
