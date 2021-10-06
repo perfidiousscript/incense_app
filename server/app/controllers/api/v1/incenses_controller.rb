@@ -53,24 +53,10 @@ class Api::V1::IncensesController < Api::V1::BaseController
   def index
     page_number = params[:page_number] || 1
 
-    incenses = Incense.approved
+    incenses = Incense.filtered(query_params)
 
-    if params[:brand_id].present?
-      incenses = incenses.where(brand: params[:brand_id].split(','))
-    end
-
-    if params[:country].present?
-      incenses = incenses.joins(:brand).where(brand: {country: params[:country].split(',')})
-    end
-
-    if params[:includes_ingredient_ids].present?
-      incenses = incenses.joins(:ingredients).where(ingredients: {id: params[:includes_ingredient_ids].split(',')})
-    end
-
-    if params[:excludes_ingredient_ids].present?
-      # Attempt at running everything via SQL
-      # incenses = incenses.and(Incense.approved.joins(:ingredients).where.not(ingredients: {id: params[:excludes_ingredient_ids].split(',')}))
-      incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient_ids].split(',')})
+    if params[:excludes_ingredient].present?
+      incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient].split(',')})
       incenses = Kaminari.paginate_array(incenses).page(page_number)
     else
       incenses = incenses.order(:name).page(page_number)
@@ -92,7 +78,11 @@ class Api::V1::IncensesController < Api::V1::BaseController
   private
 
   def incense_params
-    params.require(:incense).permit(:name,:brand_id,:description,:image_url)
+    params.require(:incense).permit(:name,:brand_id,:description,:image_url, ingredient_ids:[])
+  end
+
+  def query_params
+    params.permit(:name,:brand, :country, :includes_ingredient, :excludes_ingredient)
   end
 
   def validate_ingredient_ids!

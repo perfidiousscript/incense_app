@@ -39,4 +39,5 @@ class Brand < ApplicationRecord
   def approved?
     !approved_by_id.nil?
   end
+
 end

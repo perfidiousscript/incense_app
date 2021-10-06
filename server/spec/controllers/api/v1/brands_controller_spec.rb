@@ -140,7 +140,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
         brand = create(:brand, :approved)
 
         get :show, params: {
-          id: brand.id
+          id: brand.slug
         }
 
         assert_response :ok
@@ -148,7 +148,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       it 'should not return an unapproved brand' do
         brand = create(:brand)
         get :show, params: {
-          id: brand.id
+          id: brand.slug
         }
 
         assert_response :not_found

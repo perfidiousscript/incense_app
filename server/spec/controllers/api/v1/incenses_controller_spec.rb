@@ -294,7 +294,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         incense_2 = create(:incense, :approved, brand: brand_2)
 
         get :index, params: {
-          brand_id: brand_1.id
+          brand: brand_1.slug
         }
 
         expect(json.length).to eq(1)
@@ -329,7 +329,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_2, ingredient: ingredient)
 
         get :index, params: {
-          includes_ingredient_ids: ingredient.id
+          includes_ingredient: ingredient.id
         }
 
         expect(json.length).to eq(2)
@@ -349,7 +349,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
 
         get :index, params: {
-          excludes_ingredient_ids: ingredient_1.id
+          excludes_ingredient: ingredient_1.id
         }
 
         expect(json.length).to eq(1)
@@ -372,7 +372,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         end
 
         get :index, params: {
-          excludes_ingredient_ids: ingredient_2.id
+          excludes_ingredient: ingredient_2.id
         }
 
         expect(json.length).to eq(25)
@@ -393,8 +393,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
 
         get :index, params: {
-          includes_ingredient_ids: ingredient_1.id,
-          excludes_ingredient_ids: ingredient_2.id
+          includes_ingredient: ingredient_1.id,
+          excludes_ingredient: ingredient_2.id
         }
 
         expect(json.length).to eq(1)
@@ -418,8 +418,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_1)
 
         get :index, params: {
-          includes_ingredient_ids: ingredient_1.id,
-          excludes_ingredient_ids: ingredient_2.id,
+          includes_ingredient: ingredient_1.id,
+          excludes_ingredient: ingredient_2.id,
           country: 'Japan'
         }
 
