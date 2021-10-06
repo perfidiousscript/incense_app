@@ -1,6 +1,6 @@
 class Api::V1::BrandsController < Api::V1::BaseController
   before_action :require_login, except: [:show, :index]
-  load_and_authorize_resource
+  load_and_authorize_resource :find_by => :slug
 
   def create
     if current_user.moderator? || current_user.admin?

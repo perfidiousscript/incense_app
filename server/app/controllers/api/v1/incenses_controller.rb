@@ -1,10 +1,11 @@
 class Api::V1::IncensesController < Api::V1::BaseController
   before_action :require_login, except: [:show, :index]
-  load_and_authorize_resource
+  load_and_authorize_resource :find_by => :slug
 
   # We allow users without credentials to create unapproved incenses.
   # Mods and admins create inceses which are approved by them.
   def create
+
     if current_user.moderator? || current_user.admin?
       incense = Incense.create(incense_params.merge({approved_by_id: current_user.id}))
     else
@@ -51,17 +52,18 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def index
-    page_number = params[:page_number] || 1
+    page_number = query_params[:page_number] || 1
 
-    incenses = Incense.filtered(query_params)
+    incenses = Incense.filtered(query_params).distinct
 
-    if params[:excludes_ingredient].present?
-      incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where(ingredients: {id: params[:excludes_ingredient].split(',')})
+    if query_params[:excludes_ingredients].present?
+      incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where("ingredients.slug ILIKE ? ", "#{query_params[:excludes_ingredients]}")
       incenses = Kaminari.paginate_array(incenses).page(page_number)
     else
       incenses = incenses.order(:name).page(page_number)
     end
-    render json: incenses, serializer: nil
+
+    render json: incenses
   end
 
   def approve
@@ -82,7 +84,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def query_params
-    params.permit(:name,:brand, :country, :includes_ingredient, :excludes_ingredient)
+    params.permit(:name,:brand, :country, :includes_ingredients, :excludes_ingredients, :page_number)
   end
 
   def validate_ingredient_ids!

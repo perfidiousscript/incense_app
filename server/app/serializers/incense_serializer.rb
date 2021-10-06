@@ -28,7 +28,7 @@ class IncenseSerializer < ActiveModel::Serializer
   :name,
   :description,
   :image_url,
-  :brand
+  :slug
 
   has_many :ingredients
   has_many :reviews

@@ -1,18 +1,18 @@
 class Incense::Filter
   def filter(scope, query_params)
-
+    # Fix this is the future to handle multiple includes_ingredients
     scope = scope.approved
 
     if query_params[:brand].present?
-      scope = scope.joins(:brand).where(brand: {slug: query_params[:brand].split(',')})
+      scope = scope.joins(:brand).where("brands.slug ILIKE ? ", "#{query_params[:brand]}")
     end
 
     if query_params[:country].present?
       scope = scope.joins(:brand).where(brand: {country:query_params[:country].split(',')})
     end
 
-    if query_params[:includes_ingredient].present?
-      scope = scope.joins(:ingredients).where(ingredients: {id: query_params[:includes_ingredient].split(',')})
+    if query_params[:includes_ingredients].present?
+      scope = scope.joins(:ingredients).where("ingredients.slug LIKE ? ", query_params[:includes_ingredients])
     end
 
     scope

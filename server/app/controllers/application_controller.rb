@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
+  include ::ActionController::Serialization
 
   before_action :set_raven_context
 

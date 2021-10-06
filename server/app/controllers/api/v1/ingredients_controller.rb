@@ -1,6 +1,6 @@
 class Api::V1::IngredientsController < Api::V1::BaseController
   before_action :require_login, only: [:create, :update]
-  load_and_authorize_resource
+  load_and_authorize_resource :find_by => :slug
 
   def create
     ingredient = Ingredient.create(ingredient_params)
