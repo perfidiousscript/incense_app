@@ -7,14 +7,14 @@ import { useMutation } from "react-query";
 import { styles } from "/styles/Incenses.module.css";
 
 const IncensesSearch: NextPage<{}> = () => {
-  const [brandId, setBrandId] = useState("");
+  const [brand, setBrand] = useState("");
   const [country, setCountry] = useState("");
   const [includedIngredients, setIncludedIngredients] = useState("");
   const [excludedIngredients, setExcludedIngredients] = useState("");
 
   const searchResult = useMutation((event) => {
     return Incenses.search({
-      brandId: brandId,
+      brand: brand,
       country: country,
       includedIngredients: includedIngredients,
       excludedIngredients: excludedIngredients,
@@ -70,13 +70,13 @@ const IncensesSearch: NextPage<{}> = () => {
             }}
             onSubmit={submit}
           >
-            <label htmlFor="brandId">Brand Name</label>
+            <label htmlFor="brand">Brand Name</label>
             <input
-              name="brandId"
-              onChange={({ target: { value } }) => setBrandId(value)}
+              name="brand"
+              onChange={({ target: { value } }) => setBrand(value)}
               type="text"
               disabled={searchResult.isLoading}
-              value={brandId}
+              value={brand}
             />
             <label htmlFor="country">Country</label>
             <input
