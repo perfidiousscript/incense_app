@@ -1,5 +1,6 @@
 import fetch from "isomorphic-unfetch";
 import humps from "humps";
+import { snakeCase } from "snake-case";
 
 import { HttpMethod, HttpResponse } from "types";
 
@@ -7,8 +8,8 @@ import * as Cookies from "lib/cookies";
 
 const objectToParams = (params: object) =>
   Object.entries(params)
-    .filter(([_, value]) => value !== undefined)
-    .map(([key, value]) => key + "=" + encodeURIComponent(value))
+    .filter(([_, value]) => value !== (undefined || ""))
+    .map(([key, value]) => snakeCase(key) + "=" + encodeURIComponent(value))
     .join("&");
 
 export default {

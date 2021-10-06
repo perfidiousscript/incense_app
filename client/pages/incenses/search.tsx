@@ -5,19 +5,21 @@ import Head from "next/head";
 import Incenses from "/lib/api/incenses";
 import { useMutation } from "react-query";
 import { styles } from "/styles/Incenses.module.css";
+import { snakeCase } from "snake-case";
 
 const IncensesSearch: NextPage<{}> = () => {
   const [brand, setBrand] = useState("");
   const [country, setCountry] = useState("");
-  const [includedIngredients, setIncludedIngredients] = useState("");
-  const [excludedIngredients, setExcludedIngredients] = useState("");
+  const [includesIngredients, setIncludesIngredients] = useState("");
+  const [excludesIngredients, setExcludesIngredients] = useState("");
 
   const searchResult = useMutation((event) => {
+    let snakeBrand = snakeCase(brand);
     return Incenses.search({
-      brand: brand,
+      brand: snakeBrand,
       country: country,
-      includedIngredients: includedIngredients,
-      excludedIngredients: excludedIngredients,
+      includesIngredients: includesIngredients,
+      excludesIngredients: excludesIngredients,
     });
   });
 
@@ -86,25 +88,25 @@ const IncensesSearch: NextPage<{}> = () => {
               disabled={searchResult.isLoading}
               value={country}
             />
-            <label htmlFor="includedIngredients">Included Ingredients</label>
+            <label htmlFor="includesIngredients">Includes Ingredients</label>
             <input
-              name="includedIngredients"
+              name="includesIngredients"
               onChange={({ target: { value } }) =>
-                setIncludedIngredients(value)
+                setIncludesIngredients(value)
               }
-              type="includedIngredients"
+              type="includesIngredients"
               disabled={searchResult.isLoading}
-              value={includedIngredients}
+              value={includesIngredients}
             />
-            <label htmlFor="excludedIngredients">Excluded Ingredients</label>
+            <label htmlFor="excludesIngredients">Excludes Ingredients</label>
             <input
-              name="excludedIngredients"
+              name="excludesIngredients"
               onChange={({ target: { value } }) =>
-                setExcludedIngredients(value)
+                setExcludesIngredients(value)
               }
-              type="excludedIngredients"
+              type="excludesIngredients"
               disabled={searchResult.isLoading}
-              value={excludedIngredients}
+              value={excludesIngredients}
             />
             <button type="submit" disabled={searchResult.isLoading}>
               Search
