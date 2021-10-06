@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useState } from "react";
 import App from "components/App";
 import Head from "next/head";
+import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import { useMutation } from "react-query";
 import { styles } from "/styles/Incenses.module.css";
@@ -43,7 +44,9 @@ const IncensesSearch: NextPage<{}> = () => {
         <div className="incenseList">
           {searchResult.data.map((incense) => (
             <div className="incense" key={incense.id}>
-              <span>{incense.name}</span>
+              <Link href={`/incenses/${incense.slug}`}>
+                <span>{incense.name}</span>
+              </Link>
               <span> </span>
               <span>{incense.brand.name}</span>
               <span> </span>

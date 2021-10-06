@@ -6,6 +6,7 @@ import Head from "next/head";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
 import { reviewProperties } from "/lib/constants";
+import styles from "/styles/Incenses.module.css";
 
 type InitialProps = {
   incense: Incense;
@@ -13,10 +14,10 @@ type InitialProps = {
 
 const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
   const router = useRouter();
-  const { id } = router.query;
+  const { slug } = router.query;
 
   const { isLoading, isError, data, error } = useQuery(
-    ["incense", id],
+    ["incense", slug],
     Incenses.get
   );
 
@@ -27,19 +28,19 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
   if (isError) {
     return <span>Error: {error}</span>;
   }
-
+  console.log("data: ", data);
   return (
     <App>
       <Head>
         <title>Incense-Hermitage::Incense</title>
       </Head>
 
-      <div>
+      <div className="pageBody">
         <div>
-          <p>Incense</p>
+          <p className={styles.incenseName}>{data.name}</p>
           <div key={data.id}>
-            <span>{data.name}</span>
-            <span>{data.description}</span>
+            <p>Description</p>
+            <p>{data.description}</p>
           </div>
           <div>Ingredients</div>
           {data.ingredients.map((ingredient) => {
@@ -57,7 +58,7 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
                 <div>{review.rating}</div>
                 <div>
                   {reviewProperties.map((property) => (
-                    <p>
+                    <p key={property}>
                       {property}:{review[property]}
                     </p>
                   ))}

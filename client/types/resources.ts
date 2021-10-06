@@ -7,6 +7,7 @@ export const Brand = z.object({
   description: z.string(),
   imageUrl: z.string(),
   name: z.string(),
+  slug: z.string(),
 });
 
 export type IncenseStatistic = z.infer<typeof IncenseStatistic>;
@@ -47,6 +48,7 @@ export const Ingredient = z.object({
   description: z.string(),
   imageUrl: z.string().optional(),
   name: z.string(),
+  slug: z.string(),
 });
 
 export type Review = z.infer<typeof Review>;
@@ -77,6 +79,7 @@ export const User = z.object({
   email: z.string().optional(),
   username: z.string(),
   reviews: Review.array(),
+  role: z.string(),
 });
 
 export type Incense = z.infer<typeof Incense>;
@@ -90,4 +93,5 @@ export const Incense = z.object({
   brand: Brand,
   ingredients: Ingredient.array(),
   reviews: Review.array(),
+  slug: z.string(),
 });

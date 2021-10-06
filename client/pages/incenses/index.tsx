@@ -2,6 +2,7 @@ import { NextPageContext, NextPage } from "next";
 
 import App from "components/App";
 import Head from "next/head";
+import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
 
@@ -29,9 +30,10 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
         <ul>
           {data.map((incense) => (
             <li key={incense.id}>
-              <span>{incense.id}</span>
               <span>{incense.imageUrl}</span>
-              <span>{incense.name}</span>
+              <Link href={`incenses/${incense.slug}`}>
+                <span>{incense.name}</span>
+              </Link>
               <span>{incense.description}</span>
             </li>
           ))}
