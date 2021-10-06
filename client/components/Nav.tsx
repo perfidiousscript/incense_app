@@ -10,24 +10,57 @@ const Nav: FC<{}> = () => {
   const [incensesExpansion, setIncensesExpansion] = useState(false);
   const [brandsExpansion, setBrandsExpansion] = useState(false);
 
-  function renderIncensesUnit() {
-    if (incensesExpansion) {
+  const logOutUser = useMutation(logout);
+
+  var incensesDropdownList = [
+    ["Incenses"],
+    ["Browse Incenses", "/incenses"],
+    ["Search Incenses", "/incenses/search"],
+  ];
+
+  var brandsDropdownList = [
+    ["Brands"],
+    ["Browse Brands", "/brands"],
+    ["Search Brands", "/brands/search"],
+  ];
+
+  if (user) {
+    if (user.role === ("moderator" || "admin")) {
+      incensesDropdownList.push(["Create New Incense", "/incenses/create"]);
+      brandsDropdownList.push(["Create New Brand", "/brands/create"]);
+    }
+  }
+
+  function renderExpandedDropdown(list, expandFunction) {
+    let dropdown = list.map((entry) => {
       return (
-        <div>
-          <div className={styles.navSub} onClick={changeIncenseMenu}>
-            Incenses
-          </div>
-          <div className={styles.navSub}>
-            <Link href="/incenses">Browse Incenses</Link>
-          </div>
-          <div className={styles.navSub}>
-            <Link href="/incenses/search">Search Incenses</Link>
-          </div>
+        <div
+          key={entry[0]}
+          className={styles.navSub}
+          onMouseEnter={() => {
+            expandFunction(true);
+          }}
+          onMouseLeave={() => {
+            expandFunction(false);
+          }}
+        >
+          {entry[1] ? <Link href={entry[1]}>{entry[0]}</Link> : entry[0]}
         </div>
       );
+    });
+    return dropdown;
+  }
+
+  function renderIncensesUnit() {
+    if (incensesExpansion) {
+      return renderExpandedDropdown(incensesDropdownList, setIncensesExpansion);
     } else {
       return (
-        <div onClick={changeIncenseMenu} className={styles.navSub}>
+        <div
+          onMouseEnter={() => {
+            setIncensesExpansion(true);
+          }}
+        >
           Incenses
         </div>
       );
@@ -36,35 +69,19 @@ const Nav: FC<{}> = () => {
 
   function renderBrandsUnit() {
     if (brandsExpansion) {
+      return renderExpandedDropdown(brandsDropdownList, setBrandsExpansion);
+    } else {
       return (
-        <div>
-          <div className={styles.navSub} onClick={changeBrandMenu}>
-            Brands
-          </div>
-          <div className={styles.navSub}>
-            <Link href="/brands">Browse Brands</Link>
-          </div>
-          <div className={styles.navSub}>Search Brands</div>
+        <div
+          onMouseEnter={() => {
+            setBrandsExpansion(true);
+          }}
+        >
+          Brands
         </div>
       );
-    } else {
-      return <div onClick={changeBrandMenu}>Brands</div>;
     }
   }
-
-  function changeIncenseMenu() {
-    let currentState = incensesExpansion;
-    setBrandsExpansion(false);
-    setIncensesExpansion(!currentState);
-  }
-
-  function changeBrandMenu() {
-    let currentState = brandsExpansion;
-    setIncensesExpansion(false);
-    setBrandsExpansion(!currentState);
-  }
-
-  const logOutUser = useMutation(logout);
 
   return (
     <div className={styles.navBar}>
