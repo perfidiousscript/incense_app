@@ -31,8 +31,8 @@ const Nav: FC<{}> = () => {
     }
   }
 
-  function renderExpandedDropdown(list, expandFunction) {
-    let dropdown = list.map((entry) => {
+  function renderExpandedDropdown(list: Array, expandFunction: Function) {
+    let dropdown = list.map((entry: Array) => {
       return (
         <div
           key={entry[0]}
