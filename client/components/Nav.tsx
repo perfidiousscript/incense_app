@@ -46,7 +46,9 @@ const Nav: FC<{}> = () => {
               expandFunction(false);
             }}
           >
-            <Link href={entry[1]}>{entry[0]}</Link>
+            <Link href={entry[1]}>
+              <div>{entry[0]}</div>
+            </Link>
           </NavDropDownUnit>
         );
       } else {
@@ -59,6 +61,7 @@ const Nav: FC<{}> = () => {
             onMouseLeave={() => {
               expandFunction(false);
             }}
+            key={entry[0]}
           >
             {entry[0]}
           </NavTopUnit>
@@ -74,6 +77,7 @@ const Nav: FC<{}> = () => {
     } else {
       return (
         <NavTopUnit
+          key="incenses"
           onMouseEnter={() => {
             setIncensesExpansion(true);
           }}
@@ -90,6 +94,7 @@ const Nav: FC<{}> = () => {
     } else {
       return (
         <NavTopUnit
+          key="brands"
           onMouseEnter={() => {
             setBrandsExpansion(true);
           }}
@@ -108,14 +113,16 @@ const Nav: FC<{}> = () => {
       {renderIncensesUnit()}
       {renderBrandsUnit()}
 
-      <NavTopUnit>
+      <NavTopUnit key="about">
         <Link href="/about">About</Link>
       </NavTopUnit>
 
       {user ? (
-        <NavTopUnit onClick={logOutUser.mutate}>Sign Out</NavTopUnit>
+        <NavTopUnit onClick={logOutUser.mutate} key="signOut">
+          Sign Out
+        </NavTopUnit>
       ) : (
-        <NavTopUnit>
+        <NavTopUnit key="signIn">
           <Link href={`/sign-in`}>Sign In / Sign Up</Link>
         </NavTopUnit>
       )}
