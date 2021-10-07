@@ -26,53 +26,51 @@ const BrandCreate: NextPage<{}> = () => {
       <Head>
         <title>IH::Brand:Create</title>
       </Head>
-      <div className="pageBody">
-        <div className="pageTitle">Create a New Brand</div>
-        <form
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "500px",
-          }}
-          onSubmit={submit}
-        >
-          <label htmlFor="name">Brand Name</label>
-          <input
-            name="brand"
-            onChange={({ target: { value } }) => setName(value)}
-            type="text"
-            disabled={createResult.isLoading}
-            value={name}
-          />
-          <label htmlFor="country">Country</label>
-          <input
-            name="country"
-            onChange={({ target: { value } }) => setCountry(value)}
-            type="text"
-            disabled={createResult.isLoading}
-            value={country}
-          />
-          <label htmlFor="description">Description</label>
-          <textarea
-            name="description"
-            onChange={({ target: { value } }) => setDescription(value)}
-            type="text"
-            disabled={createResult.isLoading}
-            value={description}
-          />
-          <label htmlFor="imageUrl">Image</label>
-          <input
-            name="imageUrl"
-            onChange={({ target: { value } }) => setImageUrl(value)}
-            type="file"
-            accept="img/*"
-            disabled={createResult.isLoading}
-          />
-          <button type="submit" disabled={createResult.isLoading}>
-            Create
-          </button>
-        </form>
-      </div>
+      <div className="pageTitle">Create a New Brand</div>
+      <form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "500px",
+        }}
+        onSubmit={submit}
+      >
+        <label htmlFor="name">Brand Name</label>
+        <input
+          name="brand"
+          onChange={({ target: { value } }) => setName(value)}
+          type="text"
+          disabled={createResult.isLoading}
+          value={name}
+        />
+        <label htmlFor="country">Country</label>
+        <input
+          name="country"
+          onChange={({ target: { value } }) => setCountry(value)}
+          type="text"
+          disabled={createResult.isLoading}
+          value={country}
+        />
+        <label htmlFor="description">Description</label>
+        <textarea
+          name="description"
+          onChange={({ target: { value } }) => setDescription(value)}
+          type="text"
+          disabled={createResult.isLoading}
+          value={description}
+        />
+        <label htmlFor="imageUrl">Image</label>
+        <input
+          name="imageUrl"
+          onChange={({ target: { value } }) => setImageUrl(value)}
+          type="file"
+          accept="img/*"
+          disabled={createResult.isLoading}
+        />
+        <button type="submit" disabled={createResult.isLoading}>
+          Create
+        </button>
+      </form>
     </App>
   );
 };
