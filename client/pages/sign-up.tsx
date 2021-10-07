@@ -7,14 +7,14 @@ import { useMutation } from "react-query";
 import { useAuth } from "lib/auth";
 
 const SignUp: NextPage<{}> = () => {
-  const { registerFn } = useAuth();
+  const { register } = useAuth();
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const signUp = useMutation((event) => {
     event.preventDefault();
-    return registerFn({ email: email, username: userName, password: password });
+    return register({ email: email, username: userName, password: password });
   });
 
   function signUpError() {
@@ -25,7 +25,11 @@ const SignUp: NextPage<{}> = () => {
   }
 
   if (signUp.isSuccess) {
-    return <div>Success! Check your e-mail!</div>;
+    return (
+      <div className="pageBody">
+        <div>Success! Check your e-mail!</div>
+      </div>
+    );
   } else if (signUp.isIdle || signUp.isError) {
     return (
       <App>

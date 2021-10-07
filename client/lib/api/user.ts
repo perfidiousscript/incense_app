@@ -30,9 +30,10 @@ export default {
       },
     }).then(({ body }) => User.parse(body));
   },
-  registerFn(queryKeyObject: RegisterUserQueryKey): Promise<User> {
+  registerFn(queryKeyObject: RegisterUserQueryKey): Promise<any> {
     let email = queryKeyObject.email;
     let password = queryKeyObject.password;
+    let username = queryKeyObject.username;
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/users`),
@@ -43,7 +44,10 @@ export default {
           password,
         },
       },
-    }).then(({ body }) => User.parse(body));
+    }).then((response) => {
+      console.log("response: ", response);
+      return response;
+    });
   },
   logoutFn(): Promise<any> {
     return Request.make({
