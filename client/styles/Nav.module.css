@@ -1,32 +1,23 @@
 .navBar {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
   width: 100%;
-  justify-content: space-around;
   border: 1px solid black;
   height: 5em;
 }
+
 .siteTitle {
   font-size: 2em;
   line-height: 2.5em;
-  flex-grow: 2;
+  grid-column: 1 / span 1;
   text-align: center;
 }
 
-.navUnit {
-  align-self: center;
-  border-left: 1px solid black;
-  height: 100%;
-  width: 18%;
-  text-align: center;
-  line-height: 4.5em;
-  background: white;
-}
-
-.navSub {
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  background: white;
-  position: relative;
+.expandedDropdownContainer {
+  display: grid;
+  grid-row: span 3;
+  grid-column: span 1;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
 }

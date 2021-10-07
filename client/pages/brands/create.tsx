@@ -67,7 +67,6 @@ const BrandCreate: NextPage<{}> = () => {
             type="file"
             accept="img/*"
             disabled={createResult.isLoading}
-            value={description}
           />
           <button type="submit" disabled={createResult.isLoading}>
             Create

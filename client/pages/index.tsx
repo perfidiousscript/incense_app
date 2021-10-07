@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -10,13 +11,7 @@ const Home: NextPage = () => {
         <title>Incense Hermitage</title>
       </Head>
       <div>
-        <a href="https://fontmeme.com/japanese/">
-          <img
-            src="https://fontmeme.com/permalink/211003/2729eb11a2152ed2ad1241437cb12e3c.png"
-            alt="japanese"
-            border="0"
-          />
-        </a>
+        <Image src="/images/incense_kanji.png" width={650} height={150} />
       </div>
       <div>
         Welcome to the Incense Hermitage, a place to explore, rate and review
@@ -24,6 +19,11 @@ const Home: NextPage = () => {
         <br />
         Incense Hermitage currently lists X,000 different Incense from X00
         Brands
+      </div>
+      <div>
+        <p>
+          Don't have an account? <Link href="/sign-up">Sign Up Here!</Link>
+        </p>
       </div>
     </div>
   );

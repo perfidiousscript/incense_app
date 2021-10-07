@@ -2,6 +2,7 @@ import { FC } from "react";
 import Link from "next/link";
 import { useState } from "react";
 import styles from "../styles/Nav.module.css";
+import { NavTopUnit, NavDropDownUnit } from "/components/NavUnits";
 import { useAuth } from "lib/auth";
 import { useMutation } from "react-query";
 
@@ -31,24 +32,40 @@ const Nav: FC<{}> = () => {
     }
   }
 
+  // Takes the list of elements in the dropdownArray and generates them as.
   function renderExpandedDropdown(list: Array, expandFunction: Function) {
     let dropdown = list.map((entry: Array) => {
-      return (
-        <div
-          key={entry[0]}
-          className={styles.navSub}
-          onMouseEnter={() => {
-            expandFunction(true);
-          }}
-          onMouseLeave={() => {
-            expandFunction(false);
-          }}
-        >
-          {entry[1] ? <Link href={entry[1]}>{entry[0]}</Link> : entry[0]}
-        </div>
-      );
+      if (entry[1]) {
+        return (
+          <NavDropDownUnit
+            key={entry[0]}
+            onMouseEnter={() => {
+              expandFunction(true);
+            }}
+            onMouseLeave={() => {
+              expandFunction(false);
+            }}
+          >
+            <Link href={entry[1]}>{entry[0]}</Link>
+          </NavDropDownUnit>
+        );
+      } else {
+        return (
+          <NavTopUnit
+            key={entry[0]}
+            onMouseEnter={() => {
+              expandFunction(true);
+            }}
+            onMouseLeave={() => {
+              expandFunction(false);
+            }}
+          >
+            {entry[0]}
+          </NavTopUnit>
+        );
+      }
     });
-    return dropdown;
+    return <div className={styles.expandedDropdownContainer}>{dropdown}</div>;
   }
 
   function renderIncensesUnit() {
@@ -56,13 +73,13 @@ const Nav: FC<{}> = () => {
       return renderExpandedDropdown(incensesDropdownList, setIncensesExpansion);
     } else {
       return (
-        <div
+        <NavTopUnit
           onMouseEnter={() => {
             setIncensesExpansion(true);
           }}
         >
           Incenses
-        </div>
+        </NavTopUnit>
       );
     }
   }
@@ -72,13 +89,13 @@ const Nav: FC<{}> = () => {
       return renderExpandedDropdown(brandsDropdownList, setBrandsExpansion);
     } else {
       return (
-        <div
+        <NavTopUnit
           onMouseEnter={() => {
             setBrandsExpansion(true);
           }}
         >
           Brands
-        </div>
+        </NavTopUnit>
       );
     }
   }
@@ -88,19 +105,19 @@ const Nav: FC<{}> = () => {
       <div className={styles.siteTitle}>
         <Link href={`/`}>Incense Hermitage</Link>
       </div>
-      <div className={styles.navUnit}>{renderIncensesUnit()}</div>
-      <div className={styles.navUnit}>{renderBrandsUnit()}</div>
-      <div className={styles.navUnit}>
+      {renderIncensesUnit()}
+      {renderBrandsUnit()}
+
+      <NavTopUnit>
         <Link href="/about">About</Link>
-      </div>
+      </NavTopUnit>
+
       {user ? (
-        <div className={styles.navUnit} onClick={logOutUser.mutate}>
-          Sign Out
-        </div>
+        <NavTopUnit onClick={logOutUser.mutate}>Sign Out</NavTopUnit>
       ) : (
-        <Link href={`/signin`}>
-          <div className={styles.navUnit}>Sign In / Sign Up</div>
-        </Link>
+        <NavTopUnit>
+          <Link href={`/sign-in`}>Sign In / Sign Up</Link>
+        </NavTopUnit>
       )}
     </div>
   );
