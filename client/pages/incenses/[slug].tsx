@@ -35,38 +35,36 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
         <title>Incense-Hermitage::Incense</title>
       </Head>
 
-      <div className="pageBody">
-        <div>
-          <p className={styles.incenseName}>{data.name}</p>
-          <div key={data.id}>
-            <p>Description</p>
-            <p>{data.description}</p>
-          </div>
-          <div>Ingredients</div>
-          {data.ingredients.map((ingredient) => {
-            return (
-              <div key={ingredient.id}>
-                <div>{ingredient.name}</div>
-              </div>
-            );
-          })}
-          <div>Reviews</div>
-          {data.reviews.map((review) => {
-            return (
-              <div key={review.id}>
-                <div>{review.reviewBody}</div>
-                <div>{review.rating}</div>
-                <div>
-                  {reviewProperties.map((property) => (
-                    <p key={property}>
-                      {property}:{review[property]}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+      <div>
+        <p className={styles.incenseName}>{data.name}</p>
+        <div key={data.id}>
+          <p>Description</p>
+          <p>{data.description}</p>
         </div>
+        <div>Ingredients</div>
+        {data.ingredients.map((ingredient) => {
+          return (
+            <div key={ingredient.id}>
+              <div>{ingredient.name}</div>
+            </div>
+          );
+        })}
+        <div>Reviews</div>
+        {data.reviews.map((review) => {
+          return (
+            <div key={review.id}>
+              <div>{review.reviewBody}</div>
+              <div>{review.rating}</div>
+              <div>
+                {reviewProperties.map((property) => (
+                  <p key={property}>
+                    {property}:{review[property]}
+                  </p>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </App>
   );

@@ -17,7 +17,9 @@ export const App = ({ Component, pageProps }) => {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Nav />
-          <Component {...pageProps} />
+          <div className="container">
+            <Component {...pageProps} />
+          </div>
         </AuthProvider>
       </QueryClientProvider>
     </>

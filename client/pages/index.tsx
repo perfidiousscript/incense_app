@@ -6,7 +6,7 @@ import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Incense Hermitage</title>
       </Head>
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
           Don't have an account? <Link href="/sign-up">Sign Up Here!</Link>
         </p>
       </div>
-    </div>
+    </>
   );
 };
 

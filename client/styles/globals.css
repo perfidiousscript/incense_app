@@ -21,10 +21,14 @@ a {
   margin-bottom: 3%;
 }
 
-.pageBody {
-  width: 80%;
-  margin: auto;
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   border-left: 1px solid black;
   border-right: 1px solid black;
-  padding: 3%;
 }

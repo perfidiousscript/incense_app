@@ -31,42 +31,40 @@ const SignIn: NextPage<{}> = () => {
         <Head>
           <title>IH::Signin</title>
         </Head>
-        <div className="pageBody">
-          <div className="pageTitle">Sign In</div>
-          {signInError()}
-          <form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              maxWidth: "500px",
-            }}
-            onSubmit={signIn.mutate}
-          >
-            <label htmlFor="email">Email</label>
-            <input
-              name="email"
-              onChange={({ target: { value } }) => setEmail(value)}
-              type="text"
-              disabled={signIn.isLoading}
-              value={email}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              name="password"
-              onChange={({ target: { value } }) => setPassword(value)}
-              type="password"
-              disabled={signIn.isLoading}
-              value={password}
-            />
-            <button type="submit" disabled={signIn.isLoading}>
-              Sign In
-            </button>
-          </form>
-          <div>
-            <p>
-              Don't have an account? <Link href="/sign-up">Sign Up Here!</Link>
-            </p>
-          </div>
+        <div className="pageTitle">Sign In</div>
+        {signInError()}
+        <form
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            maxWidth: "500px",
+          }}
+          onSubmit={signIn.mutate}
+        >
+          <label htmlFor="email">Email</label>
+          <input
+            name="email"
+            onChange={({ target: { value } }) => setEmail(value)}
+            type="text"
+            disabled={signIn.isLoading}
+            value={email}
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            onChange={({ target: { value } }) => setPassword(value)}
+            type="password"
+            disabled={signIn.isLoading}
+            value={password}
+          />
+          <button type="submit" disabled={signIn.isLoading}>
+            Sign In
+          </button>
+        </form>
+        <div>
+          <p>
+            Don't have an account? <Link href="/sign-up">Sign Up Here!</Link>
+          </p>
         </div>
       </App>
     );

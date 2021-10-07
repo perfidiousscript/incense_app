@@ -25,56 +25,51 @@ const SignUp: NextPage<{}> = () => {
   }
 
   if (signUp.isSuccess) {
-    return (
-      <div className="pageBody">
-        <div>Success! Check your e-mail!</div>
-      </div>
-    );
+    return <div>Success! Check your e-mail!</div>;
   } else if (signUp.isIdle || signUp.isError) {
     return (
       <App>
         <Head>
           <title>IH::SignUp</title>
         </Head>
-        <div className="pageBody">
-          {signUpError()}
-          <form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              maxWidth: "500px",
-            }}
-            onSubmit={signUp.mutate}
-          >
-            <label htmlFor="email">Email</label>
-            <input
-              name="email"
-              onChange={({ target: { value } }) => setEmail(value)}
-              type="text"
-              disabled={signUp.isLoading}
-              value={email}
-            />
-            <label htmlFor="username">User Name</label>
-            <input
-              name="username"
-              onChange={({ target: { value } }) => setUserName(value)}
-              type="text"
-              disabled={signUp.isLoading}
-              value={userName}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              name="password"
-              onChange={({ target: { value } }) => setPassword(value)}
-              type="password"
-              disabled={signUp.isLoading}
-              value={password}
-            />
-            <button type="submit" disabled={signUp.isLoading}>
-              Sign In
-            </button>
-          </form>
-        </div>
+
+        {signUpError()}
+        <form
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            maxWidth: "500px",
+          }}
+          onSubmit={signUp.mutate}
+        >
+          <label htmlFor="email">Email</label>
+          <input
+            name="email"
+            onChange={({ target: { value } }) => setEmail(value)}
+            type="text"
+            disabled={signUp.isLoading}
+            value={email}
+          />
+          <label htmlFor="username">User Name</label>
+          <input
+            name="username"
+            onChange={({ target: { value } }) => setUserName(value)}
+            type="text"
+            disabled={signUp.isLoading}
+            value={userName}
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            onChange={({ target: { value } }) => setPassword(value)}
+            type="password"
+            disabled={signUp.isLoading}
+            value={password}
+          />
+          <button type="submit" disabled={signUp.isLoading}>
+            Sign In
+          </button>
+        </form>
       </App>
     );
   } else if (signUp.isLoading) {
