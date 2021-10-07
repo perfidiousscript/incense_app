@@ -26,10 +26,8 @@ const Nav: FC<{}> = () => {
   ];
 
   if (user) {
-    if (user.role === ("moderator" || "admin")) {
-      incensesDropdownList.push(["Create New Incense", "/incenses/create"]);
-      brandsDropdownList.push(["Create New Brand", "/brands/create"]);
-    }
+    incensesDropdownList.push(["Create New Incense", "/incenses/create"]);
+    brandsDropdownList.push(["Create New Brand", "/brands/create"]);
   }
 
   // Takes the list of elements in the dropdownArray and generates them as.
@@ -77,7 +75,7 @@ const Nav: FC<{}> = () => {
     } else {
       return (
         <NavTopUnit
-          key="incenses"
+          key="Incenses"
           onMouseEnter={() => {
             setIncensesExpansion(true);
           }}
@@ -94,7 +92,7 @@ const Nav: FC<{}> = () => {
     } else {
       return (
         <NavTopUnit
-          key="brands"
+          key="Brands"
           onMouseEnter={() => {
             setBrandsExpansion(true);
           }}
@@ -114,16 +112,20 @@ const Nav: FC<{}> = () => {
       {renderBrandsUnit()}
 
       <NavTopUnit key="about">
-        <Link href="/about">About</Link>
+        <Link href="/about">
+          <div>About</div>
+        </Link>
       </NavTopUnit>
 
       {user ? (
         <NavTopUnit onClick={logOutUser.mutate} key="signOut">
-          Sign Out
+          <div>Sign Out</div>
         </NavTopUnit>
       ) : (
         <NavTopUnit key="signIn">
-          <Link href={`/sign-in`}>Sign In / Sign Up</Link>
+          <Link href={`/sign-in`}>
+            <div>Sign In / Sign Up</div>
+          </Link>
         </NavTopUnit>
       )}
     </div>
