@@ -4,6 +4,7 @@ import App from "components/App";
 import Head from "next/head";
 import Brands from "/lib/api/brands";
 import { useQuery } from "react-query";
+import styles from "/styles/Brands.module.css";
 
 type InitialProps = {
   brands: Brand[];
@@ -22,16 +23,15 @@ const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
     }
     if (data) {
       return (
-        <ul>
+        <div className={styles.brandsEntries}>
           {data.map((brand) => (
-            <li key={brand.id}>
-              <span>{brand.id}</span>
-              <span>{brand.imageUrl}</span>
-              <span>{brand.name}</span>
-              <span>{brand.country}</span>
-            </li>
+            <div className={styles.brandEntry} key={brand.id}>
+              <div className={styles.brandImageColumn}>{brand.imageUrl}</div>
+              <div className={styles.brandNameColumn}>{brand.name}</div>
+              <div className={styles.brandCountryColumn}>{brand.country}</div>
+            </div>
           ))}
-        </ul>
+        </div>
       );
     }
   }
@@ -42,11 +42,14 @@ const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
         <title>Incense-Hermitage::Brands</title>
       </Head>
 
-      <div>
-        <div>
-          <p>Brands</p>
-          <div>{brandsFetch()}</div>
+      <div className="pageTitle">Browse Brands</div>
+      <div className={styles.brandsGrid}>
+        <div className={styles.brandsColumnHeader}>
+          <div className={styles.brandImageColumn}>Image</div>
+          <div className={styles.brandNameColumn}>Name</div>
+          <div className={styles.brandCountryColumn}>Country</div>
         </div>
+        {brandsFetch()}
       </div>
     </App>
   );
