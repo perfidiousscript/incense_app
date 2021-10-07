@@ -1,9 +1,10 @@
 import { NextPageContext, NextPage } from "next";
-
+import Link from "next/link";
 import App from "components/App";
 import Head from "next/head";
 import Brands from "/lib/api/brands";
 import { useQuery } from "react-query";
+import { BrandsEntries, BrandEntry } from "/components/BrandsUnits";
 import styles from "/styles/Brands.module.css";
 
 type InitialProps = {
@@ -23,15 +24,17 @@ const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
     }
     if (data) {
       return (
-        <div className={styles.brandsEntries}>
+        <BrandsEntries>
           {data.map((brand) => (
-            <div className={styles.brandEntry} key={brand.id}>
-              <div className={styles.brandImageColumn}>{brand.imageUrl}</div>
-              <div className={styles.brandNameColumn}>{brand.name}</div>
-              <div className={styles.brandCountryColumn}>{brand.country}</div>
-            </div>
+            <Link href={`/brands/${brand.slug}`}>
+              <BrandEntry key={brand.id}>
+                <div className={styles.brandImageColumn}>{brand.imageUrl}</div>
+                <div className={styles.brandNameColumn}>{brand.name}</div>
+                <div className={styles.brandCountryColumn}>{brand.country}</div>
+              </BrandEntry>
+            </Link>
           ))}
-        </div>
+        </BrandsEntries>
       );
     }
   }
