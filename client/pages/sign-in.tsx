@@ -23,9 +23,11 @@ const SignIn: NextPage<{}> = () => {
     }
   }
 
-  if (user) {
+  if (signIn.isSuccess) {
+    return <div>Welcome {user.username}!</div>;
+  } else if (user) {
     return <div>Already logged in!</div>;
-  } else if (signIn.isIdle || signIn.isSuccess || signIn.isError) {
+  } else if (signIn.isIdle || signIn.isError) {
     return (
       <App>
         <Head>
