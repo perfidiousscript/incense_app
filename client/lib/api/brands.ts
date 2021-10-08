@@ -16,4 +16,22 @@ export default {
       url: Base.url(`/brands`),
     }).then(({ body }) => Brand.array().parse(body));
   },
+  create(queryKeyObject: QueryKeyObject): Promise<Brand> {
+    let name = queryKeyObject.name;
+    let description = queryKeyObject.description;
+    let country = queryKeyObject.country;
+    let image_url = queryKeyObject.imageUrl;
+    return Request.make({
+      method: HttpMethod.POST,
+      url: Base.url(`/brands`),
+      body: {
+        brand: {
+          name,
+          description,
+          country,
+          image_url,
+        },
+      },
+    }).then(({ body }) => Brand.parse(body));
+  },
 };
