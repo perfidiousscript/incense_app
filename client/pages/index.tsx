@@ -10,7 +10,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Incense Hermitage</title>
       </Head>
-      <div className={styles.homePageBody}>
+      <div className="centeredText">
         <div>
           <Image src="/images/incense_kanji.png" width={650} height={150} />
         </div>

@@ -33,3 +33,7 @@ a {
   width: 80%;
   margin: auto;
 }
+
+.centeredText {
+  text-align: center;
+}
