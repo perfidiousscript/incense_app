@@ -5,7 +5,6 @@ class Api::V1::IncensesController < Api::V1::BaseController
   # We allow users without credentials to create unapproved incenses.
   # Mods and admins create inceses which are approved by them.
   def create
-
     if current_user.moderator? || current_user.admin?
       incense = Incense.create(incense_params.merge({approved_by_id: current_user.id}))
     else
@@ -45,7 +44,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
         raise Errors::NotFound.new('incense') unless current_user && (current_user.moderator? || current_user.admin?)
       end
 
-      render json: incense, include: [:brand, :ingredients, :incense_statistic, [reviews: :review_ranking]]
+      render json: incense
     else
       raise Errors::NotFound.new('incense')
     end
