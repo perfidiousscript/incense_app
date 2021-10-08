@@ -27,28 +27,28 @@ const BrandShow: NextPage<InitialProps> = ({ brand }) => {
     return <span>Error: {error}</span>;
   }
 
-  return (
-    <App>
-      <Head>
-        <title>Incense-Hermitage::Brands</title>
-      </Head>
+  if (data) {
+    return (
+      <App>
+        <Head>
+          <title>IH::Brand: {data.name}</title>
+        </Head>
 
-      <div>
         <div>
-          <p>Brand</p>
-          <ul>
-            {
-              <li key={data.id}>
-                <span>{data.imageUrl}</span>
-                <span>{data.name}</span>
-                <span>{data.country}</span>
-              </li>
-            }
-          </ul>
+          <div>
+            <div className="pageTitle">{data.name}</div>
+            <div className="centeredText"></div>
+            <div>{data.country}</div>
+            <div>{data.imageUrl}</div>
+            <div>{data.description}</div>
+            <div>
+              <p>Incenses</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </App>
-  );
+      </App>
+    );
+  }
 };
 
 export default BrandShow;

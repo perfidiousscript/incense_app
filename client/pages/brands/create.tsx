@@ -26,7 +26,6 @@ const BrandCreate: NextPage<{}> = () => {
 
   const submit = (event) => {
     event.preventDefault();
-    console.log("success: ", event);
     createResult.mutate();
   };
 
@@ -41,6 +40,18 @@ const BrandCreate: NextPage<{}> = () => {
       ));
     }
     return reasonHtml;
+  }
+
+  function userNotice() {
+    console.log("user: ", user);
+    if (user.role === "user") {
+      return (
+        <div>
+          Please note that Brands must be approved by a moderator before they
+          are visible. This may take 24-48 hours.
+        </div>
+      );
+    }
   }
 
   function createBrandBody() {
@@ -69,6 +80,7 @@ const BrandCreate: NextPage<{}> = () => {
     } else {
       return (
         <div className="generalForm">
+          {userNotice()}
           <form
             style={{
               display: "flex",
