@@ -1,15 +1,5 @@
 import * as z from "zod";
 
-export type Brand = z.infer<typeof Brand>;
-export const Brand = z.object({
-  id: z.string().uuid(),
-  country: z.string(),
-  description: z.string(),
-  imageUrl: z.string(),
-  name: z.string(),
-  slug: z.string(),
-});
-
 export type IncenseStatistic = z.infer<typeof IncenseStatistic>;
 export const IncenseStatistic = z.object({
   id: z.string().uuid(),
@@ -90,8 +80,21 @@ export const Incense = z.object({
   name: z.string(),
   incenseStatistic: IncenseStatistic.nullable().optional(),
   ingredients: Ingredient.array().optional(),
-  brand: Brand,
-  ingredients: Ingredient.array(),
-  reviews: Review.array(),
+  brand: z.object({
+    name: z.string(),
+    slug: z.string(),
+  }),
+  reviews: Review.array().optional(),
   slug: z.string(),
+});
+
+export type Brand = z.infer<typeof Brand>;
+export const Brand = z.object({
+  id: z.string().uuid(),
+  country: z.string(),
+  description: z.string(),
+  imageUrl: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  incenses: Incense.array().optional(),
 });

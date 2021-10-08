@@ -28,10 +28,19 @@ class IncenseSerializer < ActiveModel::Serializer
   :name,
   :description,
   :image_url,
-  :slug
+  :slug,
+  :brand
 
+  has_one :incense_statistic
   has_many :ingredients
   has_many :reviews
-  has_one :brand
-  has_one :incense_statistic
+
+  def brand
+    brand_values = object.brand
+    {
+      name: brand_values.name,
+      slug: brand_values.slug
+    }
+
+  end
 end
