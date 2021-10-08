@@ -5,6 +5,8 @@ import Head from "next/head";
 import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
+import { IncensesEntries, IncenseEntry } from "/components/IncensesUnits.tsx";
+import styles from "/styles/Incenses.module.css";
 
 type InitialProps = {
   incenses: Incense[];
@@ -27,17 +29,27 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
 
     if (data) {
       return (
-        <ul>
+        <IncensesEntries>
           {data.map((incense) => (
-            <li key={incense.id}>
-              <span>{incense.imageUrl}</span>
-              <Link href={`incenses/${incense.slug}`}>
-                <span>{incense.name}</span>
-              </Link>
-              <span>{incense.description}</span>
-            </li>
+            <Link href={`incenses/${incense.slug}`}>
+              <IncenseEntry key={incense.id}>
+                <div className={styles.incenseImageColumn}>
+                  {incense.imageUrl}
+                </div>
+                <div className={styles.incenseStatisticColumn}>
+                  [Statistic Here]
+                </div>
+                <div className={styles.incenseNameColumn}>{incense.name}</div>
+                <div className={styles.incenseBrandColumn}>
+                  {incense.brand.name}
+                </div>
+                <div className={styles.incenseCountryColumn}>
+                  {incense.brand.country}
+                </div>
+              </IncenseEntry>
+            </Link>
           ))}
-        </ul>
+        </IncensesEntries>
       );
     }
   }
@@ -48,11 +60,16 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
         <title>Incense-Hermitage::Browse Incenses</title>
       </Head>
 
-      <div>
-        <div>
-          <p>Incense</p>
-          <div>{incensesFetch()}</div>
+      <div className="pageTitle">Browse Incense</div>
+      <div className={styles.incenseGrid}>
+        <div className={styles.incenseColumnHeader}>
+          <div className={styles.incenseImageColumn}>Image</div>
+          <div className={styles.incenseStatisticColumn}>Statistic</div>
+          <div className={styles.incenseNameColumn}>Name</div>
+          <div className={styles.incenseBrandColumn}>Brand</div>
+          <div className={styles.incenseCountryColumn}>Country</div>
         </div>
+        {incensesFetch()}
       </div>
     </App>
   );

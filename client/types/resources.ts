@@ -83,6 +83,7 @@ export const Incense = z.object({
   brand: z.object({
     name: z.string(),
     slug: z.string(),
+    country: z.string(),
   }),
   reviews: Review.array().optional(),
   slug: z.string(),

@@ -1,3 +1,36 @@
 .incenseName {
   font-size: 2em;
 }
+
+.incenseColumnHeader {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 1fr 1fr;
+  font-size: 1.3em;
+  height: 2em;
+}
+
+.incenseImageColumn {
+  align-self: center;
+  grid-column: 1 / span 1;
+}
+
+.incenseStatisticColumn {
+  align-self: center;
+  grid-column: 2 / span 1;
+}
+
+.incenseNameColumn {
+  align-self: center;
+  grid-column: 3 / span 1;
+}
+
+.incenseBrandColumn {
+  align-self: center;
+  grid-column: 4 / span 1;
+}
+
+.incenseCountryColumn {
+  align-self: center;
+  grid-column: 5 / span 1;
+}
