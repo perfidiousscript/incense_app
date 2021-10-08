@@ -9,7 +9,7 @@ import { useAuth } from "lib/auth";
 const App: FC<{}> = ({ children, authCheck }) => {
   const { user } = useAuth();
 
-  if (authCheck && user === undefined) {
+  if (authCheck && !user) {
     return (
       <div className="centeredText">
         Please <Link href="/sign-in">Sign In</Link> or{" "}
