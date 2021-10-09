@@ -51,7 +51,7 @@ const IncensesSearch: NextPage<{}> = () => {
           </div>
           <IncensesEntries>
             {searchResult.data.map((incense) => (
-              <Link href={`incenses/${incense.slug}`}>
+              <Link href={`/incenses/${incense.slug}`}>
                 <IncenseEntry key={incense.id}>
                   <div className={styles.incenseImageColumn}>
                     {incense.imageUrl}
