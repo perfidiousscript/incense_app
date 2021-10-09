@@ -39,8 +39,8 @@ class IncenseSerializer < ActiveModel::Serializer
     brand_values = object.brand
     {
       name: brand_values.name,
-      slug: brand_values.slug
+      slug: brand_values.slug,
+      country: brand_values.country,
     }
-
   end
 end

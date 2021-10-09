@@ -52,6 +52,15 @@ class ReviewSerializer < ActiveModel::Serializer
              :earthy,
              :burn_time,
              :year_purchased,
-             :created_at
+             :created_at,
+             :user
+
       has_one :review_ranking
+
+      def user
+        user_values = object.user
+        {
+          username: user_values.username
+        }
+      end
 end

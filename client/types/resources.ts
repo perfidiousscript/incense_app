@@ -61,6 +61,7 @@ export const Review = z.object({
   woody: z.number(),
   yearPurchased: z.number().optional(),
   createdAt: z.string(),
+  user: z.object({ username: z.string() }),
 });
 
 export type User = z.infer<typeof User>;
