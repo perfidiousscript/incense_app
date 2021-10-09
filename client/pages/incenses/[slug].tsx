@@ -28,40 +28,38 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
   if (isError) {
     return <span>Error: {error}</span>;
   }
-  console.log("data: ", data);
+
   return (
     <App>
       <Head>
-        <title>Incense-Hermitage::Incense</title>
+        <title>IH::{data.name}</title>
       </Head>
 
       <div>
+        <p>[Image Here] {data.imageUrl}</p>
         <p className={styles.incenseName}>{data.name}</p>
-        <div key={data.id}>
+        <div className={styles.incenseDescription}>
           <p>Description</p>
           <p>{data.description}</p>
+          <div className={styles.incenseIngredients}>Ingredients</div>
+          {data.ingredients.map((ingredient) => {
+            return (
+              <div key={ingredient.id}>
+                <div>{ingredient.name}</div>
+              </div>
+            );
+          })}
         </div>
-        <div>Ingredients</div>
-        {data.ingredients.map((ingredient) => {
-          return (
-            <div key={ingredient.id}>
-              <div>{ingredient.name}</div>
-            </div>
-          );
-        })}
-        <div>Reviews</div>
+        <div className={styles.incenseReviews}>Reviews</div>
         {data.reviews.map((review) => {
           return (
-            <div key={review.id}>
-              <div>{review.reviewBody}</div>
-              <div>{review.rating}</div>
-              <div>
-                {reviewProperties.map((property) => (
-                  <p key={property}>
-                    {property}:{review[property]}
-                  </p>
-                ))}
+            <div className={styles.review} key={review.id}>
+              <div className={styles.reviewUsername}>
+                {review.user.username}
+                <span className={styles.reviewRating}>{review.rating}</span>
               </div>
+              <br />
+              <div className={styles.reviewBody}>{review.reviewBody}</div>
             </div>
           );
         })}
