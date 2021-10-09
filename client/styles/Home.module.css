@@ -1,3 +1,8 @@
 .landingPage {
   margin: 10%;
 }
+
+.landingText {
+  max-width: 42rem;
+  margin: 1% auto;
+}
