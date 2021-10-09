@@ -7,7 +7,7 @@ class Brand::Filter
     end
 
     if query_params[:name].present?
-      scope = scope.where("brands.name ILIKE ? ", "#{query_params[:name]}")
+      scope = scope.where("brands.name ILIKE ? ", "#{query_params[:name]}%")
     end
 
     scope

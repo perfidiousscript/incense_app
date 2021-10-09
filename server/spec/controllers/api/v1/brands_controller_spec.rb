@@ -239,6 +239,18 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       brand_4 = create(:brand, :approved, name: 'Snerpalerp')
 
       get :index, params: {
+        name: 'D'
+      }
+
+      expect(json.length).to eq(3)
+
+      get :index, params: {
+        name: 'Dingle'
+      }
+
+      expect(json.length).to eq(2)
+
+      get :index, params: {
         name: 'Dinglesnort'
       }
 
