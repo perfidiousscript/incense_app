@@ -34,3 +34,30 @@
   align-self: center;
   grid-column: 5 / span 1;
 }
+
+.incenseDescription {
+  border: 1px solid black;
+  margin: 1%;
+  padding: 0.5rem;
+}
+
+.incenseReviews {
+}
+
+.review {
+  border: 1px solid black;
+  margin: 1%;
+  padding: 0.5rem;
+}
+
+.reviewUsername {
+  font-size: 1.2rem;
+}
+
+.reviewRating {
+  font-style: italic;
+  float: right;
+}
+
+.reviewBody {
+}
