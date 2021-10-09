@@ -231,5 +231,18 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       expect(json.length).to eq(1)
       expect(json[0]['id']).to eq(brand_1.id)
     end
+
+    it 'should search on name' do
+      brand_1 = create(:brand, :approved, name: 'Dinglesnort')
+      brand_2 = create(:brand, :approved, name: 'Dinglesnerp')
+      brand_3 = create(:brand, :approved, name: 'Danglesnerp')
+      brand_4 = create(:brand, :approved, name: 'Snerpalerp')
+
+      get :index, params: {
+        name: 'Dinglesnort'
+      }
+
+      expect(json.length).to eq(1)
+    end
   end
 end

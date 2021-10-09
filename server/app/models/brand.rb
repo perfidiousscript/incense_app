@@ -33,6 +33,7 @@ class Brand < ApplicationRecord
 
   scope :approved, -> {where.not(approved_by_id: nil)}
   scope :pending_approval, -> {where(approved_by_id: nil)}
+  scope :filtered, -> (query_params) {Brand::Filter.new.filter(self, query_params)}
 
   has_many :incenses
 

@@ -34,11 +34,7 @@ class Api::V1::BrandsController < Api::V1::BaseController
   def index
     page_number = params[:page_number] || 1
 
-    brands = Brand.approved
-
-    if params[:country].present?
-      brands = brands.where(country: params[:country])
-    end
+    brands = Brand.filtered(params).distinct
 
     brands = brands.order(:name).page(page_number)
 
