@@ -31,8 +31,8 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
       return (
         <IncensesEntries>
           {data.map((incense) => (
-            <Link href={`incenses/${incense.slug}`}>
-              <IncenseEntry key={incense.id}>
+            <Link key={incense.id} href={`incenses/${incense.slug}`}>
+              <IncenseEntry>
                 <div className={styles.incenseImageColumn}>
                   {incense.imageUrl}
                 </div>

@@ -43,7 +43,6 @@ const BrandCreate: NextPage<{}> = () => {
   }
 
   function userNotice() {
-    console.log("user: ", user);
     if (user.role === "user") {
       return (
         <div>

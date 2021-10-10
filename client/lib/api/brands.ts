@@ -16,6 +16,13 @@ export default {
       url: Base.url(`/brands`),
     }).then(({ body }) => Brand.array().parse(body));
   },
+  search(queryKeyObject: QueryKeyObject): Promise<Brand[]> {
+    return Request.make({
+      method: HttpMethod.GET,
+      url: Base.url(`/brands`),
+      params: queryKeyObject,
+    }).then(({ body }) => Brand.array().parse(body));
+  },
   create(queryKeyObject: QueryKeyObject): Promise<Brand> {
     let name = queryKeyObject.name;
     let description = queryKeyObject.description;
