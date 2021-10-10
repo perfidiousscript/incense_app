@@ -76,11 +76,7 @@ const IncensesSearch: NextPage<{}> = () => {
   }
 
   return (
-    <App>
-      <Head>
-        <title>IH::Incense Search</title>
-      </Head>
-
+    <App title={"Incense Search"}>
       <p className="pageTitle">Search Incenses</p>
       <div className="generalForm">
         <form
