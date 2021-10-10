@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { ThemeProvider } from "styled-components";
-
+import Head from "next/head";
 import Theme from "styles/theme";
 import Link from "next/link";
 import Config from "lib/config";
 import { useAuth } from "lib/auth";
 
-const App: FC<{}> = ({ children, authCheck }) => {
+const App: FC<{}> = ({ children, authCheck, title }) => {
   const { user } = useAuth();
 
   if (authCheck && !user) {
@@ -17,7 +17,15 @@ const App: FC<{}> = ({ children, authCheck }) => {
       </div>
     );
   } else {
-    return <ThemeProvider theme={Theme}>{children}</ThemeProvider>;
+    return (
+      <>
+        <Head>
+          <title>{`IH::${title}`}</title>
+          <link rel="shortcut icon" href="/favicon.ico" />
+        </Head>
+        <ThemeProvider theme={Theme}>{children}</ThemeProvider>
+      </>
+    );
   }
 };
 
