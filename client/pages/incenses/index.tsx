@@ -16,7 +16,7 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
   function incensesFetch() {
     const { isLoading, isError, data, error } = useQuery(
       "incenses",
-      Incenses.listAll
+      Incenses.list
     );
 
     if (isLoading) {

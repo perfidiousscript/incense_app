@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import Brands from "/lib/api/brands";
+import Ingredients from "/lib/api/ingredients";
 import { useAuth } from "lib/auth";
 import { useMutation, useQuery } from "react-query";
 import { styles } from "/styles/Incenses.module.css";
@@ -37,6 +38,8 @@ const IncenseCreate: NextPage<{}> = () => {
     Brands.search({ name: searchTerm })
   );
 
+  const listIngredients = useQuery("ingredients", Ingredients.list);
+
   function invalidForm() {
     return (
       name.length === 0 || brandId.length === 0 || description.length === 0
@@ -56,6 +59,20 @@ const IncenseCreate: NextPage<{}> = () => {
       });
     }
     return options;
+  }
+
+  function generateIngredientBoxes() {
+    let { data } = listIngredients;
+    let ingredientsBoxes;
+    if (data) {
+      ingredientsBoxes = data.map((ingredient, index) => (
+        <div>
+          <input type="checkbox" name={ingredient.name} id={ingredient.id} />
+          <label for={ingredient.name}>{ingredient.name}</label>
+        </div>
+      ));
+    }
+    return ingredientsBoxes;
   }
 
   function expandErrorReason(errorParams) {
@@ -145,6 +162,10 @@ const IncenseCreate: NextPage<{}> = () => {
               value={brandName}
             />
             <datalist id="brands">{generateBrandsDropdown()}</datalist>
+            <fieldset>
+              <legend>Ingredients</legend>
+              {generateIngredientBoxes()}
+            </fieldset>
             <label htmlFor="description">Description</label>
             <textarea
               name="description"

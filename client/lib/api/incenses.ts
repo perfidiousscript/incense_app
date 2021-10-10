@@ -19,7 +19,7 @@ export default {
       return Incense.array().parse(body);
     });
   },
-  listAll(): Promise<Incense[]> {
+  list(): Promise<Incense[]> {
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/incenses`),
