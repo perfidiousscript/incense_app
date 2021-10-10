@@ -1,8 +1,17 @@
 .landingPage {
-  margin: 10%;
+  display: grid;
+  grid-template-rows: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 6fr 1fr;
+  align-items: center;
 }
 
 .landingText {
   max-width: 42rem;
-  margin: 1% auto;
+  margin: 5% auto;
+  text-align: center;
+}
+
+.landingPagecontentContainer {
+  grid-row: 2 / span 1;
+  grid-column: 2 / span 1;
 }

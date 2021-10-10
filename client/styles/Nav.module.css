@@ -15,6 +15,7 @@
 }
 
 .expandedDropdownContainer {
+  z-index: 1;
   display: grid;
   grid-row: span 3;
   grid-column: span 1;

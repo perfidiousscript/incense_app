@@ -124,7 +124,7 @@ const Nav: FC<{}> = () => {
       ) : (
         <NavTopUnit key="signIn">
           <Link href={`/sign-in`}>
-            <div>Sign In / Sign Up</div>
+            <div>Sign In / Register</div>
           </Link>
         </NavTopUnit>
       )}
