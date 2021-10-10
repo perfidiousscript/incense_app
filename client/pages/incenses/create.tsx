@@ -37,6 +37,12 @@ const IncenseCreate: NextPage<{}> = () => {
     Brands.search({ name: searchTerm })
   );
 
+  function invalidForm() {
+    return (
+      name.length === 0 || brandId.length === 0 || description.length === 0
+    );
+  }
+
   function generateBrandsDropdown() {
     let options = [];
     if (searchBrands.data) {
@@ -155,7 +161,10 @@ const IncenseCreate: NextPage<{}> = () => {
               accept="img/*"
               disabled={createResult.isLoading}
             />
-            <button type="submit" disabled={createResult.isLoading}>
+            <button
+              type="submit"
+              disabled={invalidForm() || createResult.isLoading}
+            >
               Create
             </button>
           </form>

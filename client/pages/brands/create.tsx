@@ -29,6 +29,12 @@ const BrandCreate: NextPage<{}> = () => {
     createResult.mutate();
   };
 
+  function invalidForm() {
+    return (
+      name.length === 0 || country.length === 0 || description.length === 0
+    );
+  }
+
   function expandErrorReason(errorParams) {
     let reasonHtml = [];
     if (errorParams !== null) {
@@ -120,7 +126,10 @@ const BrandCreate: NextPage<{}> = () => {
               accept="img/*"
               disabled={createResult.isLoading}
             />
-            <button type="submit" disabled={createResult.isLoading}>
+            <button
+              type="submit"
+              disabled={invalidForm() || createResult.isLoading}
+            >
               Create
             </button>
           </form>
