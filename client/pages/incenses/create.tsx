@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import App from "components/App";
 import Head from "next/head";
 import Link from "next/link";
@@ -25,9 +25,9 @@ const IncenseCreate: NextPage<{}> = () => {
     return Incenses.create({
       name: name,
       description: description,
-      imageUrl: imageUrl,
-      brandId: brandId,
-      ingredientIds: ingredientIds,
+      image_url: imageUrl,
+      brand_id: brandId,
+      ingredient_ids: ingredientIds,
     });
   });
 
@@ -36,9 +36,9 @@ const IncenseCreate: NextPage<{}> = () => {
     createResult.mutate();
   };
 
-  const searchBrands = useMutation((searchTerm) =>
-    Brands.search({ name: searchTerm })
-  );
+  const searchBrands = useMutation((searchTerm) => {
+    Brands.search({ name: searchTerm });
+  });
 
   const listIngredients = useQuery("ingredients", Ingredients.list);
 

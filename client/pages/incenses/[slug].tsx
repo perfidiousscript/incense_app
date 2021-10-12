@@ -1,5 +1,6 @@
 import { NextPageContext, NextPage } from "next";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import App from "components/App";
 import Head from "next/head";
@@ -30,11 +31,7 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
   }
 
   return (
-    <App>
-      <Head>
-        <title>IH::{data.name}</title>
-      </Head>
-
+    <App title={data.name}>
       <div>
         <p>[Image Here] {data.imageUrl}</p>
         <p className={styles.incenseName}>{data.name}</p>
@@ -49,6 +46,11 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
               </div>
             );
           })}
+        </div>
+        <div>
+          <Link href={`/review/create/${data.slug}`}>
+            <div>Write a review of {data.name}</div>
+          </Link>
         </div>
         <div className={styles.incenseReviews}>Reviews</div>
         {data.reviews.map((review) => {
