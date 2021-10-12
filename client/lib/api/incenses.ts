@@ -30,6 +30,7 @@ export default {
     let description = queryKeyObject.description;
     let brand_id = queryKeyObject.brandId;
     let image_url = queryKeyObject.imageUrl;
+    let ingredient_ids = queryKeyObject.ingredientIds;
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/incenses`),
@@ -39,6 +40,7 @@ export default {
           description,
           brand_id,
           image_url,
+          ingredient_ids,
         },
       },
     }).then(({ body }) => Incense.parse(body));

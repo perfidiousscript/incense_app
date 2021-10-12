@@ -19,6 +19,7 @@ const IncenseCreate: NextPage<{}> = () => {
   const [brandName, setBrandName] = useState("");
   const [brandId, setBrandId] = useState("");
   const [brandList, setBrandList] = useState(["", ""]);
+  const [ingredientIds, setIngredientIds] = useState([]);
 
   const createResult = useMutation(() => {
     return Incenses.create({
@@ -26,6 +27,7 @@ const IncenseCreate: NextPage<{}> = () => {
       description: description,
       imageUrl: imageUrl,
       brandId: brandId,
+      ingredientIds: ingredientIds,
     });
   });
 
@@ -61,14 +63,30 @@ const IncenseCreate: NextPage<{}> = () => {
     return options;
   }
 
+  function handleCheckBox({ target }) {
+    let currentId = event.target.id;
+    if (target.checked) {
+      setIngredientIds((old) => [...old, currentId]);
+    } else {
+      setIngredientIds((old) => {
+        return old.filter((item) => item !== currentId);
+      });
+    }
+  }
+
   function generateIngredientBoxes() {
     let { data } = listIngredients;
     let ingredientsBoxes;
     if (data) {
       ingredientsBoxes = data.map((ingredient, index) => (
-        <div>
-          <input type="checkbox" name={ingredient.name} id={ingredient.id} />
-          <label for={ingredient.name}>{ingredient.name}</label>
+        <div key={ingredient.id}>
+          <input
+            type="checkbox"
+            name={ingredient.name}
+            id={ingredient.id}
+            onChange={handleCheckBox}
+          />
+          <label htmlFor={ingredient.name}>{ingredient.name}</label>
         </div>
       ));
     }
@@ -129,7 +147,7 @@ const IncenseCreate: NextPage<{}> = () => {
           <div>Success! {data.name} has been created</div>
           <div>
             See your new incense{" "}
-            <Link href={`/incense/${data.slug}`}>Here</Link>
+            <Link href={`/incenses/${data.slug}`}>Here</Link>
           </div>
         </div>
       );
@@ -195,10 +213,7 @@ const IncenseCreate: NextPage<{}> = () => {
   }
 
   return (
-    <App authCheck="true">
-      <Head>
-        <title>IH::Incense:Create</title>
-      </Head>
+    <App authCheck="true" title="Incense:Create">
       <div className="pageTitle">Create a New Incense</div>
       {createIncenseBody()}
     </App>
