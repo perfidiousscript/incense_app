@@ -36,10 +36,10 @@ const RadarChart: FC<{}> = (props) => {
 
     const radialScale = d3
       .scaleLinear()
-      .domain([0, 5])
+      .domain([-1, 5])
       .range([0, size["xLarge"]["range"]]);
 
-    const ticks = [1, 2, 3, 4, 5];
+    const ticks = [0, 1, 2, 3, 4, 5];
 
     let line = d3
       .line()
