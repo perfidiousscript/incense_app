@@ -40,9 +40,6 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
           {data.map((incense) => (
             <Link key={incense.id} href={`incenses/${incense.slug}`}>
               <IncenseEntry>
-                <div className={styles.incenseImageColumn}>
-                  {incense.imageUrl}
-                </div>
                 <div className={styles.incenseStatisticColumn}>
                   {displayRadarChart(incense)}
                 </div>
@@ -70,7 +67,6 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
       <div className="pageTitle">Browse Incense</div>
       <div className={styles.incenseGrid}>
         <div className={styles.incenseColumnHeader}>
-          <div className={styles.incenseImageColumn}>Image</div>
           <div className={styles.incenseStatisticColumn}>Statistic</div>
           <div className={styles.incenseNameColumn}>Name</div>
           <div className={styles.incenseBrandColumn}>Brand</div>

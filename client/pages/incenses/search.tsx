@@ -6,6 +6,7 @@ import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import { useMutation } from "react-query";
 import { IncensesEntries, IncenseEntry } from "/components/IncensesUnits.tsx";
+import RadarChart from "/components/RadarChart";
 import styles from "/styles/Incenses.module.css";
 import { snakeCase } from "snake-case";
 
@@ -30,6 +31,12 @@ const IncensesSearch: NextPage<{}> = () => {
     searchResult.mutate();
   };
 
+  function displayRadarChart(incense) {
+    if (incense.reviews[0]) {
+      return <RadarChart review={incense.reviews[0]} size="small" />;
+    }
+  }
+
   function incensesFetch() {
     if (searchResult.isLoading) {
       return <span>Loading...</span>;
@@ -43,7 +50,6 @@ const IncensesSearch: NextPage<{}> = () => {
       return (
         <div className={styles.incenseGrid}>
           <div className={styles.incenseColumnHeader}>
-            <div className={styles.incenseImageColumn}>Image</div>
             <div className={styles.incenseStatisticColumn}>Statistic</div>
             <div className={styles.incenseNameColumn}>Name</div>
             <div className={styles.incenseBrandColumn}>Brand</div>
@@ -53,11 +59,8 @@ const IncensesSearch: NextPage<{}> = () => {
             {searchResult.data.map((incense) => (
               <Link href={`/incenses/${incense.slug}`}>
                 <IncenseEntry key={incense.id}>
-                  <div className={styles.incenseImageColumn}>
-                    {incense.imageUrl}
-                  </div>
                   <div className={styles.incenseStatisticColumn}>
-                    [Statistic Here]
+                    {displayRadarChart(incense)}
                   </div>
                   <div className={styles.incenseNameColumn}>{incense.name}</div>
                   <div className={styles.incenseBrandColumn}>
