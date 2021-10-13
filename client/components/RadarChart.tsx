@@ -33,7 +33,7 @@ const RadarChart: FC<{}> = (props) => {
       .select(`.radarChart-${review.id}`)
       .append("svg")
       .attr("width", 60 * scale[size])
-      .attr("height", 50 * scale[size]);
+      .attr("height", 60 * scale[size]);
 
     const radialScale = d3
       .scaleLinear()
@@ -53,26 +53,27 @@ const RadarChart: FC<{}> = (props) => {
         svg
           .append("circle")
           .attr("cx", 30 * scale[size])
-          .attr("cy", 25 * scale[size])
+          .attr("cy", 30 * scale[size])
           .attr("fill", "none")
           .attr("stroke", "gray")
           .attr("r", radialScale(t))
       );
-
-      ticks.forEach((t) =>
-        svg
-          .append("text")
-          .attr("x", 30 * scale[size])
-          .attr("y", 25 * scale[size] - radialScale(t))
-          .text(t.toString())
-      );
+      if (size !== "medium") {
+        ticks.forEach((t) =>
+          svg
+            .append("text")
+            .attr("x", 30 * scale[size])
+            .attr("y", 30 * scale[size] - radialScale(t))
+            .text(t.toString())
+        );
+      }
     }
 
     function angleToCoordinate(angle, value, xOffsetVal) {
       let xOffset = xOffsetVal || 0;
       let x = Math.cos(angle) * radialScale(value);
       let y = Math.sin(angle) * radialScale(value);
-      return { x: 30 * scale[size] + x + xOffset, y: 25 * scale[size] - y };
+      return { x: 30 * scale[size] + x + xOffset, y: 30 * scale[size] - y };
     }
 
     propertyKeys.map((propertyKey, index) => {
@@ -84,7 +85,7 @@ const RadarChart: FC<{}> = (props) => {
       svg
         .append("line")
         .attr("x1", 30 * scale[size])
-        .attr("y1", 25 * scale[size])
+        .attr("y1", 30 * scale[size])
         .attr("x2", line_coordinate.x)
         .attr("y2", line_coordinate.y)
         .attr("stroke", "black");
