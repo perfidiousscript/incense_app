@@ -6,11 +6,18 @@ import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
 import { IncensesEntries, IncenseEntry } from "/components/IncensesUnits.tsx";
+import RadarChart from "/components/RadarChart";
 import styles from "/styles/Incenses.module.css";
 
 type InitialProps = {
   incenses: Incense[];
 };
+
+function displayRadarChart(incense) {
+  if (incense.reviews[0]) {
+    return <RadarChart review={incense.reviews[0]} size="small" />;
+  }
+}
 
 const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
   function incensesFetch() {
@@ -37,7 +44,7 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
                   {incense.imageUrl}
                 </div>
                 <div className={styles.incenseStatisticColumn}>
-                  [Statistic Here]
+                  {displayRadarChart(incense)}
                 </div>
                 <div className={styles.incenseNameColumn}>{incense.name}</div>
                 <div className={styles.incenseBrandColumn}>
