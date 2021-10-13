@@ -28,7 +28,7 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
       return (
         <RadarChart
           review={incense.reviews[0]}
-          size="xLarge"
+          size="large"
           interactive="false"
         />
       );
