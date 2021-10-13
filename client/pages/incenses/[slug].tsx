@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import App from "components/App";
+import RadarChart from "components/RadarChart";
 import Head from "next/head";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
@@ -35,6 +36,7 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
       <div>
         <p>[Image Here] {data.imageUrl}</p>
         <p className={styles.incenseName}>{data.name}</p>
+        <RadarChart review={data.reviews[0]} />
         <div className={styles.incenseDescription}>
           <p>Description</p>
           <p>{data.description}</p>

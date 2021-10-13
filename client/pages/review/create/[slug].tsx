@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMutation } from "react-query";
+import RadarChart from "components/RadarChart";
 import App from "components/App";
 
 const ReviewCreate: NextPage<{}> = () => {
@@ -115,6 +116,7 @@ const ReviewCreate: NextPage<{}> = () => {
     <App authCheck="true" title="Create Review">
       <div className="pageTitle">Create A New Review for {slug}</div>
       {createReviewForm()}
+      <RadarChart />
     </App>
   );
 };
