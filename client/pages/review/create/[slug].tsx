@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import RadarChart from "components/RadarChart";
 import App from "components/App";
+import Reviews from "/lib/api/reviews";
 
 const ReviewCreate: NextPage<{}> = () => {
   const router = useRouter();
@@ -26,16 +27,32 @@ const ReviewCreate: NextPage<{}> = () => {
   const [earthy, setEarthy] = useState(0);
 
   const createReview = useMutation(() => {
-    return Reviews.create({});
+    return Reviews.create({
+      burn_time: Number(burnTime),
+      year_purchased: Number(yearPurchased),
+      incense_slug: slug,
+      review_body: reviewBody,
+      rating: rating,
+      price_paid: Number(pricePaid),
+      sweet: sweet,
+      smokey: smokey,
+      woody: woody,
+      ethereal: ethereal,
+      savory: savory,
+      fruity: fruity,
+      herbal: herbal,
+      spicy: spicy,
+      citrus: citrus,
+      floral: floral,
+    });
   });
 
   const submit = (event) => {
     event.preventDefault;
-    createReview.mutate({
-      incense_id: slug,
-      year_purchased: yearPurchased,
-    });
+    createReview.mutate();
   };
+
+  const ratings = ["hate", "dislike", "neutral", "like", "love"];
 
   function generateYearsDropdown() {
     let time = new Date();
@@ -49,6 +66,30 @@ const ReviewCreate: NextPage<{}> = () => {
       );
     }
     return years;
+  }
+
+  function generateRatingsDropdown() {
+    let ratingsOptions = ratings.map((rating) => {
+      return (
+        <option key={rating} value={rating}>
+          {rating}
+        </option>
+      );
+    });
+    return ratingsOptions;
+  }
+
+  function expandErrorReason(errorParams) {
+    let reasonHtml = [];
+    if (errorParams !== null) {
+      reasonHtml = Object.entries(errorParams).map(([key, value]) => (
+        <>
+          <span>{key}: </span>
+          <span>{value}</span>
+        </>
+      ));
+    }
+    return reasonHtml;
   }
 
   function createReviewForm() {
@@ -82,6 +123,40 @@ const ReviewCreate: NextPage<{}> = () => {
             }}
             onSubmit={submit}
           >
+            <RadarChart
+              size="large"
+              interactive={true}
+              reviewId={"new"}
+              sweet={sweet}
+              smokey={smokey}
+              woody={woody}
+              ethereal={ethereal}
+              savory={savory}
+              fruity={fruity}
+              herbal={herbal}
+              spicy={spicy}
+              citrus={citrus}
+              floral={floral}
+              setSavory={setSavory}
+              setSweet={setSweet}
+              setSmokey={setSmokey}
+              setWoody={setWoody}
+              setEthereal={setEthereal}
+              setFruity={setFruity}
+              setHerbal={setHerbal}
+              setSpicy={setSpicy}
+              setCitrus={setCitrus}
+              setFloral={setFloral}
+              setEarthy={setEarthy}
+            />
+            <label htmlFor="ratings">Rating</label>
+            <input
+              list="ratings"
+              onChange={({ value }) => setRating(value)}
+              disabled={createReview.isLoading}
+              value={rating}
+            />
+            <datalist id="ratings">{generateRatingsDropdown()}</datalist>
             <label htmlFor="yearPurchased">Year Purchased</label>
             <input
               list="yearPurchased"
@@ -106,33 +181,18 @@ const ReviewCreate: NextPage<{}> = () => {
               disabled={createReview.isLoading}
               value={pricePaid}
             />
+            <label htmlFor="reviewBody">Review Text</label>
+            <textarea
+              name="reviewBody"
+              onChange={({ target: { value } }) => setReviewBody(value)}
+              type="text"
+              disabled={createReview.isLoading}
+              value={reviewBody}
+            />
+            <button type="submit" disabled={createReview.isLoading}>
+              Create
+            </button>
           </form>
-          <RadarChart
-            size="large"
-            interactive={true}
-            reviewId={"new"}
-            sweet={sweet}
-            smokey={smokey}
-            woody={woody}
-            ethereal={ethereal}
-            savory={savory}
-            fruity={fruity}
-            herbal={herbal}
-            spicy={spicy}
-            citrus={citrus}
-            floral={floral}
-            setSavory={setSavory}
-            setSweet={setSweet}
-            setSmokey={setSmokey}
-            setWoody={setWoody}
-            setEthereal={setEthereal}
-            setFruity={setFruity}
-            setHerbal={setHerbal}
-            setSpicy={setSpicy}
-            setCitrus={setCitrus}
-            setFloral={setFloral}
-            setEarthy={setEarthy}
-          />
         </div>
       );
     }
