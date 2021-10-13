@@ -7,15 +7,16 @@ const RadarChart: FC<{}> = (props) => {
   const { size } = props;
   const propertiesList = [
     "sweet",
+    "floral",
+    "ethereal",
     "smokey",
     "woody",
-    "ethereal",
+    "earthy",
     "savory",
-    "fruity",
     "herbal",
     "spicy",
     "citrus",
-    "floral",
+    "fruity",
   ];
   const scale = {
     xLarge: 12,
@@ -96,7 +97,7 @@ const RadarChart: FC<{}> = (props) => {
       .x((d) => d.x)
       .y((d) => d.y);
 
-    let colors = ["blue", "gray", "navy"];
+    let colors = ["blue", "lightBlue", "navy"];
 
     if (size !== "small") {
       ticks.forEach((t) =>
@@ -162,7 +163,6 @@ const RadarChart: FC<{}> = (props) => {
       }
     });
 
-    let color = colors[0];
     let coordinates = propertyKeys.map((propertyKey, index) => {
       let angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
       return angleToCoordinate(angle, incenseProperties[propertyKey]);
@@ -174,8 +174,8 @@ const RadarChart: FC<{}> = (props) => {
       .datum(coordinates)
       .attr("d", line)
       .attr("stroke-width", 3)
-      .attr("stroke", color)
-      .attr("fill", color)
+      .attr("stroke", colors[0])
+      .attr("fill", colors[1])
       .attr("stroke-opacity", 1)
       .attr("opacity", 0.5);
 
