@@ -36,7 +36,7 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
       <div>
         <p>[Image Here] {data.imageUrl}</p>
         <p className={styles.incenseName}>{data.name}</p>
-        <RadarChart review={data.reviews[0]} />
+        <RadarChart review={data.reviews[0]} size="xLarge" />
         <div className={styles.incenseDescription}>
           <p>Description</p>
           <p>{data.description}</p>
