@@ -23,6 +23,20 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
     Incenses.get
   );
 
+  function showRadarChart(incense) {
+    if (incense.reviews[0]) {
+      return (
+        <RadarChart
+          review={incense.reviews[0]}
+          size="xLarge"
+          interactive="false"
+        />
+      );
+    } else {
+      return <div>No Reviews Added Yet</div>;
+    }
+  }
+
   if (isLoading) {
     return <span>Loading...</span>;
   }
@@ -36,7 +50,7 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
       <div>
         <p>[Image Here] {data.imageUrl}</p>
         <p className={styles.incenseName}>{data.name}</p>
-        <RadarChart review={data.reviews[0]} size="xLarge" />
+        {showRadarChart(data)}
         <div className={styles.incenseDescription}>
           <p>Description</p>
           <p>{data.description}</p>

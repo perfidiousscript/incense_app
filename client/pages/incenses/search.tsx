@@ -33,7 +33,14 @@ const IncensesSearch: NextPage<{}> = () => {
 
   function displayRadarChart(incense) {
     if (incense.reviews[0]) {
-      return <RadarChart review={incense.reviews[0]} size="small" />;
+      return (
+        <RadarChart
+          review={incense.reviews[0]}
+          reviewId={incense.reviews[0].id}
+          size="small"
+          interactive={false}
+        />
+      );
     }
   }
 

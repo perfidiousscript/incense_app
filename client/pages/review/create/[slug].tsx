@@ -107,6 +107,32 @@ const ReviewCreate: NextPage<{}> = () => {
               value={pricePaid}
             />
           </form>
+          <RadarChart
+            size="large"
+            interactive={true}
+            reviewId={"new"}
+            sweet={sweet}
+            smokey={smokey}
+            woody={woody}
+            ethereal={ethereal}
+            savory={savory}
+            fruity={fruity}
+            herbal={herbal}
+            spicy={spicy}
+            citrus={citrus}
+            floral={floral}
+            setSavory={setSavory}
+            setSweet={setSweet}
+            setSmokey={setSmokey}
+            setWoody={setWoody}
+            setEthereal={setEthereal}
+            setFruity={setFruity}
+            setHerbal={setHerbal}
+            setSpicy={setSpicy}
+            setCitrus={setCitrus}
+            setFloral={setFloral}
+            setEarthy={setEarthy}
+          />
         </div>
       );
     }
@@ -116,7 +142,6 @@ const ReviewCreate: NextPage<{}> = () => {
     <App authCheck="true" title="Create Review">
       <div className="pageTitle">Create A New Review for {slug}</div>
       {createReviewForm()}
-      <RadarChart />
     </App>
   );
 };

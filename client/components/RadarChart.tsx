@@ -5,6 +5,18 @@ import { useEffect } from "react";
 const RadarChart: FC<{}> = (props) => {
   const { review } = props;
   const { size } = props;
+  const propertiesList = [
+    "sweet",
+    "smokey",
+    "woody",
+    "ethereal",
+    "savory",
+    "fruity",
+    "herbal",
+    "spicy",
+    "citrus",
+    "floral",
+  ];
   const scale = {
     xLarge: 12,
     large: 8,
@@ -12,25 +24,62 @@ const RadarChart: FC<{}> = (props) => {
     small: 1,
   };
 
-  const incenseProperties = {
-    sweet: review.sweet,
-    ethereal: review.ethereal,
-    savory: review.savory,
-    smokey: review.smokey,
-    woody: review.woody,
-    earthy: review.earthy,
-    herbal: review.herbal,
-    floral: review.floral,
-    citrus: review.citrus,
-    fruity: review.fruity,
-  };
+  let incenseProperties = {};
+
+  if (review) {
+    propertiesList.map((property) => {
+      incenseProperties[property] = review[property];
+    });
+  } else {
+    propertiesList.map((property) => {
+      incenseProperties[property] = props[property];
+    });
+  }
 
   const propertyKeys = Object.keys(incenseProperties);
 
+  function setProperty(propertyType: string, value: number) {
+    switch (propertyType) {
+      case "savory":
+        props.setSavory(value);
+        break;
+      case "sweet":
+        props.setSweet(value);
+        break;
+      case "smokey":
+        props.setSmokey(value);
+        break;
+      case "woody":
+        props.setWoody(value);
+        break;
+      case "ethereal":
+        props.setEthereal(value);
+        break;
+      case "fruity":
+        props.setFruity(value);
+        break;
+      case "herbal":
+        props.setHerbal(value);
+        break;
+      case "spicy":
+        props.setSpicy(value);
+        break;
+      case "citrus":
+        props.setCitrus(value);
+        break;
+      case "floral":
+        props.setFloral(value);
+        break;
+      case "earthy":
+        props.setEarthy(value);
+        break;
+    }
+  }
+
   function renderChart() {
-    // d3.select(".radarChart").remove("svg");
+    d3.select(`.radarChart-${props.reviewId}`).select("svg").remove();
     const svg = d3
-      .select(`.radarChart-${review.id}`)
+      .select(`.radarChart-${props.reviewId}`)
       .append("svg")
       .attr("width", 60 * scale[size])
       .attr("height", 60 * scale[size]);
@@ -46,6 +95,7 @@ const RadarChart: FC<{}> = (props) => {
       .line()
       .x((d) => d.x)
       .y((d) => d.y);
+
     let colors = ["blue", "gray", "navy"];
 
     if (size !== "small") {
@@ -76,6 +126,17 @@ const RadarChart: FC<{}> = (props) => {
       return { x: 30 * scale[size] + x + xOffset, y: 30 * scale[size] - y };
     }
 
+    function coordinatesToDistance(xVal, yVal) {
+      let zeroCoord = 30 * scale[size];
+      let xPixelDist = xVal - zeroCoord;
+      let yPixelDist = yVal - zeroCoord;
+      let totalPixelDist = Math.sqrt(
+        xPixelDist * xPixelDist + yPixelDist * yPixelDist
+      );
+      let rating = radialScale.invert(totalPixelDist);
+      return Math.round(rating);
+    }
+
     propertyKeys.map((propertyKey, index) => {
       let angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
       let line_coordinate = angleToCoordinate(angle, 5);
@@ -84,6 +145,7 @@ const RadarChart: FC<{}> = (props) => {
       //draw axis line
       svg
         .append("line")
+        .attr("class", "line")
         .attr("x1", 30 * scale[size])
         .attr("y1", 30 * scale[size])
         .attr("x2", line_coordinate.x)
@@ -116,13 +178,44 @@ const RadarChart: FC<{}> = (props) => {
       .attr("fill", color)
       .attr("stroke-opacity", 1)
       .attr("opacity", 0.5);
+
+    // Handles interactivity
+    if (props.interactive === true) {
+      // Draws invisible, thicker lines on top of the axes so that selecting the value is easier.
+      // This is placed way down here so it is drawn over the shape for clickability.
+      propertyKeys.map((propertyKey, index) => {
+        let angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
+        let line_coordinate = angleToCoordinate(angle, 5);
+        svg
+          .append("line")
+          .attr("class", "selectionHelper")
+          .attr("stroke-width", 10)
+          .attr("data-property-type", propertyKey)
+          .attr("x1", 30 * scale[size])
+          .attr("y1", 30 * scale[size])
+          .attr("x2", line_coordinate.x)
+          .attr("y2", line_coordinate.y)
+          .attr("stroke", "black")
+          .attr("opacity", 0)
+          .attr("z-index", 5);
+      });
+
+      d3.selectAll(".selectionHelper").call(
+        d3.drag().on("start", function (event) {
+          const line = d3.select(this).classed("dragging", true);
+          let property = event.sourceEvent.srcElement.dataset.propertyType;
+          let rating = coordinatesToDistance(event.subject.x, event.subject.y);
+          setProperty(property, rating);
+        })
+      );
+    }
   }
 
   useEffect(() => {
     renderChart();
-  }, []);
+  }, [propertiesList]);
 
-  return <div className={`radarChart-${review.id}`}></div>;
+  return <div className={`radarChart-${props.reviewId}`}></div>;
 };
 
 export default RadarChart;
