@@ -3,7 +3,6 @@ import * as z from "zod";
 export type IncenseStatistic = z.infer<typeof IncenseStatistic>;
 export const IncenseStatistic = z.object({
   id: z.string().uuid(),
-  reviewBody: z.string(),
   burnTimeAvg: z.number(),
   burnTimeSd: z.number(),
   citrusAvg: z.number(),
