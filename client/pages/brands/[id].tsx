@@ -1,9 +1,11 @@
 import { NextPageContext, NextPage } from "next";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import App from "components/App";
 import Head from "next/head";
 import Brands from "/lib/api/brands";
+import { useAuth } from "lib/auth";
 import { useQuery } from "react-query";
 
 type InitialProps = {
@@ -11,6 +13,7 @@ type InitialProps = {
 };
 
 const BrandShow: NextPage<InitialProps> = ({ brand }) => {
+  const { user } = useAuth();
   const router = useRouter();
   const { id } = router.query;
 
@@ -18,6 +21,12 @@ const BrandShow: NextPage<InitialProps> = ({ brand }) => {
     ["brand", id],
     Brands.get
   );
+
+  function showNewIncenseLink() {
+    if (user) {
+      return <Link href="/incenses/create">Create New Incense</Link>;
+    }
+  }
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -29,22 +38,14 @@ const BrandShow: NextPage<InitialProps> = ({ brand }) => {
 
   if (data) {
     return (
-      <App>
-        <Head>
-          <title>IH::Brand: {data.name}</title>
-        </Head>
-
+      <App title={`${data.name}`}>
+        <div className="pageTitle">{data.name}</div>
+        <div>{data.country}</div>
+        <div>{data.imageUrl}</div>
+        <div>{data.description}</div>
+        {showNewIncenseLink()}
         <div>
-          <div>
-            <div className="pageTitle">{data.name}</div>
-            <div className="centeredText"></div>
-            <div>{data.country}</div>
-            <div>{data.imageUrl}</div>
-            <div>{data.description}</div>
-            <div>
-              <p>Incenses</p>
-            </div>
-          </div>
+          <p>Incenses</p>
         </div>
       </App>
     );
