@@ -72,12 +72,33 @@ const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
         {data.reviews.map((review) => {
           return (
             <div className={styles.review} key={review.id}>
-              <div className={styles.reviewUsername}>
-                {review.user.username}
-                <span className={styles.reviewRating}>{review.rating}</span>
+              <div className={styles.reviewHead}>
+                <div className={styles.reviewUsername}>
+                  {review.user.username}
+                  <span className={styles.reviewRating}>{review.rating}</span>
+                </div>
               </div>
-              <br />
-              <div className={styles.reviewBody}>{review.reviewBody}</div>
+              <div className={styles.reviewBody}>
+                <RadarChart
+                  reviewId={review.id}
+                  review={{
+                    sweet: review.sweet,
+                    smokey: review.smokey,
+                    woody: review.woody,
+                    ethereal: review.ethereal,
+                    savory: review.savory,
+                    fruity: review.fruity,
+                    herbal: review.herbal,
+                    spicy: review.spicy,
+                    citrus: review.citrus,
+                    floral: review.floral,
+                    earthy: review.earthy,
+                  }}
+                  size="small"
+                  interactive="false"
+                />
+                <div className={styles.reviewBodyText}>{review.reviewBody}</div>
+              </div>
             </div>
           );
         })}
