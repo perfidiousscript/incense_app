@@ -13,7 +13,7 @@ const App: FC<{}> = ({ children, authCheck, modOnly, title }) => {
     return (
       <div className="centeredText">
         Please <Link href="/sign-in">Sign In</Link> or{" "}
-        <Link href="sign-up">Sign Up</Link> to continue.
+        <Link href="/sign-up">Sign Up</Link> to continue.
       </div>
     );
   } else if (modOnly && user["role"] !== ("moderator" || "admin")) {
