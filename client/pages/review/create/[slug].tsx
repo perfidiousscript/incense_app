@@ -128,17 +128,19 @@ const ReviewCreate: NextPage<{}> = () => {
               size="large"
               interactive={true}
               reviewId={"new"}
-              sweet={sweet}
-              smokey={smokey}
-              woody={woody}
-              ethereal={ethereal}
-              savory={savory}
-              fruity={fruity}
-              herbal={herbal}
-              spicy={spicy}
-              citrus={citrus}
-              floral={floral}
-              earthy={earthy}
+              review={{
+                sweet: sweet,
+                smokey: smokey,
+                woody: woody,
+                ethereal: ethereal,
+                savory: savory,
+                fruity: fruity,
+                herbal: herbal,
+                spicy: spicy,
+                citrus: citrus,
+                floral: floral,
+                earthy: earthy,
+              }}
               setSavory={setSavory}
               setSweet={setSweet}
               setSmokey={setSmokey}
