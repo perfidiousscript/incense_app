@@ -76,19 +76,24 @@ const IncenseCreate: NextPage<{}> = () => {
 
   function generateIngredientBoxes() {
     let { data } = listIngredients;
-    let ingredientsBoxes;
+    let ingredientsBoxes = [];
     if (data) {
-      ingredientsBoxes = data.map((ingredient, index) => (
-        <div key={ingredient.id}>
-          <input
-            type="checkbox"
-            name={ingredient.name}
-            id={ingredient.id}
-            onChange={handleCheckBox}
-          />
-          <label htmlFor={ingredient.name}>{ingredient.name}</label>
-        </div>
-      ));
+      data.map((ingredient, index) => {
+        if (index > 0 && index % 4 === 0) {
+          ingredientsBoxes.push(<br />);
+        }
+        ingredientsBoxes.push(
+          <span key={ingredient.id}>
+            <input
+              type="checkbox"
+              name={ingredient.name}
+              id={ingredient.id}
+              onChange={handleCheckBox}
+            />
+            <label htmlFor={ingredient.name}>{ingredient.name}</label>
+          </span>
+        );
+      });
     }
     return ingredientsBoxes;
   }
