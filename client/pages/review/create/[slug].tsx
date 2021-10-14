@@ -35,6 +35,7 @@ const ReviewCreate: NextPage<{}> = () => {
       rating: rating,
       price_paid: Number(pricePaid),
       sweet: sweet,
+      earthy: earthy,
       smokey: smokey,
       woody: woody,
       ethereal: ethereal,
@@ -137,6 +138,7 @@ const ReviewCreate: NextPage<{}> = () => {
               spicy={spicy}
               citrus={citrus}
               floral={floral}
+              earthy={earthy}
               setSavory={setSavory}
               setSweet={setSweet}
               setSmokey={setSmokey}
