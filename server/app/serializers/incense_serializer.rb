@@ -43,4 +43,5 @@ class IncenseSerializer < ActiveModel::Serializer
       country: brand_values.country,
     }
   end
+
 end

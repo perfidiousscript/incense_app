@@ -45,6 +45,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
       end
 
       render json: incense
+
     else
       raise Errors::NotFound.new('incense')
     end
