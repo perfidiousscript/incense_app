@@ -6,7 +6,7 @@ import Link from "next/link";
 import Config from "lib/config";
 import { useAuth } from "lib/auth";
 
-const App: FC<{}> = ({ children, authCheck, title }) => {
+const App: FC<{}> = ({ children, authCheck, modOnly, title }) => {
   const { user } = useAuth();
 
   if (authCheck && !user) {
@@ -16,6 +16,8 @@ const App: FC<{}> = ({ children, authCheck, title }) => {
         <Link href="sign-up">Sign Up</Link> to continue.
       </div>
     );
+  } else if (modOnly && user["role"] !== ("moderator" || "admin")) {
+    // Push 404
   } else {
     return (
       <>
