@@ -27,15 +27,9 @@ const RadarChart: FC<{}> = (props) => {
 
   let incenseProperties = {};
 
-  if (review) {
-    propertiesList.map((property) => {
-      incenseProperties[property] = review[property];
-    });
-  } else {
-    propertiesList.map((property) => {
-      incenseProperties[property] = props[property];
-    });
-  }
+  propertiesList.map((property) => {
+    incenseProperties[property] = review[property];
+  });
 
   const propertyKeys = Object.keys(incenseProperties);
 
@@ -168,6 +162,14 @@ const RadarChart: FC<{}> = (props) => {
       return angleToCoordinate(angle, incenseProperties[propertyKey]);
     });
 
+    //Closes the loop
+    let finalCoordinates = angleToCoordinate(
+      Math.PI / 2 + (2 * Math.PI * 0) / propertyKeys.length,
+      incenseProperties["sweet"]
+    );
+
+    coordinates.push(finalCoordinates);
+
     //draw the path element
     svg
       .append("path")
@@ -182,7 +184,7 @@ const RadarChart: FC<{}> = (props) => {
     // Handles interactivity
     if (props.interactive === true) {
       // Draws invisible, thicker lines on top of the axes so that selecting the value is easier.
-      // This is placed way down here so it is drawn over the shape for clickability.
+      // This is placed way down here so it gets drawn over the shape (for clickability).
       propertyKeys.map((propertyKey, index) => {
         let angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
         let line_coordinate = angleToCoordinate(angle, 5);
