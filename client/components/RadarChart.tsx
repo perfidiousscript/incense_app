@@ -175,7 +175,7 @@ const RadarChart: FC<{}> = (props) => {
       .append("path")
       .datum(coordinates)
       .attr("d", line)
-      .attr("stroke-width", 3)
+      .attr("stroke-width", 0.25 * scale[size])
       .attr("stroke", colors[0])
       .attr("fill", colors[1])
       .attr("stroke-opacity", 1)
