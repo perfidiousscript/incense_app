@@ -16,4 +16,13 @@ export default {
       url: Base.url(`/ingredients`),
     }).then(({ body }) => Ingredient.array().parse(body));
   },
+  create(queryKeyObject: QueryKeyObject): Promise<Ingredient> {
+    return Request.make({
+      method: HttpMethod.POST,
+      url: Base.url(`/ingredients`),
+      body: {
+        ingredient: queryKeyObject,
+      },
+    }).then(({ body }) => Ingredient.parse(body));
+  },
 };

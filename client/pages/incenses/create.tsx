@@ -119,6 +119,7 @@ const IncenseCreate: NextPage<{}> = () => {
     }
   }
 
+  // Would be great to get a debounce on this.
   function changeBrand({ target }) {
     setBrandName(target.value);
     if (target.list.children.length === 1) {
