@@ -41,4 +41,15 @@ export default {
       },
     }).then(({ body }) => Brand.parse(body));
   },
+  update(queryKeyObject: QueryKeyObject): Promise<Brand> {
+    let slug = queryKeyObject.slug;
+    delete queryKeyObject.slug;
+    return Request.make({
+      method: HttpMethod.PATCH,
+      url: Base.url(`/brands/${slug}`),
+      body: {
+        brand: queryKeyObject,
+      },
+    }).then(({ body }) => Brand.parse(body));
+  },
 };

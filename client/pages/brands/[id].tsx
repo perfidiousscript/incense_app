@@ -28,6 +28,14 @@ const BrandShow: NextPage<InitialProps> = ({ brand }) => {
     }
   }
 
+  function showUpdateButton() {
+    return (
+      <div>
+        <Link href={`update/${data.slug}`}>Update Brand</Link>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return <span>Loading...</span>;
   }
@@ -43,6 +51,7 @@ const BrandShow: NextPage<InitialProps> = ({ brand }) => {
         <div>{data.country}</div>
         <div>{data.imageUrl}</div>
         <div>{data.description}</div>
+        {showUpdateButton()}
         {showNewIncenseLink()}
         <div>
           <p>Incenses</p>

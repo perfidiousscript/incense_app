@@ -10,11 +10,7 @@ import { useQuery } from "react-query";
 import { reviewProperties } from "/lib/constants";
 import styles from "/styles/Incenses.module.css";
 
-type InitialProps = {
-  incense: Incense;
-};
-
-const IncenseShow: NextPage<InitialProps> = ({ incense }) => {
+const IncenseShow: NextPage<{}> = () => {
   const router = useRouter();
   const { slug } = router.query;
 
