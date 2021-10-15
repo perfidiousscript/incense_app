@@ -60,7 +60,7 @@ export const Review = z.object({
   woody: z.number(),
   yearPurchased: z.number().optional(),
   createdAt: z.string(),
-  user: z.object({ username: z.string() }),
+  user: z.object({ username: z.string() }).optional(),
 });
 
 export type User = z.infer<typeof User>;
@@ -85,6 +85,7 @@ export const Incense = z.object({
     slug: z.string(),
     country: z.string(),
   }),
+  userReview: Review.optional().nullable(),
   reviews: Review.array().optional(),
   slug: z.string(),
 });

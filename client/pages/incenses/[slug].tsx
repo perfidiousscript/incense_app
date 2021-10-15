@@ -4,13 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import App from "components/App";
 import RadarChart from "components/RadarChart";
+import ReviewEntry from "components/ReviewEntry";
 import Head from "next/head";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
+import { useAuth } from "lib/auth";
 import { reviewProperties } from "/lib/constants";
 import styles from "/styles/Incenses.module.css";
 
 const IncenseShow: NextPage<{}> = () => {
+  const { user } = useAuth();
   const router = useRouter();
   const { slug } = router.query;
 
@@ -18,6 +21,35 @@ const IncenseShow: NextPage<{}> = () => {
     ["incense", slug],
     Incenses.get
   );
+
+  function showUpdateButton() {
+    if (user.role === ("moderator" || "admin")) {
+      return (
+        <div>
+          <Link href={`update/${data.slug}`}>Update Incense</Link>
+        </div>
+      );
+    }
+  }
+
+  function userReview() {
+    if (user) {
+      if (data.userReview) {
+        return (
+          <div>
+            <p>Your Review</p>
+            <ReviewEntry review={data.userReview} />
+          </div>
+        );
+      } else {
+        return (
+          <Link href={`/review/create/${data.slug}`}>
+            <div>Write a review of {data.name}</div>
+          </Link>
+        );
+      }
+    }
+  }
 
   function showRadarChart(incense) {
     if (incense.reviews[0]) {
@@ -47,6 +79,7 @@ const IncenseShow: NextPage<{}> = () => {
         <p>[Image Here] {data.imageUrl}</p>
         <p className={styles.incenseName}>{data.name}</p>
         {showRadarChart(data)}
+        {showUpdateButton()}
         <div className={styles.incenseDescription}>
           <p>Description</p>
           <p>{data.description}</p>
@@ -59,44 +92,10 @@ const IncenseShow: NextPage<{}> = () => {
             );
           })}
         </div>
-        <div>
-          <Link href={`/review/create/${data.slug}`}>
-            <div>Write a review of {data.name}</div>
-          </Link>
-        </div>
+        <div>{userReview()}</div>
         <div className={styles.incenseReviews}>Reviews</div>
         {data.reviews.map((review) => {
-          return (
-            <div className={styles.review} key={review.id}>
-              <div className={styles.reviewHead}>
-                <div className={styles.reviewUsername}>
-                  {review.user.username}
-                  <span className={styles.reviewRating}>{review.rating}</span>
-                </div>
-              </div>
-              <div className={styles.reviewBody}>
-                <RadarChart
-                  reviewId={review.id}
-                  review={{
-                    sweet: review.sweet,
-                    smokey: review.smokey,
-                    woody: review.woody,
-                    ethereal: review.ethereal,
-                    savory: review.savory,
-                    fruity: review.fruity,
-                    herbal: review.herbal,
-                    spicy: review.spicy,
-                    citrus: review.citrus,
-                    floral: review.floral,
-                    earthy: review.earthy,
-                  }}
-                  size="small"
-                  interactive="false"
-                />
-                <div className={styles.reviewBodyText}>{review.reviewBody}</div>
-              </div>
-            </div>
-          );
+          return <ReviewEntry review={review} key={review.id} />;
         })}
       </div>
     </App>

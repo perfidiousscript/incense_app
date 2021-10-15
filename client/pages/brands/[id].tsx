@@ -29,11 +29,13 @@ const BrandShow: NextPage<InitialProps> = ({ brand }) => {
   }
 
   function showUpdateButton() {
-    return (
-      <div>
-        <Link href={`update/${data.slug}`}>Update Brand</Link>
-      </div>
-    );
+    if (user.role === ("moderator" || "admin")) {
+      return (
+        <div>
+          <Link href={`update/${data.slug}`}>Update Brand</Link>
+        </div>
+      );
+    }
   }
 
   if (isLoading) {

@@ -35,26 +35,3 @@
   margin: 1%;
   padding: 0.5rem;
 }
-
-.incenseReviews {
-}
-
-.review {
-  border: 1px solid black;
-  margin: 1%;
-  padding: 0.5rem;
-}
-
-.reviewUsername {
-  font-size: 1.2rem;
-}
-
-.reviewRating {
-  font-style: italic;
-  float: right;
-}
-
-.reviewBody {
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-}
