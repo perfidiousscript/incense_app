@@ -29,11 +29,19 @@ class IncenseSerializer < ActiveModel::Serializer
   :description,
   :image_url,
   :slug,
-  :brand
+  :brand,
+  :user_review
 
   has_one :incense_statistic
   has_many :ingredients
   has_many :reviews
+
+  def user_review
+    puts "^^^^^scope.id: #{scope.id}^^^^"
+    if(scope)
+      object.reviews.find_by(user_id: scope.id)
+    end
+  end
 
   def brand
     brand_values = object.brand
