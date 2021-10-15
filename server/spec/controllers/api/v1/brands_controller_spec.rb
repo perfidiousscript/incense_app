@@ -111,7 +111,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       sign_in_as moderator
 
       patch :approve, params: {
-        brand_id: brand.slug
+        brand_slug: brand.slug
       }
 
       assert_response :ok
@@ -126,7 +126,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       sign_in_as user
 
       patch :approve, params: {
-        brand_id: brand.slug
+        brand_slug: brand.slug
       }
 
       assert_response :forbidden
@@ -140,7 +140,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
         brand = create(:brand, :approved)
 
         get :show, params: {
-          id: brand.slug
+          slug: brand.slug
         }
 
         assert_response :ok
@@ -148,7 +148,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
       it 'should not return an unapproved brand' do
         brand = create(:brand)
         get :show, params: {
-          id: brand.slug
+          slug: brand.slug
         }
 
         assert_response :not_found
@@ -163,7 +163,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: brand.slug
+          slug: brand.slug
         }
 
         assert_response :ok
@@ -175,7 +175,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: brand.slug
+          slug: brand.slug
         }
 
         assert_response :not_found
@@ -189,7 +189,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: brand.slug
+          slug: brand.slug
         }
 
         assert_response :ok
@@ -201,7 +201,7 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: brand.slug
+          slug: brand.slug
         }
 
         assert_response :ok

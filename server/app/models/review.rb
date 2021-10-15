@@ -38,6 +38,7 @@ class Review < ApplicationRecord
   belongs_to :user
   belongs_to :incense
   # has_many :notes
+  validates :incense_id , presence: true
 
   has_one :review_ranking
   has_many :review_votes

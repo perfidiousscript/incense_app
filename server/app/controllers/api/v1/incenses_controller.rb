@@ -24,7 +24,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def update
-    incense = Incense.friendly.find(params[:id])
+    incense = Incense.friendly.find(params[:slug])
     if incense != nil
       incense.update(incense_params)
       if incense.valid?
@@ -38,13 +38,13 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def show
-    incense = Incense.includes(:ingredients, :incense_statistic, reviews: :review_ranking).friendly.find(params[:id])
+    incense = Incense.includes(:ingredients, :incense_statistic, reviews: :review_ranking).friendly.find(params[:slug])
     if incense != nil
       unless incense.approved?
         raise Errors::NotFound.new('incense') unless current_user && (current_user.moderator? || current_user.admin?)
       end
 
-      render json: incense
+      render json: incense, include: ['ingredients','reviews.review_ranking']
 
     else
       raise Errors::NotFound.new('incense')
@@ -67,7 +67,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def approve
-    incense = Incense.friendly.find(params[:incense_id])
+    incense = Incense.friendly.find(params[:incense_slug])
     incense.update({approved_by_id: current_user.id})
 
     if incense.valid?

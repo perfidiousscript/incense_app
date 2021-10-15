@@ -52,7 +52,7 @@ RSpec.describe Api::V1::IngredientsController, type: :controller do
       sign_in_as user
 
       patch :update, params: {
-        id: ingredient.slug,
+        slug: ingredient.slug,
         ingredient:{
           image_url: 'www.an-even-cooler-photo.com'
         }
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::IngredientsController, type: :controller do
       sign_in_as user
 
       patch :update, params: {
-        id: ingredient.slug,
+        slug: ingredient.slug,
         ingredient:{
           image_url: 'www.an-even-cooler-photo.com'
         }
@@ -89,7 +89,7 @@ RSpec.describe Api::V1::IngredientsController, type: :controller do
         create(:ingredient, name: 'myrrh')
 
         get :show, params: {
-          id: ingredient.slug
+          slug: ingredient.slug
         }
 
         expect(json['id']).to eq(ingredient.id)

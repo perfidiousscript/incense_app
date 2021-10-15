@@ -15,9 +15,9 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def update
     if current_user.update(params).success?
-      render json: update_user.result, status: :ok
+      render json: current_user, status: :ok
     else
-      raise Errors::Validation.new('user', update_user)
+      raise Errors::Validation.new('user', current_user)
     end
   end
 

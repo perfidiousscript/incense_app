@@ -61,17 +61,19 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
         sign_in_as user
 
-        post :create, params: {
-          incense: {
-            name: incense.name,
-            description: incense.description,
-            image_url: incense.image_url,
-            brand_id: brand.id,
-            ingredient_ids: [ingredient_1.id, 'deadbeef']
+        expect{
+          post :create, params: {
+            incense: {
+              name: incense.name,
+              description: incense.description,
+              image_url: incense.image_url,
+              brand_id: brand.id,
+              ingredient_ids: [ingredient_1.id, 'deadbeef']
+            }
           }
-        }
+        }.to raise_error(ActiveRecord::RecordNotFound)
 
-        assert_response :unprocessable_entity
+
       end
 
       it 'should error with no brand' do
@@ -148,7 +150,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         patch :approve, params: {
-          incense_id: incense.slug
+          incense_slug: incense.slug
         }
 
         assert_response :forbidden
@@ -166,7 +168,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as moderator
 
         patch :approve, params: {
-          incense_id: incense.slug
+          incense_slug: incense.slug
         }
 
         assert_response :ok
@@ -183,7 +185,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense, ingredient: ingredient)
 
         get :show, params: {
-          id: incense.slug
+          slug: incense.slug
         }
 
         assert_response :ok
@@ -199,7 +201,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           create(:review_vote, review: review)
 
           get :show, params: {
-            id: incense.slug
+            slug: incense.slug
           }
 
           assert_response :ok
@@ -211,7 +213,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         incense = create(:incense)
 
         get :show, params: {
-          id: incense.slug
+          slug: incense.slug
         }
 
         assert_response :not_found
@@ -226,7 +228,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.slug
+          slug: incense.slug
         }
 
         assert_response :ok
@@ -239,7 +241,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.slug
+          slug: incense.slug
         }
 
         assert_response :not_found
@@ -254,7 +256,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.slug
+          slug: incense.slug
         }
 
         assert_response :ok
@@ -267,7 +269,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         sign_in_as user
 
         get :show, params: {
-          id: incense.slug
+          slug: incense.slug
         }
 
         assert_response :ok

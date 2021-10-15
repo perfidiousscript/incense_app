@@ -13,7 +13,7 @@ class Api::V1::IngredientsController < Api::V1::BaseController
   end
 
   def update
-    ingredient = Ingredient.friendly.find(params[:id])
+    ingredient = Ingredient.friendly.find(params[:slug])
 
     raise Errors::NotFound.new('ingredient') if ingredient.nil?
 
@@ -27,9 +27,7 @@ class Api::V1::IngredientsController < Api::V1::BaseController
   end
 
   def show
-    if params[:id]
-      ingredient = Ingredient.friendly.find(params[:id])
-    end
+    ingredient = Ingredient.friendly.find(params[:slug])
 
     unless ingredient == nil
       render json: ingredient

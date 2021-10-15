@@ -17,8 +17,19 @@ class Api::V1::BrandsController < Api::V1::BaseController
     end
   end
 
+  def update
+    brand = Brand.friendly.find(params[:slug])
+    brand.update(brand_params)
+
+    if brand.valid?
+      render json: brand, status: :ok
+    else
+      raise Errors::Validation.new('brand', brand)
+    end
+  end
+
   def show
-    brand = Brand.includes(:incenses).friendly.find(params[:id])
+    brand = Brand.includes(:incenses).friendly.find(params[:slug])
 
     unless brand.approved?
       raise Errors::NotFound.new('brand') unless current_user && (current_user.moderator? || current_user.admin?)
@@ -43,7 +54,7 @@ class Api::V1::BrandsController < Api::V1::BaseController
   end
 
   def approve
-    brand = Brand.friendly.find(params[:brand_id])
+    brand = Brand.friendly.find(params[:brand_slug])
     brand.update({approved_by_id: current_user.id})
 
     if brand.valid?

@@ -17,8 +17,8 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
+        incense_id: review.incense_id,
         review: {
-          incense_id: review.incense_id,
           price_paid: review.price_paid,
           rating: review.rating,
           review_body: review.review_body,
@@ -49,8 +49,8 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
+        incense_id: review.incense_id,
         review: {
-          incense_id: review.incense_id,
           rating: review.rating,
         }
       }
@@ -66,28 +66,29 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
       sign_in_as user
 
-      post :create, params: {
-        review: {
-          price_paid: review.price_paid,
-          rating: review.rating,
-          review_body: review.review_body,
-          burn_time: review.burn_time,
-          year_purchased: review.year_purchased,
-          sweet: review.sweet,
-          smokey: review.smokey,
-          woody: review.woody,
-          ethereal: review.ethereal,
-          savory: review.savory,
-          fruity: review.fruity,
-          citrus: review.citrus,
-          herbal: review.herbal,
-          spicy: review.spicy,
-          floral: review.floral,
-          earthy: review.earthy
+      expect{
+        post :create, params: {
+          review: {
+            price_paid: review.price_paid,
+            rating: review.rating,
+            review_body: review.review_body,
+            burn_time: review.burn_time,
+            year_purchased: review.year_purchased,
+            sweet: review.sweet,
+            smokey: review.smokey,
+            woody: review.woody,
+            ethereal: review.ethereal,
+            savory: review.savory,
+            fruity: review.fruity,
+            citrus: review.citrus,
+            herbal: review.herbal,
+            spicy: review.spicy,
+            floral: review.floral,
+            earthy: review.earthy
+          }
         }
-      }
+      }.to raise_error(ActiveRecord::RecordNotFound)
 
-      assert_response :unprocessable_entity
       expect(Review.count).to eq 0
     end
 
@@ -116,8 +117,8 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       expect{post :create, params: {
+        incense_id: review.incense_id,
         review: {
-          incense_id: review.incense_id,
           rating: 50,
         }
       }}.to raise_error(ArgumentError)
@@ -169,8 +170,8 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
       patch :update, params: {
         id: review.id,
+        incense_id: '001',
         review: {
-          incense_id: '001',
         }
       }
 
@@ -207,8 +208,8 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
+        incense_id: incense.id,
         review: {
-          incense_id: incense.id,
           sweet: 4.0,
         }
       }
@@ -228,13 +229,12 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
       sign_in_as user
 
-      post :create, params: {
+      expect{post :create, params: {
         review: {
           sweet: 4.0,
         }
-      }
+      }}.to raise_error(ActiveRecord::RecordNotFound)
 
-      expect(response).to have_http_status(:unprocessable_entity)
       expect(IncenseStatistic.count).to eq(0)
     end
 

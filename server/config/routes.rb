@@ -5,13 +5,13 @@ Rails.application.routes.draw do
       resource :users, only: %i[create show update] do
         get :current, on: :collection
       end
-      resources :brands do
+      resources :brands, param: :slug do
         patch :approve
       end
-      resources :incenses do
+      resources :incenses, param: :slug do
         patch :approve
       end
-      resources :ingredients
+      resources :ingredients, param: :slug
       resources :reviews
       resources :review_votes, only: %i[create update destroy]
       resource :sessions, only: %i[create destroy]

@@ -71,6 +71,6 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   end
 
   def find_incense
-    @incense = Incense.friendly.find(params[:review][:incense_slug])
+    @incense = Incense.find(params[:incense_id])
   end
 end
