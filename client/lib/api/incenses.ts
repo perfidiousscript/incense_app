@@ -34,4 +34,15 @@ export default {
       },
     }).then(({ body }) => Incense.parse(body));
   },
+  update(queryKeyObject: QueryKeyObject): Promise<Incense> {
+    let slug = queryKeyObject.slug;
+    delete queryKeyObject.slug;
+    return Request.make({
+      method: HttpMethod.PATCH,
+      url: Base.url(`/incenses/${slug}`),
+      body: {
+        incense: queryKeyObject,
+      },
+    }).then(({ body }) => Incense.parse(body));
+  },
 };
