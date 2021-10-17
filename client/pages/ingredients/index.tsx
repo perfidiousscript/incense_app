@@ -5,11 +5,7 @@ import Head from "next/head";
 import Ingredients from "/lib/api/ingredients";
 import { useQuery } from "react-query";
 
-type InitialProps = {
-  ingredients: Ingredient[];
-};
-
-const IngredientsIndex: NextPage<InitialProps> = ({ ingredients }) => {
+const IngredientsIndex: NextPage<{}> = () => {
   const { isLoading, isError, data, error } = useQuery(
     "ingredients",
     Ingredients.list
@@ -41,11 +37,7 @@ const IngredientsIndex: NextPage<InitialProps> = ({ ingredients }) => {
   }
 
   return (
-    <App>
-      <Head>
-        <title>Incense-Hermitage::Ingredients</title>
-      </Head>
-
+    <App title={"Ingredients"}>
       <div>
         <div>
           <p>Ingredients</p>
