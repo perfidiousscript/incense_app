@@ -14,12 +14,13 @@ type InitialProps = {
 };
 
 function displayRadarChart(incense) {
-  if (incense.reviews[0]) {
+  if (incense.incenseStatistic) {
     return (
       <RadarChart
-        review={incense.reviews[0]}
-        reviewId={incense.reviews[0].id}
+        review={incense.incenseStatistic}
+        reviewId={incense.id}
         size="small"
+        isStatistic={true}
         interactive={false}
       />
     );

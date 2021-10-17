@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMutation } from "react-query";
+import Link from "next/link";
 import RadarChart from "components/RadarChart";
 import App from "components/App";
 import Reviews from "/lib/api/reviews";
@@ -12,7 +13,7 @@ const ReviewCreate: NextPage<{}> = () => {
   const [burnTime, setBurnTime] = useState(0);
   const [yearPurchased, setYearPurchased] = useState("");
   const [reviewBody, setReviewBody] = useState("");
-  const [rating, setRating] = useState("neutral");
+  const [rating, setRating] = useState("");
   const [pricePaid, setPricePaid] = useState(0);
   const [sweet, setSweet] = useState(0);
   const [smokey, setSmokey] = useState(0);
@@ -111,6 +112,7 @@ const ReviewCreate: NextPage<{}> = () => {
       return (
         <div className="centeredText">
           <div>Success! Review has been created</div>
+          <Link href={`/incenses/${sluh}`}>Return to Incense Page</Link>
         </div>
       );
     } else {

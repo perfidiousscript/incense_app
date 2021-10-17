@@ -52,12 +52,14 @@ const IncenseShow: NextPage<{}> = () => {
   }
 
   function showRadarChart(incense) {
-    if (incense.reviews[0]) {
+    console.log("incense: ", incense);
+    if (incense.incenseStatistic) {
       return (
         <RadarChart
-          review={incense.reviews[0]}
+          review={incense.incenseStatistic}
+          isStatistic={true}
           size="large"
-          interactive="false"
+          interactive={false}
         />
       );
     } else {

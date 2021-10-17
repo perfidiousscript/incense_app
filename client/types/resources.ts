@@ -58,7 +58,7 @@ export const Review = z.object({
   spicy: z.number(),
   sweet: z.number(),
   woody: z.number(),
-  yearPurchased: z.number().optional(),
+  yearPurchased: z.number().nullable(),
   createdAt: z.string(),
   user: z.object({ username: z.string() }).optional(),
 });

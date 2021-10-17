@@ -3,8 +3,12 @@ import * as d3 from "d3";
 import { useEffect } from "react";
 
 const RadarChart: FC<{}> = (props) => {
-  const { review } = props;
-  const { size } = props;
+  let isStatistic = props.isStatistic;
+  let reviewId = props.reviewId;
+  let interactive = props.interactive;
+  let review = props.review;
+  let size = props.size;
+
   const propertiesList = [
     "sweet",
     "floral",
@@ -18,6 +22,7 @@ const RadarChart: FC<{}> = (props) => {
     "citrus",
     "fruity",
   ];
+
   const scale = {
     xLarge: 12,
     large: 8,
@@ -27,9 +32,16 @@ const RadarChart: FC<{}> = (props) => {
 
   let incenseProperties = {};
 
-  propertiesList.map((property) => {
-    incenseProperties[property] = review[property];
-  });
+  if (isStatistic) {
+    propertiesList.map((property) => {
+      let averageProperty = `${property}Avg`;
+      incenseProperties[property] = review[averageProperty];
+    });
+  } else {
+    propertiesList.map((property) => {
+      incenseProperties[property] = review[property];
+    });
+  }
 
   const propertyKeys = Object.keys(incenseProperties);
 
@@ -91,7 +103,7 @@ const RadarChart: FC<{}> = (props) => {
       .x((d) => d.x)
       .y((d) => d.y);
 
-    let colors = ["blue", "lightBlue", "navy"];
+    let colors = ["black", "navy"];
 
     if (size !== "small") {
       ticks.forEach((t) =>
