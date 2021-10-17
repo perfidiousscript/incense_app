@@ -23,7 +23,7 @@ const IncenseShow: NextPage<{}> = () => {
   );
 
   function showUpdateButton() {
-    if (user.role === ("moderator" || "admin")) {
+    if (user && user.role === ("moderator" || "admin")) {
       return (
         <div>
           <Link href={`update/${data.slug}`}>Update Incense</Link>
@@ -52,15 +52,26 @@ const IncenseShow: NextPage<{}> = () => {
   }
 
   function showRadarChart(incense) {
-    console.log("incense: ", incense);
     if (incense.incenseStatistic) {
+      let { incenseStatistic } = incense;
       return (
-        <RadarChart
-          review={incense.incenseStatistic}
-          isStatistic={true}
-          size="large"
-          interactive={false}
-        />
+        <>
+          <RadarChart
+            review={incenseStatistic}
+            isStatistic={true}
+            size="large"
+            interactive={false}
+            reviewId={incense.id}
+          />
+          <p>
+            Avg reported burn time: {Math.round(incenseStatistic.burnTimeAvg)}{" "}
+            minutes
+          </p>
+          <p>
+            Avg reported price paid: $
+            {Math.round(incenseStatistic.pricePaidAvg)}
+          </p>
+        </>
       );
     } else {
       return <div>No Reviews Added Yet</div>;

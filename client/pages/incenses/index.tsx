@@ -67,11 +67,7 @@ const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
   }
 
   return (
-    <App>
-      <Head>
-        <title>Incense-Hermitage::Browse Incenses</title>
-      </Head>
-
+    <App title={"Browse:Incenses"}>
       <div className="pageTitle">Browse Incense</div>
       <div className={styles.incenseGrid}>
         <div className={styles.incenseColumnHeader}>
