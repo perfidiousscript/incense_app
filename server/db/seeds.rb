@@ -6,7 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 if RAILS_ENV = 'development'
-  user = User.create(email: 'dingleberry_jones@fake.com', password: "password", username: Faker::Name.first_name, role: 'moderator' )
+  moderator = User.create(email: 'dingleberry_jones@fake.com', password: "password", username: Faker::Name.first_name, role: 'moderator' )
+  user = User.create(email: 'user@fake.com', password: "password", username: Faker::Name.first_name, role: 'user' )
   3.times {Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword, image_url: 'www.cool-picture.com', country: 'Japan', approved_by: user)}
   brand_1 = Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword, image_url: 'www.cool-picture.com', country: 'Japan', approved_by: user)
   brand_2 = Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword, image_url: 'www.cool-picture.com', country: 'Japan', approved_by: user)
@@ -20,10 +21,10 @@ if RAILS_ENV = 'development'
       IngredientClassification.create!(ingredient: Ingredient.all.sample, incense: incense)
     end
     Review.create!(
-      user: user,
+      user: moderator,
       incense: incense,
                     review_body: 'pretty good stuff',
-                    rating: rand(0..5),
+                    rating: rand(0..4),
                     price_paid: rand(10..100),
                     sweet: rand(0..5),
                    smokey: rand(0..5),
@@ -37,6 +38,28 @@ if RAILS_ENV = 'development'
                    floral: rand(0..5),
                    earthy: rand(0..5),
                    burn_time: rand(10..120),
-                   year_purchased: rand(1980..2021))
+                   year_purchased: rand(1980..2021)
+                 )
+     Review.create!(
+       user: user,
+       incense: incense,
+                     review_body: 'pretty good stuff',
+                     rating: rand(0..4),
+                     price_paid: rand(10..100),
+                     sweet: rand(0..5),
+                    smokey: rand(0..5),
+                    woody: rand(0..5),
+                    ethereal: rand(0..5),
+                    savory: rand(0..5),
+                    fruity: rand(0..5),
+                    herbal: rand(0..5),
+                    spicy: rand(0..5),
+                    citrus: rand(0..5),
+                    floral: rand(0..5),
+                    earthy: rand(0..5),
+                    burn_time: rand(10..120),
+                    year_purchased: rand(1980..2021)
+                  )
+      IncenseStatistics::Calculate.call(incense)
   end
 end

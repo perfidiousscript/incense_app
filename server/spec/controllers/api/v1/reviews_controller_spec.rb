@@ -125,6 +125,30 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
       expect(Review.count).to eq 0
     end
+
+    it 'should create a review ranking' do
+      user = create(:user)
+      incense = create(:incense)
+      review = build(:review, incense: incense)
+
+      sign_in_as user
+
+      post :create, params: {
+        incense_id: review.incense_id,
+        review: {
+          rating: review.rating,
+        }
+      }
+
+      ranking = ReviewRanking.first
+
+      expect(ReviewRanking.count).to eq 1
+      expect(ranking.review_id).to eq(Review.first.id)
+      expect(ranking.ups).to eq(0)
+      expect(ranking.downs).to eq(0)
+      expect(ranking.ranking).to eq(0)
+      expect(ranking.magnitude).to eq(0)
+    end
   end
 
   describe 'show' do

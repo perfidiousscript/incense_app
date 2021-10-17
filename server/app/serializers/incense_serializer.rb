@@ -37,7 +37,6 @@ class IncenseSerializer < ActiveModel::Serializer
   has_many :reviews
 
   def user_review
-    puts "^^^^^scope.id: #{scope.id}^^^^"
     if(scope)
       object.reviews.find_by(user_id: scope.id)
     end

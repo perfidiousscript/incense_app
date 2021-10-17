@@ -6,11 +6,12 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   def create
     raise Errors::UnprocessableEntity.new('cannot create two reviews for the same incense, update existing review instead') if Review.find_by(user_id: current_user.id, incense_id: params[:incense_id])
     new_review_params = review_params.merge(user_id: current_user.id, incense_id: @incense.id)
+  
     review = Review.create(new_review_params)
 
     if review.valid?
+      ReviewRanking.create(review: review)
       IncenseStatistics::Calculate.call(review.incense)
-      ReviewVote.create(review: review)
       render json: review, status: :created
     else
       raise Errors::Validation.new('review', review)
@@ -71,6 +72,6 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   end
 
   def find_incense
-    @incense = Incense.find(params[:incense_id])
+    @incense = Incense.friendly.find(params[:review][:incense_slug])
   end
 end
