@@ -112,7 +112,7 @@ const ReviewCreate: NextPage<{}> = () => {
       return (
         <div className="centeredText">
           <div>Success! Review has been created</div>
-          <Link href={`/incenses/${sluh}`}>Return to Incense Page</Link>
+          <Link href={`/incenses/${slug}`}>Return to Incense Page</Link>
         </div>
       );
     } else {
