@@ -8,6 +8,7 @@
 if RAILS_ENV = 'development'
   moderator = User.create(email: 'dingleberry_jones@fake.com', password: "password", username: Faker::Name.first_name, role: 'moderator' )
   user = User.create(email: 'user@fake.com', password: "password", username: Faker::Name.first_name, role: 'user' )
+  User.create(email: 'new_user@fake.com', password: "password", username: Faker::Name.first_name, role: 'user' )
   3.times {Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword, image_url: 'www.cool-picture.com', country: 'Japan', approved_by: user)}
   brand_1 = Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword, image_url: 'www.cool-picture.com', country: 'Japan', approved_by: user)
   brand_2 = Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword, image_url: 'www.cool-picture.com', country: 'Japan', approved_by: user)
@@ -61,5 +62,8 @@ if RAILS_ENV = 'development'
                     year_purchased: rand(1980..2021)
                   )
       IncenseStatistics::Calculate.call(incense)
+  end
+  Review.all.each do |review|
+    ReviewRanking.create!(review: review)
   end
 end
