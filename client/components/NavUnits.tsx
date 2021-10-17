@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import Link from "next/link";
+import { FC } from "react";
 
-export const NavTopUnit = styled.div`
+const StyledNavTopUnit = styled.div`
   border: 1px solid black;
   grid-row: span 1;
   text-align: center;
@@ -12,8 +14,9 @@ export const NavTopUnit = styled.div`
   }
 `;
 
-export const NavDropDownUnit = styled.div`
+const StyledDropDownUnit = styled.div`
   border: 1px solid black;
+  grid-column: span 1;
   grid-row: span 1;
   background: white;
   text-align: center;
@@ -25,3 +28,79 @@ export const NavDropDownUnit = styled.div`
     box-shadow: 2px 2px 2px 2px black;
   }
 `;
+
+export const ExpandedNavTopUnit: FC<{
+  entry: Array;
+  expandFunction: Function;
+}> = ({ entry, expandFunction }) => {
+  return (
+    <StyledNavTopUnit
+      key={entry}
+      onMouseEnter={() => {
+        expandFunction(true);
+      }}
+      onMouseLeave={() => {
+        expandFunction(false);
+      }}
+      key={entry}
+    >
+      {entry}
+    </StyledNavTopUnit>
+  );
+};
+
+export const ClosedNavTopUnit: FC<{
+  entry: Array;
+  expandFunction: Function;
+}> = ({ entry, expandFunction, children }) => {
+  return (
+    <StyledNavTopUnit
+      key={entry}
+      onMouseEnter={() => {
+        expandFunction(true);
+      }}
+      key={entry}
+    >
+      {children}
+    </StyledNavTopUnit>
+  );
+};
+
+export const NavDropDownUnit: FC<{
+  entry: Array;
+  expandFunction: Function;
+}> = ({ entry, expandFunction }) => {
+  return (
+    <StyledDropDownUnit
+      key={entry[0]}
+      onMouseEnter={() => {
+        expandFunction(true);
+      }}
+      onMouseLeave={() => {
+        expandFunction(false);
+      }}
+    >
+      <Link href={entry[1]}>
+        <div>{entry[0]}</div>
+      </Link>
+    </StyledDropDownUnit>
+  );
+};
+
+export const LogOutUnit: FC<{ expandFunction: Function }> = ({
+  expandFunction,
+}) => {
+  return (
+    <StyledDropDownUnit
+      key={"logOut"}
+      onMouseEnter={() => {
+        expandFunction(true);
+      }}
+      onMouseLeave={() => {
+        expandFunction(false);
+      }}
+    >
+      Log Out
+    </StyledDropDownUnit>
+  );
+};

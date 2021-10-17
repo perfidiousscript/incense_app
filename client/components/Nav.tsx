@@ -2,7 +2,12 @@ import { FC } from "react";
 import Link from "next/link";
 import { useState } from "react";
 import styles from "../styles/Nav.module.css";
-import { NavTopUnit, NavDropDownUnit } from "/components/NavUnits";
+import {
+  ClosedNavTopUnit,
+  ExpandedNavTopUnit,
+  NavDropDownUnit,
+  LogOutUnit,
+} from "/components/NavUnits";
 import { useAuth } from "lib/auth";
 import { useMutation } from "react-query";
 
@@ -10,6 +15,9 @@ const Nav: FC<{}> = () => {
   const { user, logout } = useAuth();
   const [incensesExpansion, setIncensesExpansion] = useState(false);
   const [brandsExpansion, setBrandsExpansion] = useState(false);
+  const [ingredientsExpansion, setIngredientsExpansion] = useState(false);
+  const [aboutExpansion, setAboutExpansion] = useState(false);
+  const [accountExpansion, setAccountExpansion] = useState(false);
 
   const logOutUser = useMutation(logout);
 
@@ -17,6 +25,7 @@ const Nav: FC<{}> = () => {
     ["Incenses"],
     ["Browse Incenses", "/incenses"],
     ["Search Incenses", "/incenses/search"],
+    ["Browse Ingredients", "/ingredients"],
   ];
 
   var brandsDropdownList = [
@@ -25,9 +34,20 @@ const Nav: FC<{}> = () => {
     ["Search Brands", "/brands/search"],
   ];
 
+  var ingredientsDropdownList = [
+    ["Ingredients"],
+    ["Browse Ingredients", "/ingredients"],
+  ];
+
   if (user) {
     incensesDropdownList.push(["Create New Incense", "/incenses/create"]);
     brandsDropdownList.push(["Create New Brand", "/brands/create"]);
+    if (user.role === ("moderator" || "admin")) {
+      ingredientsDropdownList.push([
+        "Create New Ingredient",
+        "/ingredients/create",
+      ]);
+    }
   }
 
   // Takes the list of elements in the dropdownArray and generates them as.
@@ -35,34 +55,11 @@ const Nav: FC<{}> = () => {
     let dropdown = list.map((entry: Array) => {
       if (entry[1]) {
         return (
-          <NavDropDownUnit
-            key={entry[0]}
-            onMouseEnter={() => {
-              expandFunction(true);
-            }}
-            onMouseLeave={() => {
-              expandFunction(false);
-            }}
-          >
-            <Link href={entry[1]}>
-              <div>{entry[0]}</div>
-            </Link>
-          </NavDropDownUnit>
+          <NavDropDownUnit entry={entry} expandFunction={expandFunction} />
         );
       } else {
         return (
-          <NavTopUnit
-            key={entry[0]}
-            onMouseEnter={() => {
-              expandFunction(true);
-            }}
-            onMouseLeave={() => {
-              expandFunction(false);
-            }}
-            key={entry[0]}
-          >
-            {entry[0]}
-          </NavTopUnit>
+          <ExpandedNavTopUnit entry={entry} expandFunction={expandFunction} />
         );
       }
     });
@@ -74,14 +71,12 @@ const Nav: FC<{}> = () => {
       return renderExpandedDropdown(incensesDropdownList, setIncensesExpansion);
     } else {
       return (
-        <NavTopUnit
-          key="Incenses"
-          onMouseEnter={() => {
-            setIncensesExpansion(true);
-          }}
+        <ClosedNavTopUnit
+          entry="Incenses"
+          expandFunction={setIncensesExpansion}
         >
           Incenses
-        </NavTopUnit>
+        </ClosedNavTopUnit>
       );
     }
   }
@@ -91,14 +86,58 @@ const Nav: FC<{}> = () => {
       return renderExpandedDropdown(brandsDropdownList, setBrandsExpansion);
     } else {
       return (
-        <NavTopUnit
-          key="Brands"
-          onMouseEnter={() => {
-            setBrandsExpansion(true);
-          }}
-        >
+        <ClosedNavTopUnit entry="Brands" expandFunction={setBrandsExpansion}>
           Brands
-        </NavTopUnit>
+        </ClosedNavTopUnit>
+      );
+    }
+  }
+
+  function renderIngredientsUnit() {
+    if (ingredientsExpansion) {
+      return renderExpandedDropdown(
+        ingredientsDropdownList,
+        setIngredientsExpansion
+      );
+    } else {
+      return (
+        <ClosedNavTopUnit
+          entry="Ingredients"
+          expandFunction={setIngredientsExpansion}
+        >
+          Ingredients
+        </ClosedNavTopUnit>
+      );
+    }
+  }
+
+  function renderAccountUnit() {
+    if (user) {
+      let accountDropdown = [
+        <ExpandedNavTopUnit
+          entry="Account"
+          expandFunction={setAccountExpansion}
+        >
+          Account
+        </ExpandedNavTopUnit>,
+      ];
+      if (accountExpansion) {
+        accountDropdown.push(
+          <LogOutUnit expandFunction={setAccountExpansion} />
+        );
+      }
+      return (
+        <div className={styles.expandedDropdownContainer}>
+          {accountDropdown}
+        </div>
+      );
+    } else {
+      return (
+        <ClosedNavTopUnit entry={"signIn"}>
+          <Link href={`/sign-in`}>
+            <div>Sign In / Register</div>
+          </Link>
+        </ClosedNavTopUnit>
       );
     }
   }
@@ -110,24 +149,15 @@ const Nav: FC<{}> = () => {
       </div>
       {renderIncensesUnit()}
       {renderBrandsUnit()}
+      {renderIngredientsUnit()}
 
-      <NavTopUnit key="about">
+      <ClosedNavTopUnit entry={"About"} expandFunction={setAboutExpansion}>
         <Link href="/about">
           <div>About</div>
         </Link>
-      </NavTopUnit>
+      </ClosedNavTopUnit>
 
-      {user ? (
-        <NavTopUnit onClick={logOutUser.mutate} key="signOut">
-          <div>Sign Out</div>
-        </NavTopUnit>
-      ) : (
-        <NavTopUnit key="signIn">
-          <Link href={`/sign-in`}>
-            <div>Sign In / Register</div>
-          </Link>
-        </NavTopUnit>
-      )}
+      {renderAccountUnit()}
     </div>
   );
 };
