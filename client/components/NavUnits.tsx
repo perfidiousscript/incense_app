@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { FC } from "react";
+import { useMutation } from "react-query";
+import { useAuth } from "lib/auth";
 
 const StyledNavTopUnit = styled.div`
   border: 1px solid black;
@@ -35,14 +37,12 @@ export const ExpandedNavTopUnit: FC<{
 }> = ({ entry, expandFunction }) => {
   return (
     <StyledNavTopUnit
-      key={entry}
       onMouseEnter={() => {
         expandFunction(true);
       }}
       onMouseLeave={() => {
         expandFunction(false);
       }}
-      key={entry}
     >
       {entry}
     </StyledNavTopUnit>
@@ -59,7 +59,6 @@ export const ClosedNavTopUnit: FC<{
       onMouseEnter={() => {
         expandFunction(true);
       }}
-      key={entry}
     >
       {children}
     </StyledNavTopUnit>
@@ -90,6 +89,12 @@ export const NavDropDownUnit: FC<{
 export const LogOutUnit: FC<{ expandFunction: Function }> = ({
   expandFunction,
 }) => {
+  const { logout } = useAuth();
+  const logOutUser = useMutation(logout);
+  function logOutHelper(event) {
+    event.preventDefault();
+    logOutUser.mutate();
+  }
   return (
     <StyledDropDownUnit
       key={"logOut"}
@@ -99,6 +104,7 @@ export const LogOutUnit: FC<{ expandFunction: Function }> = ({
       onMouseLeave={() => {
         expandFunction(false);
       }}
+      onClick={logOutHelper}
     >
       Log Out
     </StyledDropDownUnit>

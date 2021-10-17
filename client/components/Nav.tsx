@@ -9,17 +9,14 @@ import {
   LogOutUnit,
 } from "/components/NavUnits";
 import { useAuth } from "lib/auth";
-import { useMutation } from "react-query";
 
 const Nav: FC<{}> = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [incensesExpansion, setIncensesExpansion] = useState(false);
   const [brandsExpansion, setBrandsExpansion] = useState(false);
   const [ingredientsExpansion, setIngredientsExpansion] = useState(false);
   const [aboutExpansion, setAboutExpansion] = useState(false);
   const [accountExpansion, setAccountExpansion] = useState(false);
-
-  const logOutUser = useMutation(logout);
 
   var incensesDropdownList = [
     ["Incenses"],
@@ -55,11 +52,19 @@ const Nav: FC<{}> = () => {
     let dropdown = list.map((entry: Array) => {
       if (entry[1]) {
         return (
-          <NavDropDownUnit entry={entry} expandFunction={expandFunction} />
+          <NavDropDownUnit
+            entry={entry}
+            expandFunction={expandFunction}
+            key={entry[0]}
+          />
         );
       } else {
         return (
-          <ExpandedNavTopUnit entry={entry} expandFunction={expandFunction} />
+          <ExpandedNavTopUnit
+            entry={entry}
+            expandFunction={expandFunction}
+            key={entry[0]}
+          />
         );
       }
     });
@@ -117,13 +122,14 @@ const Nav: FC<{}> = () => {
         <ExpandedNavTopUnit
           entry="Account"
           expandFunction={setAccountExpansion}
+          key={"account"}
         >
           Account
         </ExpandedNavTopUnit>,
       ];
       if (accountExpansion) {
         accountDropdown.push(
-          <LogOutUnit expandFunction={setAccountExpansion} />
+          <LogOutUnit expandFunction={setAccountExpansion} key={"logOutUnit"} />
         );
       }
       return (
@@ -133,7 +139,7 @@ const Nav: FC<{}> = () => {
       );
     } else {
       return (
-        <ClosedNavTopUnit entry={"signIn"}>
+        <ClosedNavTopUnit entry={"signIn"} expandFunction={setAccountExpansion}>
           <Link href={`/sign-in`}>
             <div>Sign In / Register</div>
           </Link>
