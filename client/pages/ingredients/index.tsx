@@ -1,8 +1,13 @@
 import { NextPageContext, NextPage } from "next";
-
+import Link from "next/link";
 import App from "components/App";
 import Head from "next/head";
 import Ingredients from "/lib/api/ingredients";
+import {
+  IngredientsGrid,
+  IngredientsRow,
+  IngredientEntry,
+} from "/components/IngredientsUnits";
 import { useQuery } from "react-query";
 
 const IngredientsIndex: NextPage<{}> = () => {
@@ -21,18 +26,15 @@ const IngredientsIndex: NextPage<{}> = () => {
     }
 
     if (data) {
-      return (
-        <ul>
-          {data.map((ingredient) => (
-            <div key={ingredient.id}>
-              <p>{ingredient.name}</p>
-              <p>{ingredient.id}</p>
-              <p>{ingredient.description}</p>
-              <br />
-            </div>
-          ))}
-        </ul>
-      );
+      return data.map((ingredient) => {
+        return (
+          <IngredientEntry>
+            <Link href={`/ingredients/${ingredient.slug}`}>
+              {ingredient.name}
+            </Link>
+          </IngredientEntry>
+        );
+      });
     }
   }
 
@@ -40,8 +42,8 @@ const IngredientsIndex: NextPage<{}> = () => {
     <App title={"Ingredients"}>
       <div>
         <div>
-          <p>Ingredients</p>
-          <div>{ingredientsFetch()}</div>
+          <div className="pageTitle">Ingredients</div>
+          <IngredientsGrid>{ingredientsFetch()}</IngredientsGrid>
         </div>
       </div>
     </App>
