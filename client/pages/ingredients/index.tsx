@@ -28,11 +28,9 @@ const IngredientsIndex: NextPage<{}> = () => {
     if (data) {
       return data.map((ingredient) => {
         return (
-          <IngredientEntry>
-            <Link href={`/ingredients/${ingredient.slug}`}>
-              {ingredient.name}
-            </Link>
-          </IngredientEntry>
+          <Link href={`/ingredients/${ingredient.slug}`}>
+            <IngredientEntry>{ingredient.name}</IngredientEntry>
+          </Link>
         );
       });
     }
