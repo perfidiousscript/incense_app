@@ -21,46 +21,57 @@ if RAILS_ENV = 'development'
     rand(1..2).times do
       IngredientClassification.create!(ingredient: Ingredient.all.sample, incense: incense)
     end
+    sweetRating =  rand(1..4)
+   smokeyRating =  rand(1..4)
+   woodyRating =  rand(1..4)
+   etherealRating =  rand(1..4)
+   savoryRating =  rand(1..4)
+   fruityRating =  rand(1..4)
+   herbalRating =  rand(1..4)
+   spicyRating =  rand(1..4)
+   citrusRating =  rand(1..4)
+   floralRating =  rand(1..4)
+   earthyRating =  rand(1..4)
     Review.create!(
       user: moderator,
       incense: incense,
                     review_body: 'pretty good stuff',
                     rating: rand(0..4),
                     price_paid: rand(10..100),
-                    sweet: rand(0..5),
-                   smokey: rand(0..5),
-                   woody: rand(0..5),
-                   ethereal: rand(0..5),
-                   savory: rand(0..5),
-                   fruity: rand(0..5),
-                   herbal: rand(0..5),
-                   spicy: rand(0..5),
-                   citrus: rand(0..5),
-                   floral: rand(0..5),
-                   earthy: rand(0..5),
+                    sweet: (sweetRating + rand(-1..1)),
+                   smokey: (smokeyRating + rand(-1..1)),
+                   woody: (woodyRating + rand(-1..1)),
+                   ethereal: (etherealRating + rand(-1..1)),
+                   savory: (savoryRating + rand(-1..1)),
+                   fruity: (fruityRating + rand(-1..1)),
+                   herbal: (herbalRating + rand(-1..1)),
+                   spicy: (spicyRating + rand(-1..1)),
+                   citrus: (citrusRating + rand(-1..1)),
+                   floral: (floralRating + rand(-1..1)),
+                   earthy: (earthyRating + rand(-1..1)),
                    burn_time: rand(10..120),
                    year_purchased: rand(1980..2021)
                  )
-     Review.create!(
-       user: user,
-       incense: incense,
-                     review_body: 'pretty good stuff',
-                     rating: rand(0..4),
-                     price_paid: rand(10..100),
-                     sweet: rand(0..5),
-                    smokey: rand(0..5),
-                    woody: rand(0..5),
-                    ethereal: rand(0..5),
-                    savory: rand(0..5),
-                    fruity: rand(0..5),
-                    herbal: rand(0..5),
-                    spicy: rand(0..5),
-                    citrus: rand(0..5),
-                    floral: rand(0..5),
-                    earthy: rand(0..5),
-                    burn_time: rand(10..120),
-                    year_purchased: rand(1980..2021)
-                  )
+       Review.create!(
+         user: user,
+         incense: incense,
+                       review_body: 'pretty good stuff',
+                       rating: rand(0..4),
+                       price_paid: rand(10..100),
+                       sweet: sweetRating + rand(-1..1),
+                      smokey: smokeyRating + rand(-1..1),
+                      woody: woodyRating + rand(-1..1),
+                      ethereal: etherealRating + rand(-1..1),
+                      savory: savoryRating + rand(-1..1),
+                      fruity: fruityRating + rand(-1..1),
+                      herbal: herbalRating + rand(-1..1),
+                      spicy: spicyRating + rand(-1..1),
+                      citrus: citrusRating + rand(-1..1),
+                      floral: floralRating + rand(-1..1),
+                      earthy: earthyRating + rand(-1..1),
+                      burn_time: rand(10..120),
+                      year_purchased: rand(1980..2021)
+                    )
       IncenseStatistics::Calculate.call(incense)
   end
   Review.all.each do |review|
