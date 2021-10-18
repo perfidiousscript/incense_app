@@ -74,7 +74,7 @@ const IncenseShow: NextPage<{}> = () => {
         </>
       );
     } else {
-      return <div>No Reviews Added Yet</div>;
+      return <div>No reviews have been added yet</div>;
     }
   }
 
