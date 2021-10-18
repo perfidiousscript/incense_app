@@ -28,11 +28,7 @@ const IngredientShow: NextPage<InitialProps> = ({ ingredient }) => {
   }
 
   return (
-    <App>
-      <Head>
-        <title>Incense-Hermitage::Ingredients</title>
-      </Head>
-
+    <App title={data.name}>
       <div>
         <div>
           <p>Ingredient</p>

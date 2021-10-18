@@ -128,9 +128,18 @@ const Nav: FC<{}> = () => {
         </ExpandedNavTopUnit>,
       ];
       if (accountExpansion) {
-        accountDropdown.push(
-          <LogOutUnit expandFunction={setAccountExpansion} key={"logOutUnit"} />
-        );
+        let expandedAccount = [
+          <NavDropDownUnit
+            entry={["Profile", "/user/profile"]}
+            expandFunction={setAccountExpansion}
+            key={"profile"}
+          />,
+          <LogOutUnit
+            expandFunction={setAccountExpansion}
+            key={"logOutUnit"}
+          />,
+        ];
+        accountDropdown.push([...expandedAccount]);
       }
       return (
         <div className={styles.expandedDropdownContainer}>
