@@ -18,12 +18,7 @@ const Nav: FC<{}> = () => {
   const [aboutExpansion, setAboutExpansion] = useState(false);
   const [accountExpansion, setAccountExpansion] = useState(false);
 
-  var incensesDropdownList = [
-    ["Incenses"],
-    ["Browse Incenses", "/incenses"],
-    ["Search Incenses", "/incenses/search"],
-    ["Browse Ingredients", "/ingredients"],
-  ];
+  var incensesDropdownList = [["Incenses"], ["Browse Incenses", "/incenses"]];
 
   var brandsDropdownList = [
     ["Brands"],
