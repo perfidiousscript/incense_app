@@ -6,7 +6,7 @@ import styles from "/styles/Incenses.module.css";
 
 const ReviewContainer = styled.div`
   border: 1px solid black;
-  margin: 1%;
+  margin: 1% 0;
   padding: 0.5rem;
 `;
 
