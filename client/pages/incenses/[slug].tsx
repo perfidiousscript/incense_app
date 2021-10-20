@@ -89,8 +89,8 @@ const IncenseShow: NextPage<{}> = () => {
   return (
     <App title={data.name}>
       <div>
-        <p>[Image Here] {data.imageUrl}</p>
         <p className={styles.incenseName}>{data.name}</p>
+        <p>[Image Here] {data.imageUrl}</p>
         {showRadarChart(data)}
         {showUpdateButton()}
         <div className={styles.incenseDescription}>

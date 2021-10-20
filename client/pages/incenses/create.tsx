@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useState } from "react";
 import App from "components/App";
+import ImageUpload from "components/ImageUpload";
 import Head from "next/head";
 import Link from "next/link";
 import Incenses from "/lib/api/incenses";
@@ -37,7 +38,7 @@ const IncenseCreate: NextPage<{}> = () => {
   };
 
   const searchBrands = useMutation((searchTerm) => {
-    Brands.search({ name: searchTerm });
+    return Brands.search({ name: searchTerm });
   });
 
   const listIngredients = useQuery("ingredients", Ingredients.list);
@@ -198,13 +199,9 @@ const IncenseCreate: NextPage<{}> = () => {
               disabled={createResult.isLoading}
               value={description}
             />
-            <label htmlFor="imageUrl">Image</label>
-            <input
-              name="imageUrl"
-              onChange={({ target: { value } }) => setImageUrl(value)}
-              type="file"
-              accept="img/*"
+            <ImageUpload
               disabled={createResult.isLoading}
+              setImageUrl={setImageUrl}
             />
             <button
               type="submit"
