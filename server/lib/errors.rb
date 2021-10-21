@@ -1,6 +1,6 @@
 module Errors
   def self.report(message, exception, extras = {})
-    Sentry.set_context(extras) { Sentry.capture_exception(message, exception) }
+    # Sentry.set_context(extras) { Sentry.capture_exception(message, exception) }
   end
 
   class Base < StandardError; end
