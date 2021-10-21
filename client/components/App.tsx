@@ -7,7 +7,6 @@ import Config from "lib/config";
 import { useAuth } from "lib/auth";
 
 const App: FC<{
-  children: Children;
   authCheck: boolean;
   modOnly: boolean;
   title: string;
