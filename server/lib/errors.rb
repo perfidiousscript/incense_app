@@ -1,6 +1,6 @@
 module Errors
   def self.report(message, exception, extras = {})
-    Raven.extra_context(extras) { Raven.capture_exception(message, exception) }
+    Sentry.extra_context(extras) { Sentry.capture_exception(message, exception) }
   end
 
   class Base < StandardError; end
