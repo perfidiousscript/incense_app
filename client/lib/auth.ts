@@ -1,12 +1,6 @@
 import { initReactQueryAuth } from "react-query-auth";
 import User from "lib/api/user";
-
-interface UserInterface {
-  id: string;
-  email: string;
-  password: string;
-  username: string;
-}
+import { User as UserInterface } from "types";
 
 interface Error {
   message: string;
