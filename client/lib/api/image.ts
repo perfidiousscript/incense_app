@@ -6,7 +6,7 @@ import Config from "lib/config";
 export default {
   upload(image: string): Promise<Response> {
     const formdata = new FormData();
-    formdata.append("image", queryKeyObject["image"]);
+    formdata.append("image", image);
     return Request.make({
       method: HttpMethod.POST,
       url: Imgur.url(`/image`),

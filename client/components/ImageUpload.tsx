@@ -28,7 +28,7 @@ const ImageUpload: FC<{
   disabled: boolean;
   setImageUrl: (fn: string) => void;
 }> = ({ disabled, setImageUrl }) => {
-  const uploadResult = useMutation((image) => {
+  const uploadResult = useMutation((image: string): void => {
     return Image.upload({
       image: image,
     });
