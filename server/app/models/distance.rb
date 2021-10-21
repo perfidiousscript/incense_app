@@ -1,3 +1,4 @@
+class Distance < ApplicationRecord
 # Distance records the euclidian distance between the 11 dimensional
 # co-ordiantes comprised be each incense statistic. This will allow us
 # to get an idea of which incenses are similar.
@@ -22,3 +23,4 @@
 # that is to say: only those distance which are unusually small. This could probably be
 # handled nicely by a scope, though where we would store the mean and SD is hard to tell,
 # maybe in redis, or maybe in a dedicated SQL table or model or something.
+end
