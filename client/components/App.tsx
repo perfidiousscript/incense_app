@@ -22,10 +22,8 @@ const App: FC<{
       </div>
     );
   } else if (modOnly && user["role"] !== ("moderator" || "admin")) {
-    return (
-      //Improve this to push a 404
-      <div>You must be a moderator to view this page</div>
-    );
+    //Improve this to push a 404
+    return <div>You must be a moderator to view this page</div>;
   } else {
     return (
       <>
