@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useMutation } from "react-query";
-import Image from "/lib/api/image";
+import Image from "lib/api/image";
 import styled from "styled-components";
 
 const UploadSuccess = styled.span`

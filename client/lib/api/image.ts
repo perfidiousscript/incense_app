@@ -1,7 +1,7 @@
 import Request from "lib/request";
 import Imgur from "lib/api/imgur";
 import { HttpMethod, QueryKeyObject } from "types";
-import Config from "/lib/config";
+import Config from "lib/config";
 
 export default {
   upload(queryKeyObject: QueryKeyObject): Promise<Response> {
