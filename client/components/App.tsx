@@ -21,7 +21,7 @@ const App: FC<{
         <Link href="/sign-up">Sign Up</Link> to continue.
       </div>
     );
-  } else if (modOnly && user["role"] !== ("moderator" || "admin")) {
+  } else if (modOnly && user?.role !== ("moderator" || "admin")) {
     //Improve this to push a 404
     return <div>You must be a moderator to view this page</div>;
   } else {
