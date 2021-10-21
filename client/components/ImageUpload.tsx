@@ -35,7 +35,9 @@ const ImageUpload: FC<{
   });
 
   function handleRequest({ target }) {
-    uploadResult.mutate(target.value);
+    if (target.value[0]) {
+      uploadResult.mutate(target.value[0]);
+    }
   }
 
   function imageStatus() {
