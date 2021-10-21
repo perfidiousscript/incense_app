@@ -32,9 +32,6 @@ module Server
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # For heroku
-    config.assets.initialize_on_precompile = false
-
     config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('lib')
 
