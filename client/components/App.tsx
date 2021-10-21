@@ -7,7 +7,7 @@ import Config from "lib/config";
 import { useAuth } from "lib/auth";
 
 const App: FC<{
-  children: JSX.Element;
+  children?: JSX.Element;
   authCheck: boolean;
   modOnly: boolean;
   title: string;
