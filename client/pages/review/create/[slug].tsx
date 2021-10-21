@@ -7,7 +7,7 @@ import RadarChart from "components/RadarChart";
 import App from "components/App";
 import Reviews from "/lib/api/reviews";
 
-const ReviewCreate: NextPage<{}> = () => {
+const ReviewCreate: NextPage<Record<string, never>> = () => {
   const router = useRouter();
   const { slug } = router.query;
   const [burnTime, setBurnTime] = useState(0);
@@ -57,9 +57,9 @@ const ReviewCreate: NextPage<{}> = () => {
   const ratings = ["hate", "dislike", "neutral", "like", "love"];
 
   function generateYearsDropdown() {
-    let time = new Date();
-    let currentYear = 1900 + time.getYear();
-    let years = [];
+    const time = new Date();
+    const currentYear = 1900 + time.getYear();
+    const years = [];
     for (let i = currentYear; i >= 1980; i--) {
       years.push(
         <option key={i} value={i}>
@@ -71,7 +71,7 @@ const ReviewCreate: NextPage<{}> = () => {
   }
 
   function generateRatingsDropdown() {
-    let ratingsOptions = ratings.map((rating) => {
+    const ratingsOptions = ratings.map((rating) => {
       return (
         <option key={rating} value={rating}>
           {rating}
@@ -98,8 +98,8 @@ const ReviewCreate: NextPage<{}> = () => {
     if (createReview.isLoading) {
       return <div>Creating</div>;
     } else if (createReview.isError) {
-      let error = createReview.error.body.error;
-      let errorDetail = error.detail;
+      const error = createReview.error.body.error;
+      const errorDetail = error.detail;
 
       return (
         <div className="centeredText">
@@ -108,7 +108,6 @@ const ReviewCreate: NextPage<{}> = () => {
         </div>
       );
     } else if (createReview.isSuccess) {
-      let { data } = createReview;
       return (
         <div className="centeredText">
           <div>Success! Review has been created</div>

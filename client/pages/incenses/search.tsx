@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { useState } from "react";
 import App from "components/App";
-import Head from "next/head";
 import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import { useMutation } from "react-query";
@@ -10,14 +9,14 @@ import RadarChart from "/components/RadarChart";
 import styles from "/styles/Incenses.module.css";
 import { snakeCase } from "snake-case";
 
-const IncensesSearch: NextPage<{}> = () => {
+const IncensesSearch: NextPage<Record<string, never>> = () => {
   const [brand, setBrand] = useState("");
   const [country, setCountry] = useState("");
   const [includesIngredients, setIncludesIngredients] = useState("");
   const [excludesIngredients, setExcludesIngredients] = useState("");
 
-  const searchResult = useMutation((event) => {
-    let snakeBrand = snakeCase(brand);
+  const searchResult = useMutation(() => {
+    const snakeBrand = snakeCase(brand);
     return Incenses.search({
       brand: snakeBrand,
       country: country,

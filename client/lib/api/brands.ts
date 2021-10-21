@@ -4,7 +4,7 @@ import { Brand, HttpMethod, QueryKeyObject } from "types";
 
 export default {
   get(queryKeyObject: QueryKeyObject): Promise<Brand> {
-    let id = queryKeyObject.queryKey[1];
+    const id = queryKeyObject.queryKey[1];
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/brands/${id}`),
@@ -24,10 +24,10 @@ export default {
     }).then(({ body }) => Brand.array().parse(body));
   },
   create(queryKeyObject: QueryKeyObject): Promise<Brand> {
-    let name = queryKeyObject.name;
-    let description = queryKeyObject.description;
-    let country = queryKeyObject.country;
-    let image_url = queryKeyObject.imageUrl;
+    const name = queryKeyObject.name;
+    const description = queryKeyObject.description;
+    const country = queryKeyObject.country;
+    const image_url = queryKeyObject.imageUrl;
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/brands`),
@@ -42,7 +42,7 @@ export default {
     }).then(({ body }) => Brand.parse(body));
   },
   update(queryKeyObject: QueryKeyObject): Promise<Brand> {
-    let slug = queryKeyObject.slug;
+    const slug = queryKeyObject.slug;
     delete queryKeyObject.slug;
     return Request.make({
       method: HttpMethod.PATCH,

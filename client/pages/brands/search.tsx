@@ -7,11 +7,11 @@ import { useMutation } from "react-query";
 import { BrandsEntries, BrandEntry } from "/components/BrandsUnits";
 import styles from "/styles/Brands.module.css";
 
-const BrandsSearch: NextPage<{}> = () => {
+const BrandsSearch: NextPage<Record<string, never>> = () => {
   const [country, setCountry] = useState("");
   const [name, setName] = useState("");
 
-  const searchBrands = useMutation((searchTerm) =>
+  const searchBrands = useMutation(() =>
     Brands.search({ name: name, country: country })
   );
 
@@ -34,7 +34,7 @@ const BrandsSearch: NextPage<{}> = () => {
     }
 
     if (searchBrands.data) {
-      let { data } = searchBrands;
+      const { data } = searchBrands;
       return (
         <div className={styles.brandsGrid}>
           <div className={styles.brandsColumnHeader}>

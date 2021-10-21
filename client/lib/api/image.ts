@@ -1,11 +1,11 @@
 import Request from "lib/request";
 import Imgur from "lib/api/imgur";
-import { HttpMethod, QueryKey } from "types";
+import { HttpMethod, QueryKeyObject } from "types";
 import Config from "/lib/config";
 
 export default {
-  upload(queryKeyObject: QueryKeyObject): Promise<Any> {
-    var formdata = new FormData();
+  upload(queryKeyObject: QueryKeyObject): Promise<Response> {
+    const formdata = new FormData();
     formdata.append("image", queryKeyObject["image"]);
     return Request.make({
       method: HttpMethod.POST,

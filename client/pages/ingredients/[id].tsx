@@ -1,16 +1,10 @@
-import { NextPageContext, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import App from "components/App";
-import Head from "next/head";
 import Ingredients from "/lib/api/ingredients";
 import { useQuery } from "react-query";
 
-type InitialProps = {
-  ingredient: Ingredient;
-};
-
-const IngredientShow: NextPage<InitialProps> = ({ ingredient }) => {
+const IngredientShow: NextPage<InitialProps> = () => {
   const router = useRouter();
   const { id } = router.query;
 

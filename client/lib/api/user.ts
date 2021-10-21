@@ -5,7 +5,6 @@ import {
   HttpMethod,
   LoadUserQueryKey,
   RegisterUserQueryKey,
-  LogInError,
 } from "types";
 
 export default {
@@ -16,8 +15,8 @@ export default {
     }).then(({ body }) => User.parse(body));
   },
   loginFn(queryKeyObject: LoadUserQueryKey): Promise<User> {
-    let email = queryKeyObject.email;
-    let password = queryKeyObject.password;
+    const email = queryKeyObject.email;
+    const password = queryKeyObject.password;
 
     return Request.make({
       method: HttpMethod.POST,
@@ -30,10 +29,10 @@ export default {
       },
     }).then(({ body }) => User.parse(body));
   },
-  registerFn(queryKeyObject: RegisterUserQueryKey): Promise<any> {
-    let email = queryKeyObject.email;
-    let password = queryKeyObject.password;
-    let username = queryKeyObject.username;
+  registerFn(queryKeyObject: RegisterUserQueryKey): Promise<Response> {
+    const email = queryKeyObject.email;
+    const password = queryKeyObject.password;
+    const username = queryKeyObject.username;
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/users`),
@@ -48,7 +47,7 @@ export default {
       return response;
     });
   },
-  logoutFn(): Promise<any> {
+  logoutFn(): Promise<Response> {
     return Request.make({
       method: HttpMethod.DELETE,
       url: Base.url(`/sessions`),

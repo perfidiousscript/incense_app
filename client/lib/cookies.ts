@@ -1,7 +1,7 @@
 import { parseCookies, setCookie } from "nookies";
 import next, { NextPageContext } from "next";
 
-let nextPageContext: NextPageContext | null = null;
+const nextPageContext: NextPageContext | null = null;
 
 export const getCookies = (): string | undefined => {
   return nextPageContext?.req?.headers.cookie;

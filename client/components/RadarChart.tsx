@@ -2,12 +2,12 @@ import { FC } from "react";
 import * as d3 from "d3";
 import { useEffect } from "react";
 
-const RadarChart: FC<{}> = (props) => {
-  let isStatistic = props.isStatistic;
-  let reviewId = props.reviewId;
-  let interactive = props.interactive;
-  let review = props.review;
-  let size = props.size;
+const RadarChart: FC<Review> = (props) => {
+  const isStatistic = props.isStatistic;
+  const reviewId = props.reviewId;
+  const interactive = props.interactive;
+  const review = props.review;
+  const size = props.size;
 
   const propertiesList = [
     "sweet",
@@ -30,11 +30,11 @@ const RadarChart: FC<{}> = (props) => {
     small: 1,
   };
 
-  let incenseProperties = {};
+  const incenseProperties = {};
 
   if (isStatistic) {
     propertiesList.map((property) => {
-      let averageProperty = `${property}Avg`;
+      const averageProperty = `${property}Avg`;
       incenseProperties[property] = review[averageProperty];
     });
   } else {
@@ -84,9 +84,9 @@ const RadarChart: FC<{}> = (props) => {
   }
 
   function renderChart() {
-    d3.select(`.radarChart-${props.reviewId}`).select("svg").remove();
+    d3.select(`.radarChart-${reviewId}`).select("svg").remove();
     const svg = d3
-      .select(`.radarChart-${props.reviewId}`)
+      .select(`.radarChart-${reviewId}`)
       .append("svg")
       .attr("width", 60 * scale[size])
       .attr("height", 60 * scale[size]);
@@ -98,12 +98,12 @@ const RadarChart: FC<{}> = (props) => {
 
     const ticks = [0, 1, 2, 3, 4, 5];
 
-    let line = d3
+    const line = d3
       .line()
       .x((d) => d.x)
       .y((d) => d.y);
 
-    let colors = ["black", "navy"];
+    const colors = ["black", "navy"];
 
     if (size !== "small") {
       ticks.forEach((t) =>
@@ -127,27 +127,27 @@ const RadarChart: FC<{}> = (props) => {
     }
 
     function angleToCoordinate(angle, value, xOffsetVal) {
-      let xOffset = xOffsetVal || 0;
-      let x = Math.cos(angle) * radialScale(value);
-      let y = Math.sin(angle) * radialScale(value);
+      const xOffset = xOffsetVal || 0;
+      const x = Math.cos(angle) * radialScale(value);
+      const y = Math.sin(angle) * radialScale(value);
       return { x: 30 * scale[size] + x + xOffset, y: 30 * scale[size] - y };
     }
 
     function coordinatesToDistance(xVal, yVal) {
-      let zeroCoord = 30 * scale[size];
-      let xPixelDist = xVal - zeroCoord;
-      let yPixelDist = yVal - zeroCoord;
-      let totalPixelDist = Math.sqrt(
+      const zeroCoord = 30 * scale[size];
+      const xPixelDist = xVal - zeroCoord;
+      const yPixelDist = yVal - zeroCoord;
+      const totalPixelDist = Math.sqrt(
         xPixelDist * xPixelDist + yPixelDist * yPixelDist
       );
-      let rating = radialScale.invert(totalPixelDist);
+      const rating = radialScale.invert(totalPixelDist);
       return Math.round(rating);
     }
 
     propertyKeys.map((propertyKey, index) => {
-      let angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
-      let line_coordinate = angleToCoordinate(angle, 5);
-      let label_coordinate = angleToCoordinate(angle, 5.6, -2 * scale[size]);
+      const angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
+      const line_coordinate = angleToCoordinate(angle, 5);
+      const label_coordinate = angleToCoordinate(angle, 5.6, -2 * scale[size]);
 
       //draw axis line
       svg
@@ -169,13 +169,13 @@ const RadarChart: FC<{}> = (props) => {
       }
     });
 
-    let coordinates = propertyKeys.map((propertyKey, index) => {
-      let angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
+    const coordinates = propertyKeys.map((propertyKey, index) => {
+      const angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
       return angleToCoordinate(angle, incenseProperties[propertyKey]);
     });
 
     //Closes the loop
-    let finalCoordinates = angleToCoordinate(
+    const finalCoordinates = angleToCoordinate(
       Math.PI / 2 + (2 * Math.PI * 0) / propertyKeys.length,
       incenseProperties["sweet"]
     );
@@ -194,12 +194,12 @@ const RadarChart: FC<{}> = (props) => {
       .attr("opacity", 0.5);
 
     // Handles interactivity
-    if (props.interactive === true) {
+    if (interactive === true) {
       // Draws invisible, thicker lines on top of the axes so that selecting the value is easier.
       // This is placed way down here so it gets drawn over the shape (for clickability).
       propertyKeys.map((propertyKey, index) => {
-        let angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
-        let line_coordinate = angleToCoordinate(angle, 5);
+        const angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
+        const line_coordinate = angleToCoordinate(angle, 5);
         svg
           .append("line")
           .attr("class", "selectionHelper")
@@ -216,9 +216,12 @@ const RadarChart: FC<{}> = (props) => {
 
       d3.selectAll(".selectionHelper").call(
         d3.drag().on("start", function (event) {
-          const line = d3.select(this).classed("dragging", true);
-          let property = event.sourceEvent.srcElement.dataset.propertyType;
-          let rating = coordinatesToDistance(event.subject.x, event.subject.y);
+          d3.select(this).classed("dragging", true);
+          const property = event.sourceEvent.srcElement.dataset.propertyType;
+          const rating = coordinatesToDistance(
+            event.subject.x,
+            event.subject.y
+          );
           setProperty(property, rating);
         })
       );
@@ -229,7 +232,7 @@ const RadarChart: FC<{}> = (props) => {
     renderChart();
   }, [propertiesList]);
 
-  return <div className={`radarChart-${props.reviewId}`}></div>;
+  return <div className={`radarChart-${reviewId}`}></div>;
 };
 
 export default RadarChart;

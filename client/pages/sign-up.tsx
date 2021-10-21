@@ -1,12 +1,10 @@
 import App from "components/App";
 import { useState } from "react";
 import Head from "next/head";
-import Router from "next/router";
-import Link from "next/link";
 import { useMutation } from "react-query";
 import { useAuth } from "lib/auth";
 
-const SignUp: NextPage<{}> = () => {
+const SignUp: NextPage<Record<string, never>> = () => {
   const { register } = useAuth();
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -19,7 +17,7 @@ const SignUp: NextPage<{}> = () => {
 
   function signUpError() {
     if (signUp.isError) {
-      let errorDetail = signUp.error.body.error.detail;
+      const errorDetail = signUp.error.body.error.detail;
       return <div>Error:{errorDetail}</div>;
     }
   }

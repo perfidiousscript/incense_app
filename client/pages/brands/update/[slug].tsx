@@ -2,14 +2,11 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import App from "components/App";
-import Head from "next/head";
 import Link from "next/link";
 import Brands from "/lib/api/brands";
-import { useAuth } from "lib/auth";
 import { useMutation, useQuery } from "react-query";
-import { styles } from "/styles/Brands.module.css";
 
-const BrandUpdate: NextPage<{}> = () => {
+const BrandUpdate: NextPage<Record<string, never>> = () => {
   const router = useRouter();
   const { slug } = router.query;
   const [name, setName] = useState("");
@@ -66,20 +63,20 @@ const BrandUpdate: NextPage<{}> = () => {
   }
 
   function createBrandBody() {
-    if (updateBrand.isLoading) {
+    if (isLoading) {
       return <div>Creating</div>;
-    } else if (updateBrand.isError) {
-      let error = updateBrand.error.body.error;
-      let errorDetail = error.detail;
+    } else if (isError) {
+      const errorBody = error.body.error;
+      const errorDetail = error.detail;
 
       return (
         <div className="centeredText">
           <div>Error: {errorDetail}</div>
-          {expandErrorReason(error.params)}
+          {expandErrorReason(errorBody.params)}
         </div>
       );
     } else if (updateBrand.isSuccess) {
-      let { data } = updateBrand;
+      const { data } = updateBrand;
       return (
         <div className="centeredText">
           <div>{data.name} has been sucessfully updated</div>

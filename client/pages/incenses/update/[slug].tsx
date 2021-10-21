@@ -2,17 +2,13 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import App from "components/App";
-import Head from "next/head";
 import Link from "next/link";
 import Incenses from "/lib/api/incenses";
-import Brands from "/lib/api/brands";
 import Ingredients from "/lib/api/ingredients";
 import { useAuth } from "lib/auth";
 import { useMutation, useQuery } from "react-query";
-import { styles } from "/styles/Incenses.module.css";
-import { debounce } from "debounce";
 
-const IncenseUpdate: NextPage<{}> = () => {
+const IncenseUpdate: NextPage<Record<string, never>> = () => {
   const { user } = useAuth();
   const router = useRouter();
   const { slug } = router.query;
@@ -51,10 +47,6 @@ const IncenseUpdate: NextPage<{}> = () => {
     updateIncense.mutate();
   };
 
-  const searchBrands = useMutation((searchTerm) => {
-    Brands.search({ name: searchTerm });
-  });
-
   const listIngredients = useQuery("ingredients", Ingredients.list);
 
   function invalidForm() {
@@ -62,7 +54,7 @@ const IncenseUpdate: NextPage<{}> = () => {
   }
 
   function handleCheckBox({ target }) {
-    let currentId = event.target.id;
+    const currentId = event.target.id;
     if (target.checked) {
       setIngredientIds((old) => [...old, currentId]);
     } else {
@@ -77,7 +69,7 @@ const IncenseUpdate: NextPage<{}> = () => {
   }
 
   function generateIngredientBoxes() {
-    let ingredientsBoxes = [];
+    const ingredientsBoxes = [];
     if (listIngredients.data && ingredientIds) {
       listIngredients.data.map((ingredient, index) => {
         if (index > 0 && index % 4 === 0) {
@@ -126,29 +118,19 @@ const IncenseUpdate: NextPage<{}> = () => {
     }
   }
 
-  // Would be great to get a debounce on this.
-  function changeBrand({ target }) {
-    setBrandName(target.value);
-    if (target.list.children.length === 1) {
-      setBrandId(target.list.children[0].dataset.id);
-    }
-    searchBrands.mutate(target.value);
-  }
-
   function createIncenseBody() {
-    if (updateIncense.isLoading) {
+    if (isLoading) {
       return <div>Creating</div>;
-    } else if (updateIncense.isError) {
-      let error = updateIncense.error.body.error;
-      let errorDetail = error.detail;
+    } else if (isError) {
+      const errorDetail = error.detail;
 
       return (
         <div className="centeredText">
           <div>Error: {errorDetail}</div>
-          {expandErrorReason(error.params)}
+          {expandErrorReason(error.body.error.params)}
         </div>
       );
-    } else if (updateIncense.isSuccess) {
+    } else if (isSuccess) {
       return (
         <div className="centeredText">
           <div>Success! {updateIncense.data.name} has been created</div>

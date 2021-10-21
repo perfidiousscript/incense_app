@@ -33,7 +33,7 @@ export const LogInError = z.object({
 
 export interface QueryKeyObject {
   pageParam: undefined;
-  queryKey: String[];
+  queryKey: string[];
 }
 
 export * from "types/query_keys";

@@ -1,4 +1,4 @@
-import { NextPageContext, NextPage } from "next";
+import { NextPage } from "next";
 import Link from "next/link";
 import App from "components/App";
 import Head from "next/head";
@@ -7,11 +7,7 @@ import { useQuery } from "react-query";
 import { BrandsEntries, BrandEntry } from "/components/BrandsUnits";
 import styles from "/styles/Brands.module.css";
 
-type InitialProps = {
-  brands: Brand[];
-};
-
-const BrandsIndex: NextPage<InitialProps> = ({ brands }) => {
+const BrandsIndex: NextPage<Record<string, never>> = () => {
   const { isLoading, isError, data, error } = useQuery("brands", Brands.list);
 
   function brandsFetch() {

@@ -10,7 +10,7 @@ import {
 } from "/components/NavUnits";
 import { useAuth } from "lib/auth";
 
-const Nav: FC<{}> = () => {
+const Nav: FC<Record<string, never>> = () => {
   const { user } = useAuth();
   const [incensesExpansion, setIncensesExpansion] = useState(false);
   const [brandsExpansion, setBrandsExpansion] = useState(false);
@@ -18,15 +18,15 @@ const Nav: FC<{}> = () => {
   const [aboutExpansion, setAboutExpansion] = useState(false);
   const [accountExpansion, setAccountExpansion] = useState(false);
 
-  var incensesDropdownList = [["Incenses"], ["Browse Incenses", "/incenses"]];
+  const incensesDropdownList = [["Incenses"], ["Browse Incenses", "/incenses"]];
 
-  var brandsDropdownList = [
+  const brandsDropdownList = [
     ["Brands"],
     ["Browse Brands", "/brands"],
     ["Search Brands", "/brands/search"],
   ];
 
-  var ingredientsDropdownList = [
+  const ingredientsDropdownList = [
     ["Ingredients"],
     ["Browse Ingredients", "/ingredients"],
   ];
@@ -43,8 +43,11 @@ const Nav: FC<{}> = () => {
   }
 
   // Takes the list of elements in the dropdownArray and generates them as.
-  function renderExpandedDropdown(list: Array, expandFunction: Function) {
-    let dropdown = list.map((entry: Array) => {
+  function renderExpandedDropdown(
+    list: Array,
+    expandFunction: (fn: boolean) => void
+  ) {
+    const dropdown = list.map((entry: Array) => {
       if (entry[1]) {
         return (
           <NavDropDownUnit
@@ -113,7 +116,7 @@ const Nav: FC<{}> = () => {
 
   function renderAccountUnit() {
     if (user) {
-      let accountDropdown = [
+      const accountDropdown = [
         <ExpandedNavTopUnit
           entry="Account"
           expandFunction={setAccountExpansion}
@@ -123,7 +126,7 @@ const Nav: FC<{}> = () => {
         </ExpandedNavTopUnit>,
       ];
       if (accountExpansion) {
-        let expandedAccount = [
+        const expandedAccount = [
           <NavDropDownUnit
             entry={["Profile", "/user/profile"]}
             expandFunction={setAccountExpansion}

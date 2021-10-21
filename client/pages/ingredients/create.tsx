@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 import Ingredients from "/lib/api/ingredients";
 import App from "components/App";
 
-const IngredientCreate: NextPage<{}> = () => {
+const IngredientCreate: NextPage<Record<string, never>> = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -45,8 +45,8 @@ const IngredientCreate: NextPage<{}> = () => {
     if (createIngredient.isLoading) {
       return <div>Creating Ingredient, Please Wait</div>;
     } else if (createIngredient.isError) {
-      let error = createIngredient.error.body.error;
-      let errorDetail = error.detail;
+      const error = createIngredient.error.body.error;
+      const errorDetail = error.detail;
 
       return (
         <div className="centeredText">
@@ -55,7 +55,7 @@ const IngredientCreate: NextPage<{}> = () => {
         </div>
       );
     } else if (createIngredient.isSuccess) {
-      let { data } = createIngredient;
+      const { data } = createIngredient;
       return (
         <div className="centeredText">
           <div>Success! {data.name} has been created</div>

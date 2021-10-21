@@ -1,7 +1,5 @@
-import { NextPageContext, NextPage } from "next";
-
+import { NextPage } from "next";
 import App from "components/App";
-import Head from "next/head";
 import Link from "next/link";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
@@ -27,7 +25,7 @@ function displayRadarChart(incense) {
   }
 }
 
-const IncensesIndex: NextPage<InitialProps> = ({ incenses }) => {
+const IncensesIndex: NextPage<InitialProps> = () => {
   function incensesFetch() {
     const { isLoading, isError, data, error } = useQuery(
       "incenses",

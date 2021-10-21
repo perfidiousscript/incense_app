@@ -1,12 +1,11 @@
 import App from "components/App";
 import { useState } from "react";
 import Head from "next/head";
-import Router from "next/router";
 import Link from "next/link";
 import { useMutation } from "react-query";
 import { useAuth } from "lib/auth";
 
-const SignIn: NextPage<{}> = () => {
+const SignIn: NextPage<Record<string, never>> = () => {
   const { user, login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +17,7 @@ const SignIn: NextPage<{}> = () => {
 
   function signInError() {
     if (signIn.isError) {
-      let errorDetail = signIn.error.body.error.detail;
+      const errorDetail = signIn.error.body.error.detail;
       return <div>Error:{errorDetail}</div>;
     }
   }

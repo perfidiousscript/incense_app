@@ -1,16 +1,11 @@
-import { NextPageContext, NextPage } from "next";
+import { NextPage } from "next";
 import Link from "next/link";
 import App from "components/App";
-import Head from "next/head";
 import Ingredients from "/lib/api/ingredients";
-import {
-  IngredientsGrid,
-  IngredientsRow,
-  IngredientEntry,
-} from "/components/IngredientsUnits";
+import { IngredientsGrid, IngredientEntry } from "/components/IngredientsUnits";
 import { useQuery } from "react-query";
 
-const IngredientsIndex: NextPage<{}> = () => {
+const IngredientsIndex: NextPage<Record<string, never>> = () => {
   const { isLoading, isError, data, error } = useQuery(
     "ingredients",
     Ingredients.list

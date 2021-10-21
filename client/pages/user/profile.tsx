@@ -1,10 +1,9 @@
-import { NextPageContext, NextPage } from "next";
-import { useQuery } from "react-query";
+import { NextPage } from "next";
 import { useAuth } from "lib/auth";
 import App from "components/App";
 import ReviewEntry from "components/ReviewEntry";
 
-const UserProfile: NextPage<{}> = () => {
+const UserProfile: NextPage<Record<string, never>> = () => {
   const { user } = useAuth();
 
   if (user) {

@@ -1,18 +1,15 @@
-import { NextPageContext, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import App from "components/App";
 import RadarChart from "components/RadarChart";
 import ReviewEntry from "components/ReviewEntry";
-import Head from "next/head";
 import Incenses from "/lib/api/incenses";
 import { useQuery } from "react-query";
 import { useAuth } from "lib/auth";
-import { reviewProperties } from "/lib/constants";
 import styles from "/styles/Incenses.module.css";
 
-const IncenseShow: NextPage<{}> = () => {
+const IncenseShow: NextPage<Record<string, never>> = () => {
   const { user } = useAuth();
   const router = useRouter();
   const { slug } = router.query;
@@ -53,7 +50,7 @@ const IncenseShow: NextPage<{}> = () => {
 
   function showRadarChart(incense) {
     if (incense.incenseStatistic) {
-      let { incenseStatistic } = incense;
+      const { incenseStatistic } = incense;
       return (
         <>
           <RadarChart

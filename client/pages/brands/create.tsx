@@ -6,9 +6,8 @@ import Link from "next/link";
 import Brands from "/lib/api/brands";
 import { useAuth } from "lib/auth";
 import { useMutation } from "react-query";
-import { styles } from "/styles/Brands.module.css";
 
-const BrandCreate: NextPage<{}> = () => {
+const BrandCreate: NextPage<Record<string, never>> = () => {
   const { user } = useAuth();
   const [name, setName] = useState("");
   const [country, setCountry] = useState("");
@@ -63,8 +62,8 @@ const BrandCreate: NextPage<{}> = () => {
     if (createResult.isLoading) {
       return <div>Creating</div>;
     } else if (createResult.isError) {
-      let error = createResult.error.body.error;
-      let errorDetail = error.detail;
+      const error = createResult.error.body.error;
+      const errorDetail = error.detail;
 
       return (
         <div className="centeredText">
@@ -73,7 +72,7 @@ const BrandCreate: NextPage<{}> = () => {
         </div>
       );
     } else if (createResult.isSuccess) {
-      let { data } = createResult;
+      const { data } = createResult;
       return (
         <div className="centeredText">
           <div>Success! {data.name} has been created</div>

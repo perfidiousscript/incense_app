@@ -6,7 +6,12 @@ import Link from "next/link";
 import Config from "lib/config";
 import { useAuth } from "lib/auth";
 
-const App: FC<{}> = ({ children, authCheck, modOnly, title }) => {
+const App: FC<{
+  children: Children;
+  authCheck: boolean;
+  modOnly: boolean;
+  title: string;
+}> = ({ children, authCheck, modOnly, title }) => {
   const { user } = useAuth();
 
   if (authCheck && !user) {

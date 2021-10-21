@@ -4,7 +4,7 @@ import { Ingredient, HttpMethod, QueryKeyObject } from "types";
 
 export default {
   get(queryKeyObject: QueryKeyObject): Promise<Ingredient> {
-    let id = queryKeyObject.queryKey[1];
+    const id = queryKeyObject.queryKey[1];
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/ingredients/${id}`),

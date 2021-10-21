@@ -4,7 +4,7 @@ import { Incense, HttpMethod, QueryKey, IncenseSearchMutation } from "types";
 
 export default {
   get(queryKeyObject: QueryKey): Promise<Incense> {
-    let id = queryKeyObject.queryKey[1];
+    const id = queryKeyObject.queryKey[1];
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/incenses/${id}`),
@@ -35,7 +35,7 @@ export default {
     }).then(({ body }) => Incense.parse(body));
   },
   update(queryKeyObject: QueryKeyObject): Promise<Incense> {
-    let slug = queryKeyObject.slug;
+    const slug = queryKeyObject.slug;
     delete queryKeyObject.slug;
     return Request.make({
       method: HttpMethod.PATCH,

@@ -33,7 +33,7 @@ const StyledDropDownUnit = styled.div`
 
 export const ExpandedNavTopUnit: FC<{
   entry: Array;
-  expandFunction: Function;
+  expandFunction: (fn: boolean) => void;
 }> = ({ entry, expandFunction }) => {
   return (
     <StyledNavTopUnit
@@ -51,7 +51,7 @@ export const ExpandedNavTopUnit: FC<{
 
 export const ClosedNavTopUnit: FC<{
   entry: Array;
-  expandFunction: Function;
+  expandFunction: (fn: boolean) => void;
 }> = ({ entry, expandFunction, children }) => {
   return (
     <StyledNavTopUnit
@@ -67,7 +67,7 @@ export const ClosedNavTopUnit: FC<{
 
 export const NavDropDownUnit: FC<{
   entry: Array;
-  expandFunction: Function;
+  expandFunction: (fn: boolean) => void;
 }> = ({ entry, expandFunction }) => {
   return (
     <StyledDropDownUnit
@@ -86,7 +86,7 @@ export const NavDropDownUnit: FC<{
   );
 };
 
-export const LogOutUnit: FC<{ expandFunction: Function }> = ({
+export const LogOutUnit: FC<{ expandFunction: (fn: boolean) => void }> = ({
   expandFunction,
 }) => {
   const { logout } = useAuth();

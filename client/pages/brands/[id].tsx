@@ -1,9 +1,7 @@
-import { NextPageContext, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import App from "components/App";
-import Head from "next/head";
 import Brands from "/lib/api/brands";
 import { useAuth } from "lib/auth";
 import { useQuery } from "react-query";
