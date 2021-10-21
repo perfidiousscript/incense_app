@@ -4,7 +4,7 @@ import { HttpMethod, QueryKeyObject } from "types";
 import Config from "lib/config";
 
 export default {
-  upload(queryKeyObject: QueryKeyObject): Promise<Response> {
+  upload(image: string): Promise<Response> {
     const formdata = new FormData();
     formdata.append("image", queryKeyObject["image"]);
     return Request.make({
