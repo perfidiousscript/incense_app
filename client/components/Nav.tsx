@@ -7,7 +7,7 @@ import {
   ExpandedNavTopUnit,
   NavDropDownUnit,
   LogOutUnit,
-} from "/components/NavUnits";
+} from "components/NavUnits";
 import { useAuth } from "lib/auth";
 
 const Nav: FC<Record<string, never>> = () => {
@@ -18,15 +18,18 @@ const Nav: FC<Record<string, never>> = () => {
   const [aboutExpansion, setAboutExpansion] = useState(false);
   const [accountExpansion, setAccountExpansion] = useState(false);
 
-  const incensesDropdownList = [["Incenses"], ["Browse Incenses", "/incenses"]];
+  var incensesDropdownList: string[][] = [
+    ["Incenses"],
+    ["Browse Incenses", "/incenses"],
+  ];
 
-  const brandsDropdownList = [
+  var brandsDropdownList: string[][] = [
     ["Brands"],
     ["Browse Brands", "/brands"],
     ["Search Brands", "/brands/search"],
   ];
 
-  const ingredientsDropdownList = [
+  var ingredientsDropdownList: string[][] = [
     ["Ingredients"],
     ["Browse Ingredients", "/ingredients"],
   ];
@@ -44,25 +47,17 @@ const Nav: FC<Record<string, never>> = () => {
 
   // Takes the list of elements in the dropdownArray and generates them as.
   function renderExpandedDropdown(
-    list: Array,
+    list: string[][],
     expandFunction: (fn: boolean) => void
   ) {
-    const dropdown = list.map((entry: Array) => {
-      if (entry[1]) {
+    const dropdown = list.map((entry: string[]) => {
+      if (entry.length === 2) {
         return (
-          <NavDropDownUnit
-            entry={entry}
-            expandFunction={expandFunction}
-            key={entry[0]}
-          />
+          <NavDropDownUnit entry={entry} expandFunction={expandFunction} />
         );
       } else {
         return (
-          <ExpandedNavTopUnit
-            entry={entry}
-            expandFunction={expandFunction}
-            key={entry[0]}
-          />
+          <ExpandedNavTopUnit entry={entry} expandFunction={expandFunction} />
         );
       }
     });
@@ -75,8 +70,9 @@ const Nav: FC<Record<string, never>> = () => {
     } else {
       return (
         <ClosedNavTopUnit
-          entry="Incenses"
+          entry={["Incenses"]}
           expandFunction={setIncensesExpansion}
+          key={"incenses"}
         >
           Incenses
         </ClosedNavTopUnit>
@@ -89,7 +85,11 @@ const Nav: FC<Record<string, never>> = () => {
       return renderExpandedDropdown(brandsDropdownList, setBrandsExpansion);
     } else {
       return (
-        <ClosedNavTopUnit entry="Brands" expandFunction={setBrandsExpansion}>
+        <ClosedNavTopUnit
+          entry={["Brands"]}
+          expandFunction={setBrandsExpansion}
+          key={"Brands"}
+        >
           Brands
         </ClosedNavTopUnit>
       );
@@ -105,8 +105,9 @@ const Nav: FC<Record<string, never>> = () => {
     } else {
       return (
         <ClosedNavTopUnit
-          entry="Ingredients"
+          entry={["Ingredients"]}
           expandFunction={setIngredientsExpansion}
+          key={"Ingredients"}
         >
           Ingredients
         </ClosedNavTopUnit>
@@ -118,7 +119,7 @@ const Nav: FC<Record<string, never>> = () => {
     if (user) {
       const accountDropdown = [
         <ExpandedNavTopUnit
-          entry="Account"
+          entry={["Account"]}
           expandFunction={setAccountExpansion}
           key={"account"}
         >
@@ -137,7 +138,7 @@ const Nav: FC<Record<string, never>> = () => {
             key={"logOutUnit"}
           />,
         ];
-        accountDropdown.push([...expandedAccount]);
+        accountDropdown.push(...expandedAccount);
       }
       return (
         <div className={styles.expandedDropdownContainer}>
@@ -146,7 +147,11 @@ const Nav: FC<Record<string, never>> = () => {
       );
     } else {
       return (
-        <ClosedNavTopUnit entry={"signIn"} expandFunction={setAccountExpansion}>
+        <ClosedNavTopUnit
+          entry={["signIn"]}
+          expandFunction={setAccountExpansion}
+          key={"signIn"}
+        >
           <Link href={`/sign-in`}>
             <div>Sign In / Register</div>
           </Link>
@@ -164,7 +169,11 @@ const Nav: FC<Record<string, never>> = () => {
       {renderBrandsUnit()}
       {renderIngredientsUnit()}
 
-      <ClosedNavTopUnit entry={"About"} expandFunction={setAboutExpansion}>
+      <ClosedNavTopUnit
+        entry={["About"]}
+        expandFunction={setAboutExpansion}
+        key={"About"}
+      >
         <Link href="/about">
           <div>About</div>
         </Link>

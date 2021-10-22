@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { useMutation } from "react-query";
 import { useAuth } from "lib/auth";
 
@@ -32,7 +32,7 @@ const StyledDropDownUnit = styled.div`
 `;
 
 export const ExpandedNavTopUnit: FC<{
-  entry: Array;
+  entry: string[];
   expandFunction: (fn: boolean) => void;
 }> = ({ entry, expandFunction }) => {
   return (
@@ -44,18 +44,22 @@ export const ExpandedNavTopUnit: FC<{
         expandFunction(false);
       }}
     >
-      {entry}
+      {entry[0]}
     </StyledNavTopUnit>
   );
 };
 
-export const ClosedNavTopUnit: FC<{
-  entry: Array;
+export const ClosedNavTopUnit = ({
+  entry,
+  expandFunction,
+  children,
+}: {
+  entry: string[];
   expandFunction: (fn: boolean) => void;
-}> = ({ entry, expandFunction, children }) => {
+  children: JSX.Element | string;
+}) => {
   return (
     <StyledNavTopUnit
-      key={entry}
       onMouseEnter={() => {
         expandFunction(true);
       }}
@@ -65,13 +69,15 @@ export const ClosedNavTopUnit: FC<{
   );
 };
 
-export const NavDropDownUnit: FC<{
-  entry: Array;
+export const NavDropDownUnit = ({
+  entry,
+  expandFunction,
+}: {
+  entry: string[];
   expandFunction: (fn: boolean) => void;
-}> = ({ entry, expandFunction }) => {
+}) => {
   return (
     <StyledDropDownUnit
-      key={entry[0]}
       onMouseEnter={() => {
         expandFunction(true);
       }}
@@ -86,18 +92,19 @@ export const NavDropDownUnit: FC<{
   );
 };
 
-export const LogOutUnit: FC<{ expandFunction: (fn: boolean) => void }> = ({
+export const LogOutUnit = ({
   expandFunction,
+}: {
+  expandFunction: (fn: boolean) => void;
 }) => {
   const { logout } = useAuth();
   const logOutUser = useMutation(logout);
-  function logOutHelper(event) {
+  function logOutHelper(event: React.MouseEvent<HTMLDivElement>) {
     event.preventDefault();
     logOutUser.mutate();
   }
   return (
     <StyledDropDownUnit
-      key={"logOut"}
       onMouseEnter={() => {
         expandFunction(true);
       }}
