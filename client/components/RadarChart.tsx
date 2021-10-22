@@ -1,44 +1,43 @@
 import { FC } from "react";
 import * as d3 from "d3";
 import { useEffect } from "react";
+import { ReviewChart } from "types";
+import { propertiesList } from "lib/constants";
 
-const RadarChart: FC<Review> = (props) => {
-  const isStatistic = props.isStatistic;
-  const reviewId = props.reviewId;
-  const interactive = props.interactive;
-  const review = props.review;
-  const size = props.size;
-
-  const propertiesList = [
-    "sweet",
-    "floral",
-    "ethereal",
-    "smokey",
-    "woody",
-    "earthy",
-    "savory",
-    "herbal",
-    "spicy",
-    "citrus",
-    "fruity",
-  ];
-
-  const scale = {
+const RadarChart = ({
+  isStatistic,
+  reviewId,
+  interactive,
+  review,
+  size,
+  setSavory,
+  setSweet,
+  setSmokey,
+  setWoody,
+  setEthereal,
+  setFruity,
+  setHerbal,
+  setSpicy,
+  setCitrus,
+  setFloral,
+  setEarthy,
+}: ReviewChart) => {
+  const scale: { [name: string]: number } = {
     xLarge: 12,
     large: 8,
     medium: 4,
     small: 1,
   };
 
-  const incenseProperties = {};
+  const incenseProperties: { [name: string]: number } = {};
 
   if (isStatistic) {
-    propertiesList.map((property) => {
-      const averageProperty = `${property}Avg`;
+    propertiesList.map((property: string) => {
+      let averageProperty: string = `${property}Avg`;
       incenseProperties[property] = review[averageProperty];
     });
   } else {
-    propertiesList.map((property) => {
+    propertiesList.map((property: string) => {
       incenseProperties[property] = review[property];
     });
   }
@@ -48,37 +47,37 @@ const RadarChart: FC<Review> = (props) => {
   function setProperty(propertyType: string, value: number) {
     switch (propertyType) {
       case "savory":
-        props.setSavory(value);
+        setSavory?.(value);
         break;
       case "sweet":
-        props.setSweet(value);
+        setSweet?.(value);
         break;
       case "smokey":
-        props.setSmokey(value);
+        setSmokey?.(value);
         break;
       case "woody":
-        props.setWoody(value);
+        setWoody?.(value);
         break;
       case "ethereal":
-        props.setEthereal(value);
+        setEthereal?.(value);
         break;
       case "fruity":
-        props.setFruity(value);
+        setFruity?.(value);
         break;
       case "herbal":
-        props.setHerbal(value);
+        setHerbal?.(value);
         break;
       case "spicy":
-        props.setSpicy(value);
+        setSpicy?.(value);
         break;
       case "citrus":
-        props.setCitrus(value);
+        setCitrus?.(value);
         break;
       case "floral":
-        props.setFloral(value);
+        setFloral?.(value);
         break;
       case "earthy":
-        props.setEarthy(value);
+        setEarthy?.(value);
         break;
     }
   }
@@ -99,7 +98,7 @@ const RadarChart: FC<Review> = (props) => {
     const ticks = [0, 1, 2, 3, 4, 5];
 
     const line = d3
-      .line()
+      .line<{ x: any; y: any }>()
       .x((d) => d.x)
       .y((d) => d.y);
 
@@ -126,14 +125,18 @@ const RadarChart: FC<Review> = (props) => {
       }
     }
 
-    function angleToCoordinate(angle, value, xOffsetVal) {
+    function angleToCoordinate(
+      angle: number,
+      value: number,
+      xOffsetVal?: number
+    ) {
       const xOffset = xOffsetVal || 0;
       const x = Math.cos(angle) * radialScale(value);
       const y = Math.sin(angle) * radialScale(value);
       return { x: 30 * scale[size] + x + xOffset, y: 30 * scale[size] - y };
     }
 
-    function coordinatesToDistance(xVal, yVal) {
+    function coordinatesToDistance(xVal: number, yVal: number) {
       const zeroCoord = 30 * scale[size];
       const xPixelDist = xVal - zeroCoord;
       const yPixelDist = yVal - zeroCoord;
@@ -142,6 +145,14 @@ const RadarChart: FC<Review> = (props) => {
       );
       const rating = radialScale.invert(totalPixelDist);
       return Math.round(rating);
+    }
+
+    function dragRadar(event: MouseEvent) {
+      console.log("event: ", event);
+      d3.select(this).classed("dragging", true);
+      const property = event.sourceEvent.srcElement.dataset.propertyType;
+      const rating = coordinatesToDistance(event.subject.x, event.subject.y);
+      setProperty(property, rating);
     }
 
     propertyKeys.map((propertyKey, index) => {
@@ -214,23 +225,13 @@ const RadarChart: FC<Review> = (props) => {
           .attr("z-index", 5);
       });
 
-      d3.selectAll(".selectionHelper").call(
-        d3.drag().on("start", function (event) {
-          d3.select(this).classed("dragging", true);
-          const property = event.sourceEvent.srcElement.dataset.propertyType;
-          const rating = coordinatesToDistance(
-            event.subject.x,
-            event.subject.y
-          );
-          setProperty(property, rating);
-        })
-      );
+      svg.selectAll(".selectionHelper").call(d3.drag().on("start", dragRadar));
     }
   }
 
   useEffect(() => {
     renderChart();
-  }, [propertiesList]);
+  }, [incenseProperties]);
 
   return <div className={`radarChart-${reviewId}`}></div>;
 };

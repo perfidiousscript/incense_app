@@ -30,15 +30,13 @@ const ImageUpload: FC<{
 }> = ({ disabled, setImageUrl }) => {
   const uploadResult = useMutation(
     (image: string): Promise<any> => {
-      return Image.upload({
-        image: image,
-      });
+      return Image.upload(image);
     }
   );
 
-  function handleRequest({ target }) {
-    if (target) {
-      uploadResult.mutate(target);
+  function handleRequest(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target) {
+      uploadResult.mutate(e.target.value);
     }
   }
 

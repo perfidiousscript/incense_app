@@ -1,4 +1,4 @@
-export const reviewProperties = [
+export const propertiesList = [
   "sweet",
   "smokey",
   "woody",

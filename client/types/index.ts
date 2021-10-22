@@ -36,5 +36,24 @@ export interface QueryKeyObject {
   queryKey: string[];
 }
 
+export interface ReviewChart {
+  isStatistic: boolean;
+  size: string;
+  interactive: boolean;
+  reviewId: string;
+  review: Review;
+  setSavory?: Function;
+  setSweet?: Function;
+  setSmokey?: Function;
+  setWoody?: Function;
+  setEthereal?: Function;
+  setFruity?: Function;
+  setHerbal?: Function;
+  setSpicy?: Function;
+  setCitrus?: Function;
+  setFloral?: Function;
+  setEarthy?: Function;
+}
+
 export * from "types/query_keys";
 export * from "types/resources";
