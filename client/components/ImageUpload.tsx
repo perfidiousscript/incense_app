@@ -28,11 +28,13 @@ const ImageUpload: FC<{
   disabled: boolean;
   setImageUrl: (fn: string) => void;
 }> = ({ disabled, setImageUrl }) => {
-  const uploadResult = useMutation((image?: string): void => {
-    return Image.upload({
-      image: image,
-    });
-  });
+  const uploadResult = useMutation(
+    (image?: string): Promise => {
+      return Image.upload({
+        image: image,
+      });
+    }
+  );
 
   function handleRequest({ target }) {
     if (target) {
