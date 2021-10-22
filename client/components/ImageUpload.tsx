@@ -29,7 +29,7 @@ const ImageUpload: FC<{
   setImageUrl: (fn: string) => void;
 }> = ({ disabled, setImageUrl }) => {
   const uploadResult = useMutation(
-    (image?: string): Promise => {
+    (image?: string): Promise<T> => {
       return Image.upload({
         image: image,
       });
