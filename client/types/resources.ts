@@ -1,5 +1,10 @@
 import * as z from "zod";
 
+export type ImageUploadResponse = z.infer<typeof ImageUploadResponse>;
+export const ImageUploadResponse = z.object({
+  url: z.string(),
+});
+
 export type IncenseStatistic = z.infer<typeof IncenseStatistic>;
 export const IncenseStatistic = z.object({
   id: z.string().uuid(),

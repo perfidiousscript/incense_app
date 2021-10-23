@@ -1,10 +1,10 @@
 import Request from "lib/request";
 import Imgur from "lib/api/imgur";
-import { HttpMethod } from "types";
+import { HttpMethod, ImageUploadResponse } from "types";
 import Config from "lib/config";
 
 export default {
-  upload(image: string): Promise<Response> {
+  upload(image: string): Promise<ImageUploadResponse> {
     const formdata = new FormData();
     formdata.append("image", image);
     return Request.make({
@@ -15,9 +15,6 @@ export default {
         Accept: "application/json",
       },
       body: formdata,
-    }).then(({ body }) => {
-      console.log("body: ", body);
-      return body;
-    });
+    }).then(({ body }) => ImageUploadResponse.parse(body));
   },
 };
