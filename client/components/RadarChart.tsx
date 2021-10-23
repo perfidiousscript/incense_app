@@ -147,14 +147,6 @@ const RadarChart = ({
       return Math.round(rating);
     }
 
-    function dragRadar(event: MouseEvent) {
-      console.log("event: ", event);
-      d3.select(this).classed("dragging", true);
-      const property = event.sourceEvent.srcElement.dataset.propertyType;
-      const rating = coordinatesToDistance(event.subject.x, event.subject.y);
-      setProperty(property, rating);
-    }
-
     propertyKeys.map((propertyKey, index) => {
       const angle = Math.PI / 2 + (2 * Math.PI * index) / propertyKeys.length;
       const line_coordinate = angleToCoordinate(angle, 5);
@@ -225,7 +217,11 @@ const RadarChart = ({
           .attr("z-index", 5);
       });
 
-      svg.selectAll(".selectionHelper").call(d3.drag().on("start", dragRadar));
+      svg.selectAll(".selectionHelper").on("click", function (d) {
+        const property = d.srcElement.dataset.propertyType;
+        const rating = coordinatesToDistance(d.layerX, d.layerY);
+        setProperty(property, rating);
+      });
     }
   }
 
