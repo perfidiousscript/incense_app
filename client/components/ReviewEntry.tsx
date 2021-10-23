@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Review } from "types";
-import RadarChart from "/components/RadarChart";
+import RadarChart from "components/RadarChart";
 import styled from "styled-components";
-import styles from "/styles/Incenses.module.css";
+import styles from "styles/Incenses.module.css";
 
 const ReviewContainer = styled.div`
   border: 1px solid black;
@@ -24,7 +24,7 @@ const ReviewBody = styled.div`
   grid-template-columns: 1fr 6fr;
 `;
 
-const ReviewEntry: FC<Review> = ({ review }) => {
+const ReviewEntry = ({ review }: { review: Review }) => {
   return (
     <ReviewContainer>
       <div className={styles.reviewHead}>
@@ -49,8 +49,9 @@ const ReviewEntry: FC<Review> = ({ review }) => {
             floral: review.floral,
             earthy: review.earthy,
           }}
+          isStatistic={false}
           size="small"
-          interactive="false"
+          interactive={false}
         />
         <div className={styles.reviewBodyText}>{review.reviewBody}</div>
       </ReviewBody>
