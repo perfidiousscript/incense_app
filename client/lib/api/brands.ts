@@ -1,6 +1,12 @@
 import Request from "lib/request";
 import Base from "lib/api/base";
-import { Brand, HttpMethod, QueryKeyObject } from "types";
+import {
+  Brand,
+  HttpMethod,
+  QueryKeyObject,
+  BrandsCreateQueryKey,
+  BrandsUpdateQueryKey,
+} from "types";
 
 export default {
   get(queryKeyObject: QueryKeyObject): Promise<Brand> {
@@ -23,7 +29,7 @@ export default {
       params: queryKeyObject,
     }).then(({ body }) => Brand.array().parse(body));
   },
-  create(queryKeyObject: QueryKeyObject): Promise<Brand> {
+  create(queryKeyObject: BrandsCreateQueryKey): Promise<Brand> {
     const name = queryKeyObject.name;
     const description = queryKeyObject.description;
     const country = queryKeyObject.country;
@@ -41,7 +47,7 @@ export default {
       },
     }).then(({ body }) => Brand.parse(body));
   },
-  update(queryKeyObject: QueryKeyObject): Promise<Brand> {
+  update(queryKeyObject: BrandsUpdateQueryKey): Promise<Brand> {
     const slug = queryKeyObject.slug;
     delete queryKeyObject.slug;
     return Request.make({

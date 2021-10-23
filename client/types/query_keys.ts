@@ -15,3 +15,14 @@ export interface IncenseSearchMutation {
   includedIngredients: string;
   excludedIngredients: string;
 }
+
+export interface BrandsCreateQueryKey {
+  name: string;
+  description: string;
+  country: string;
+  imageUrl: string;
+}
+
+export interface BrandsUpdateQueryKey {
+  slug?: string;
+}
