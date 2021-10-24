@@ -6,6 +6,17 @@ interface Error {
   message: string;
 }
 
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+interface RegisterCredentials {
+  username: string;
+  password: string;
+  email: string;
+}
+
 const authConfig = {
   loadUser: User.loadUser,
   loginFn: User.loginFn,
