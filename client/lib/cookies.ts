@@ -1,11 +1,12 @@
 import nookies, { parseCookies, setCookie } from "nookies";
 import next, { NextPageContext } from "next";
 
-const nextPageContext: NextPageContext | null = null;
 
-// export const getCookies = (): string | undefined => {
-//   return nextPageContext?.req?.headers.cookie;
-// };
+let nextPageContext: NextPageContext | null = null;
+
+export const getCookies = (): string | undefined => {
+  return nextPageContext?.req?.headers.cookie;
+};
 
 export async function getServerSideProps(ctx: NextPageContext) {
   // Parse

@@ -2,7 +2,7 @@ import fetch from "isomorphic-unfetch";
 import humps from "humps";
 import { snakeCase } from "snake-case";
 
-import { HttpMethod, HttpResponse } from "types";
+import { HttpMethod, HttpResponse, Headers } from "types";
 
 import * as Cookies from "lib/cookies";
 
@@ -24,7 +24,7 @@ export default {
       ? `${options.url}?${objectToParams(options.params)}`
       : options.url;
 
-    const headers = {
+    const headers: Headers = {
       "Content-Type": "application/json",
       ...options.headers,
     };

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/d3": "^7.1.0",
+    "@types/humps": "^2.0.1",
     "@types/styled-components": "^5.1.15",
     "babel-plugin-styled-components": "^1.13.2",
     "d3": "^7.1.1",
