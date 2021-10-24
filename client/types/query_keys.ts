@@ -1,6 +1,17 @@
+import { Incense } from "/types/resources";
+
+export interface QueryKeyObject {
+  queryKey: String[];
+}
+
+export interface PaginatableQueryKeyObject {
+  pageParam: undefined;
+}
+
 export interface LoadUserQueryKey {
   username: string;
   password: string;
+  email: string;
 }
 
 export interface RegisterUserQueryKey {
@@ -9,11 +20,16 @@ export interface RegisterUserQueryKey {
   password: string;
 }
 
-export interface IncenseSearchMutation {
+export interface IncenseSearchMutationQueryKey
+  extends PaginatableQueryKeyObject {
   brand: string;
   country: string;
   includedIngredients: string;
   excludedIngredients: string;
+}
+
+export interface IncenseUpdateMutationQueryKey extends Incense {
+  slug?: string;
 }
 
 export interface BrandsCreateQueryKey {
