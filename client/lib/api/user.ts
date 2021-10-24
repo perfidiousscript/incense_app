@@ -29,7 +29,7 @@ export default {
       },
     }).then(({ body }) => User.parse(body));
   },
-  registerFn(queryKeyObject: RegisterUserQueryKey): Promise<Response> {
+  registerFn(queryKeyObject: RegisterUserQueryKey): Promise<User> {
     const email = queryKeyObject.email;
     const password = queryKeyObject.password;
     const username = queryKeyObject.username;
@@ -43,14 +43,12 @@ export default {
           password,
         },
       },
-    }).then((response) => {
-      return response;
-    });
+    }).then(({ body }) => User.parse(body));
   },
-  logoutFn(): Promise<Response> {
+  logoutFn(): Promise<number> {
     return Request.make({
       method: HttpMethod.DELETE,
       url: Base.url(`/sessions`),
-    }).then((res) => res);
+    }).then(({ status }) => status);
   },
 };

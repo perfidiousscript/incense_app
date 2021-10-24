@@ -1,16 +1,22 @@
 import Request from "lib/request";
 import Base from "lib/api/base";
-import { Incense, HttpMethod, QueryKey, IncenseSearchMutation } from "types";
+import {
+  Incense,
+  HttpMethod,
+  QueryKeyObject,
+  IncenseSearchMutationQueryKey,
+  IncenseUpdateMutationQueryKey,
+} from "types";
 
 export default {
-  get(queryKeyObject: QueryKey): Promise<Incense> {
+  get(queryKeyObject: QueryKeyObject): Promise<Incense> {
     const id = queryKeyObject.queryKey[1];
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/incenses/${id}`),
     }).then(({ body }) => Incense.parse(body));
   },
-  search(queryKeyObject: IncenseSearchMutation): Promise<Incense[]> {
+  search(queryKeyObject: IncenseSearchMutationQueryKey): Promise<Incense[]> {
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/incenses`),
@@ -34,7 +40,7 @@ export default {
       },
     }).then(({ body }) => Incense.parse(body));
   },
-  update(queryKeyObject: QueryKeyObject): Promise<Incense> {
+  update(queryKeyObject: IncenseUpdateMutationQueryKey): Promise<Incense> {
     const slug = queryKeyObject.slug;
     delete queryKeyObject.slug;
     return Request.make({
