@@ -1,13 +1,13 @@
-import { parseCookies, setCookie } from "nookies";
+import nookies, { parseCookies, setCookie } from "nookies";
 import next, { NextPageContext } from "next";
 
 const nextPageContext: NextPageContext | null = null;
 
-export const getCookies = (): string | undefined => {
-  return nextPageContext?.req?.headers.cookie;
-};
+// export const getCookies = (): string | undefined => {
+//   return nextPageContext?.req?.headers.cookie;
+// };
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx: NextPageContext) {
   // Parse
   const cookies = nookies.get(ctx);
 
