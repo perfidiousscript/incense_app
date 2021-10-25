@@ -10,10 +10,10 @@ import {
 
 export default {
   get(queryKeyObject: QueryKeyObject): Promise<Brand> {
-    const id = queryKeyObject.queryKey[1];
+    const [, slug] = queryKeyObject.queryKey;
     return Request.make({
       method: HttpMethod.GET,
-      url: Base.url(`/brands/${id}`),
+      url: Base.url(`/brands/${slug}`),
     }).then(({ body }) => Brand.parse(body));
   },
   list(): Promise<Brand[]> {

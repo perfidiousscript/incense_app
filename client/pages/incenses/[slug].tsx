@@ -4,10 +4,10 @@ import Link from "next/link";
 import App from "components/App";
 import RadarChart from "components/RadarChart";
 import ReviewEntry from "components/ReviewEntry";
-import Incenses from "/lib/api/incenses";
+import Incenses from "lib/api/incenses";
 import { useQuery } from "react-query";
 import { useAuth } from "lib/auth";
-import styles from "/styles/Incenses.module.css";
+import styles from "styles/Incenses.module.css";
 
 const IncenseShow: NextPage<Record<string, never>> = () => {
   const { user } = useAuth();
@@ -29,7 +29,7 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
     }
   }
 
-  function userReview() {
+  function showUserReview() {
     if (user) {
       if (data.userReview) {
         return (
@@ -80,6 +80,7 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
   }
 
   if (isError) {
+    console.log("error:", error);
     return <span>Error: {error}</span>;
   }
 
@@ -102,7 +103,7 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
             );
           })}
         </div>
-        <div>{userReview()}</div>
+        <div>{showUserReview()}</div>
         <div className={styles.incenseReviews}>Reviews</div>
         {data.reviews.map((review) => {
           return <ReviewEntry review={review} key={review.id} />;

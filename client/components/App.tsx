@@ -7,11 +7,11 @@ import Config from "lib/config";
 import { useAuth } from "lib/auth";
 
 const App: FC<{
-  children?: JSX.Element;
-  authCheck: boolean;
-  modOnly: boolean;
+  children?: JSX.Element[];
+  authCheck?: boolean;
+  modOnly?: boolean;
   title: string;
-}> = ({ children, authCheck, modOnly, title }) => {
+}> = ({ children, authCheck = false, modOnly = false, title }) => {
   const { user } = useAuth();
 
   if (authCheck && !user) {

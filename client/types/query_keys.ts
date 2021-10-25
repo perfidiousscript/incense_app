@@ -1,11 +1,11 @@
 import { Incense } from "/types/resources";
 
 export interface QueryKeyObject {
-  queryKey: String[];
+  queryKey: (string | string[] | { slug: string } | undefined)[];
 }
 
 export interface PaginatableQueryKeyObject {
-  pageParam: undefined;
+  pageParam: number;
 }
 
 export interface LoadUserQueryKey {
