@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useState } from "react";
 import App from "components/App";
+import RequestWrapper from "components/RequestWrapper";
 import Head from "next/head";
 import Link from "next/link";
 import Brands from "lib/api/brands";
@@ -34,19 +35,6 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
     );
   }
 
-  function expandErrorReason(errorParams: Record<string, string[]>) {
-    let reasonHtml: JSX.Element[] = [];
-    if (errorParams !== null) {
-      reasonHtml = Object.entries(errorParams).map(([key, value]) => (
-        <>
-          <span>{key}: </span>
-          <span>{value}</span>
-        </>
-      ));
-    }
-    return reasonHtml;
-  }
-
   function userNotice() {
     if (user && user.role === "user") {
       return (
@@ -61,29 +49,7 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
   }
 
   function createBrandBody() {
-    if (createResult.isLoading) {
-      return <div>Creating</div>;
-    } else if (createResult.error) {
-      const error = createResult.error.body?.error;
-      const errorDetail = error.detail;
-
-      return (
-        <div className="centeredText">
-          <div>Error: {errorDetail}</div>
-          {expandErrorReason(error.params)}
-        </div>
-      );
-    } else if (createResult.isSuccess) {
-      const { data } = createResult;
-      return (
-        <div className="centeredText">
-          <div>Success! {data.name} has been created</div>
-          <div>
-            See your new brand <Link href={`/brands/${data.slug}`}>Here</Link>
-          </div>
-        </div>
-      );
-    } else {
+    if (createResult.isIdle) {
       return (
         <div className="generalForm">
           {userNotice()}
@@ -134,6 +100,24 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
             </button>
           </form>
         </div>
+      );
+    } else if (createResult.isSuccess) {
+      const { data } = createResult;
+      return (
+        <div>
+          <div>Success! {data.name} has been created</div>
+          <div>
+            See your new brand <Link href={`/brands/${data.slug}`}>Here</Link>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <RequestWrapper
+          isLoading={createResult.isLoading}
+          isError={createResult.isError}
+          error={createResult.error}
+        />
       );
     }
   }
