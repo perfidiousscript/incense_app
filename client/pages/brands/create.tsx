@@ -3,7 +3,8 @@ import { useState } from "react";
 import App from "components/App";
 import Head from "next/head";
 import Link from "next/link";
-import Brands from "/lib/api/brands";
+import Brands from "lib/api/brands";
+import { MutationError, Brand } from "types";
 import { useAuth } from "lib/auth";
 import { useMutation } from "react-query";
 
@@ -14,7 +15,7 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const createResult = useMutation(() => {
+  const createResult = useMutation<Brand, MutationError>(() => {
     return Brands.create({
       name: name,
       country: country,
@@ -23,8 +24,7 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
     });
   });
 
-  const submit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     createResult.mutate();
   };
 
@@ -34,8 +34,8 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
     );
   }
 
-  function expandErrorReason(errorParams) {
-    let reasonHtml = [];
+  function expandErrorReason(errorParams: Record<string, string[]>) {
+    let reasonHtml: JSX.Element[] = [];
     if (errorParams !== null) {
       reasonHtml = Object.entries(errorParams).map(([key, value]) => (
         <>
@@ -48,21 +48,23 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
   }
 
   function userNotice() {
-    if (user.role === "user") {
+    if (user && user.role === "user") {
       return (
         <div>
           Please note that Brands must be approved by a moderator before they
           are visible. This may take 24-48 hours.
         </div>
       );
+    } else {
+      return <div></div>;
     }
   }
 
   function createBrandBody() {
     if (createResult.isLoading) {
       return <div>Creating</div>;
-    } else if (createResult.isError) {
-      const error = createResult.error.body.error;
+    } else if (createResult.error) {
+      const error = createResult.error.body?.error;
       const errorDetail = error.detail;
 
       return (
@@ -113,7 +115,6 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
             <textarea
               name="description"
               onChange={({ target: { value } }) => setDescription(value)}
-              type="text"
               disabled={createResult.isLoading}
               value={description}
             />
@@ -138,10 +139,7 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
   }
 
   return (
-    <App authCheck="true">
-      <Head>
-        <title>IH::Brand:Create</title>
-      </Head>
+    <App authCheck={true} title="Brand:Create">
       <div className="pageTitle">Create a New Brand</div>
       {createBrandBody()}
     </App>

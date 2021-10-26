@@ -45,11 +45,23 @@ export interface ReviewChart {
   setEarthy?: Function;
 }
 
-export type LogInError = z.infer<typeof LogInError>;
-export const LogInError = z.object({
-  type: z.string(),
+export interface MutationError {
+  status: string;
+  body: {
+    error: {
+      detail: string;
+      status: string;
+      type: string;
+      params: Record<string, string[]>;
+    };
+  };
+}
+
+export type LoginError = z.infer<typeof LogInError>;
+export const LoginError = z.object({
   detail: z.string(),
   status: z.string(),
+  type: z.string(),
 });
 
 export * from "types/query_keys";
