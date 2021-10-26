@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { Review } from "types";
 import RadarChart from "components/RadarChart";
 import styled from "styled-components";
