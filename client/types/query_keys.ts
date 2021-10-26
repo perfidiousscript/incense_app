@@ -5,7 +5,12 @@ export interface QueryKeyObject {
 }
 
 export interface PaginatableQueryKeyObject {
-  pageParam: number;
+  pageParam?: number;
+}
+
+export interface BrandsSearchQueryKeyObject extends PaginatableQueryKeyObject {
+  name?: string;
+  country?: string;
 }
 
 export interface LoadUserQueryKey {

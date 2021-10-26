@@ -6,6 +6,7 @@ import {
   QueryKeyObject,
   BrandsCreateQueryKey,
   BrandsUpdateQueryKey,
+  BrandsSearchQueryKeyObject,
 } from "types";
 
 export default {
@@ -22,7 +23,7 @@ export default {
       url: Base.url(`/brands`),
     }).then(({ body }) => Brand.array().parse(body));
   },
-  search(queryKeyObject: QueryKeyObject): Promise<Brand[]> {
+  search(queryKeyObject: BrandsSearchQueryKeyObject): Promise<Brand[]> {
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/brands`),
