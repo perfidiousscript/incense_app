@@ -84,7 +84,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
   end
 
   def query_params
-    params.permit(:name,:brand, :country, :includes_ingredients, :excludes_ingredients, :page_number)
+    params.permit(:name, :brand, :country, :page_number, :includes_ingredients , :excludes_ingredients)
   end
 
   def validate_ingredient_ids!
