@@ -1,17 +1,15 @@
 import { NextPage } from "next";
 import App from "components/App";
 import Link from "next/link";
-import Incenses from "/lib/api/incenses";
+import Incenses from "lib/api/incenses";
 import { useQuery } from "react-query";
-import { IncensesEntries, IncenseEntry } from "/components/IncensesUnits.tsx";
-import RadarChart from "/components/RadarChart";
-import styles from "/styles/Incenses.module.css";
+import { IncensesEntries, IncenseEntry } from "components/IncensesUnits";
+import RadarChart from "components/RadarChart";
+import RequestWrapper from "components/RequestWrapper";
+import { Incense, MutationError } from "types";
+import styles from "styles/Incenses.module.css";
 
-type InitialProps = {
-  incenses: Incense[];
-};
-
-function displayRadarChart(incense) {
+function displayRadarChart(incense: Incense) {
   if (incense.incenseStatistic) {
     return (
       <RadarChart
@@ -25,20 +23,12 @@ function displayRadarChart(incense) {
   }
 }
 
-const IncensesIndex: NextPage<InitialProps> = () => {
+const IncensesIndex: NextPage<Record<string, never>> = () => {
   function incensesFetch() {
-    const { isLoading, isError, data, error } = useQuery(
-      "incenses",
-      Incenses.list
-    );
-
-    if (isLoading) {
-      return <span>Loading...</span>;
-    }
-
-    if (isError) {
-      return <span>Error: {error.message}</span>;
-    }
+    const { isLoading, isError, data, error } = useQuery<
+      Incense[],
+      MutationError
+    >("incenses", Incenses.list);
 
     if (data) {
       return (
@@ -60,6 +50,10 @@ const IncensesIndex: NextPage<InitialProps> = () => {
             </Link>
           ))}
         </IncensesEntries>
+      );
+    } else {
+      return (
+        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
       );
     }
   }
