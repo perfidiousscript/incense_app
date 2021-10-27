@@ -29,8 +29,8 @@ export interface IncenseSearchMutationQueryKey
   extends PaginatableQueryKeyObject {
   brand: string;
   country: string;
-  includedIngredients: string;
-  excludedIngredients: string;
+  includesIngredients: string[];
+  excludesIngredients: string[];
 }
 
 export interface IncenseCreateQueryKey {

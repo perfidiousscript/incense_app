@@ -1,21 +1,24 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { BaseSyntheticEvent, useState } from "react";
 import App from "components/App";
 import Link from "next/link";
-import Incenses from "/lib/api/incenses";
+import Incenses from "lib/api/incenses";
 import { useMutation } from "react-query";
-import { IncensesEntries, IncenseEntry } from "/components/IncensesUnits.tsx";
-import RadarChart from "/components/RadarChart";
-import styles from "/styles/Incenses.module.css";
+import { IncensesEntries, IncenseEntry } from "components/IncensesUnits";
+import RadarChart from "components/RadarChart";
+import RequestWrapper from "components/RequestWrapper";
+import IngredientsPicker from "components/IngredientsPicker";
+import styles from "styles/Incenses.module.css";
+import { Incense, IncenseStatistic, MutationError } from "types";
 import { snakeCase } from "snake-case";
 
 const IncensesSearch: NextPage<Record<string, never>> = () => {
   const [brand, setBrand] = useState("");
   const [country, setCountry] = useState("");
-  const [includesIngredients, setIncludesIngredients] = useState("");
-  const [excludesIngredients, setExcludesIngredients] = useState("");
+  const [includesIngredients, setIncludesIngredients] = useState<string[]>([]);
+  const [excludesIngredients, setExcludesIngredients] = useState<string[]>([]);
 
-  const searchResult = useMutation(() => {
+  const searchResult = useMutation<Incense[], MutationError>(() => {
     const snakeBrand = snakeCase(brand);
     return Incenses.search({
       brand: snakeBrand,
@@ -25,17 +28,18 @@ const IncensesSearch: NextPage<Record<string, never>> = () => {
     });
   });
 
-  const submit = (event) => {
+  const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     searchResult.mutate();
   };
 
-  function displayRadarChart(incense) {
-    if (incense.reviews[0]) {
+  function displayRadarChart(incenseStatistic: IncenseStatistic) {
+    if (incenseStatistic) {
       return (
         <RadarChart
-          review={incense.reviews[0]}
-          reviewId={incense.reviews[0].id}
+          review={incenseStatistic}
+          isStatistic={true}
+          reviewId={incenseStatistic.id}
           size="small"
           interactive={false}
         />
@@ -44,15 +48,8 @@ const IncensesSearch: NextPage<Record<string, never>> = () => {
   }
 
   function incensesFetch() {
-    if (searchResult.isLoading) {
-      return <span>Loading...</span>;
-    }
-
-    if (searchResult.isError) {
-      return <span>Error: {searchResult.error.body.error.detail}</span>;
-    }
-
-    if (searchResult.data) {
+    const { isLoading, isError, error, data } = searchResult;
+    if (data) {
       return (
         <div className={styles.incenseGrid}>
           <div className={styles.incenseColumnHeader}>
@@ -62,11 +59,13 @@ const IncensesSearch: NextPage<Record<string, never>> = () => {
             <div className={styles.incenseCountryColumn}>Country</div>
           </div>
           <IncensesEntries>
-            {searchResult.data.map((incense) => (
+            {data.map((incense) => (
               <Link href={`/incenses/${incense.slug}`}>
                 <IncenseEntry key={incense.id}>
                   <div className={styles.incenseStatisticColumn}>
-                    {displayRadarChart(incense)}
+                    {incense.incenseStatistic
+                      ? displayRadarChart(incense.incenseStatistic)
+                      : null}
                   </div>
                   <div className={styles.incenseNameColumn}>{incense.name}</div>
                   <div className={styles.incenseBrandColumn}>
@@ -80,6 +79,10 @@ const IncensesSearch: NextPage<Record<string, never>> = () => {
             ))}
           </IncensesEntries>
         </div>
+      );
+    } else {
+      return (
+        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
       );
     }
   }
@@ -112,21 +115,13 @@ const IncensesSearch: NextPage<Record<string, never>> = () => {
             disabled={searchResult.isLoading}
             value={country}
           />
-          <label htmlFor="includesIngredients">Includes Ingredients</label>
-          <input
-            name="includesIngredients"
-            onChange={({ target: { value } }) => setIncludesIngredients(value)}
-            type="includesIngredients"
-            disabled={searchResult.isLoading}
-            value={includesIngredients}
+          <IngredientsPicker
+            title={"Includes Ingredients"}
+            setIngredientIds={setIncludesIngredients}
           />
-          <label htmlFor="excludesIngredients">Excludes Ingredients</label>
-          <input
-            name="excludesIngredients"
-            onChange={({ target: { value } }) => setExcludesIngredients(value)}
-            type="excludesIngredients"
-            disabled={searchResult.isLoading}
-            value={excludesIngredients}
+          <IngredientsPicker
+            title={"Excludes Ingredients"}
+            setIngredientIds={setExcludesIngredients}
           />
           <button type="submit" disabled={searchResult.isLoading}>
             Search

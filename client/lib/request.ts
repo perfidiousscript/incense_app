@@ -8,7 +8,8 @@ import * as Cookies from "lib/cookies";
 
 const objectToParams = (params: object) =>
   Object.entries(params)
-    .filter(([_, value]) => value !== (undefined || ""))
+    .filter(([_, value]) => value !== (undefined || ''))
+    .filter(([_, value]) => value.length > 0)
     .map(([key, value]) => snakeCase(key) + "=" + encodeURIComponent(value))
     .join("&");
 
@@ -20,6 +21,7 @@ export default {
     headers?: Record<string, string>;
     params?: object;
   }): Promise<HttpResponse> {
+  
     const urlWithParams = options.params
       ? `${options.url}?${objectToParams(options.params)}`
       : options.url;

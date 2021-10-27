@@ -21,6 +21,7 @@ const Nav: FC<Record<string, never>> = () => {
   var incensesDropdownList: string[][] = [
     ["Incenses"],
     ["Browse Incenses", "/incenses"],
+    ["Search Incenses", "/incenses/search"],
   ];
 
   var brandsDropdownList: string[][] = [
