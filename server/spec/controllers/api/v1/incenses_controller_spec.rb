@@ -332,7 +332,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_2, ingredient: ingredient)
 
         get :index, params: {
-          includes_ingredients: ingredient.slug
+          includes_ingredients: ingredient.id
         }
 
         expect(json.length).to eq(2)
@@ -352,7 +352,7 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
 
         get :index, params: {
-          excludes_ingredients: ingredient_1.slug
+          excludes_ingredients: ingredient_1.id
         }
 
         expect(json.length).to eq(1)
@@ -396,8 +396,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_2)
 
         get :index, params: {
-          includes_ingredients: ingredient_1.slug,
-          excludes_ingredients: ingredient_2.slug
+          includes_ingredients: ingredient_1.id,
+          excludes_ingredients: ingredient_2.id
         }
 
         expect(json.length).to eq(1)
@@ -421,8 +421,8 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         create(:ingredient_classification, incense: incense_3, ingredient: ingredient_1)
 
         get :index, params: {
-          includes_ingredients: ingredient_1.slug,
-          excludes_ingredients: ingredient_2.slug,
+          includes_ingredients: ingredient_1.id,
+          excludes_ingredients: ingredient_2.id,
           country: 'Japan'
         }
 

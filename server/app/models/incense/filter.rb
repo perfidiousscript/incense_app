@@ -8,11 +8,11 @@ class Incense::Filter
     end
 
     if query_params[:country].present?
-      scope = scope.joins(:brand).where(brand: {country:query_params[:country].split(',')})
+      scope = scope.joins(:brand).where(brand: {country:query_params[:country]})
     end
 
     if query_params[:includes_ingredients].present?
-      scope = scope.joins(:ingredients).where("ingredients.slug LIKE ? ", query_params[:includes_ingredients])
+      scope = scope.joins(:ingredients).where(ingredients: {id: query_params[:includes_ingredients]} )
     end
 
     scope

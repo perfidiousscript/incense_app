@@ -57,7 +57,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
     incenses = Incense.filtered(query_params).distinct
 
     if query_params[:excludes_ingredients].present?
-      incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where("ingredients.slug ILIKE ? ", "#{query_params[:excludes_ingredients]}")
+      incenses = incenses.order(:name) - Incense.approved.joins(:ingredients).where(ingredients: {id: query_params[:excludes_ingredients]})
       incenses = Kaminari.paginate_array(incenses).page(page_number)
     else
       incenses = incenses.order(:name).page(page_number)

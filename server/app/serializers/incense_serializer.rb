@@ -33,7 +33,7 @@ class IncenseSerializer < ActiveModel::Serializer
   :user_review
 
   has_one :incense_statistic
-  has_many :ingredients
+  has_many :ingredients, through: :ingredient_classifications
   has_many :reviews
 
   def user_review
