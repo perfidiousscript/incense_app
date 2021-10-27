@@ -3,6 +3,7 @@ import { BaseSyntheticEvent, useState } from "react";
 import App from "components/App";
 import ImageUpload from "components/ImageUpload";
 import RequestWrapper from "components/RequestWrapper";
+import IngredientsPicker from "components/IngredientsPicker";
 import Link from "next/link";
 import Incenses from "lib/api/incenses";
 import Brands from "lib/api/brands";
@@ -60,42 +61,6 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
       });
     }
     return options;
-  }
-
-  function handleCheckBox(event: BaseSyntheticEvent) {
-    const { target } = event;
-    const currentId = target.id;
-    if (target.checked) {
-      setIngredientIds((oldIds) => [...oldIds, currentId]);
-    } else {
-      setIngredientIds((oldIds) => {
-        return oldIds.filter((item) => item !== currentId);
-      });
-    }
-  }
-
-  function generateIngredientBoxes() {
-    const { data } = listIngredients;
-    const ingredientsBoxes: JSX.Element[] = [];
-    if (data) {
-      data.map((ingredient, index) => {
-        if (index > 0 && index % 4 === 0) {
-          ingredientsBoxes.push(<br />);
-        }
-        ingredientsBoxes.push(
-          <span key={ingredient.id}>
-            <input
-              type="checkbox"
-              name={ingredient.name}
-              id={ingredient.id}
-              onChange={handleCheckBox}
-            />
-            <label htmlFor={ingredient.name}>{ingredient.name}</label>
-          </span>
-        );
-      });
-    }
-    return ingredientsBoxes;
   }
 
   function userNotice() {
@@ -165,10 +130,11 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
               value={brandName}
             />
             <datalist id="brands">{generateBrandsDropdown()}</datalist>
-            <fieldset>
-              <legend>Ingredients</legend>
-              {generateIngredientBoxes()}
-            </fieldset>
+            <IngredientsPicker
+              title={"Ingredients"}
+              setIngredientIds={setIngredientIds}
+            />
+
             <label htmlFor="description">Description</label>
             <textarea
               name="description"
