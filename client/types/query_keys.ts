@@ -33,6 +33,14 @@ export interface IncenseSearchMutationQueryKey
   excludedIngredients: string;
 }
 
+export interface IncenseCreateQueryKey {
+  name: string;
+  description: string;
+  image_url?: string;
+  brand_id: string;
+  ingredient_ids?: string[];
+}
+
 export interface IncenseUpdateMutationQueryKey extends Incense {
   slug?: string;
 }

@@ -1,11 +1,13 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { BaseSyntheticEvent, useState } from "react";
 import App from "components/App";
 import ImageUpload from "components/ImageUpload";
+import RequestWrapper from "components/RequestWrapper";
 import Link from "next/link";
-import Incenses from "/lib/api/incenses";
-import Brands from "/lib/api/brands";
-import Ingredients from "/lib/api/ingredients";
+import Incenses from "lib/api/incenses";
+import Brands from "lib/api/brands";
+import Ingredients from "lib/api/ingredients";
+import { Incense, MutationError } from "types";
 import { useAuth } from "lib/auth";
 import { useMutation, useQuery } from "react-query";
 
@@ -16,9 +18,9 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [brandName, setBrandName] = useState("");
   const [brandId, setBrandId] = useState("");
-  const [ingredientIds, setIngredientIds] = useState([]);
+  const [ingredientIds, setIngredientIds] = useState<string[]>([]);
 
-  const createResult = useMutation(() => {
+  const createResult = useMutation<Incense, MutationError>(() => {
     return Incenses.create({
       name: name,
       description: description,
@@ -28,12 +30,12 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
     });
   });
 
-  const submit = (event) => {
+  const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     createResult.mutate();
   };
 
-  const searchBrands = useMutation((searchTerm) => {
+  const searchBrands = useMutation((searchTerm: string) => {
     return Brands.search({ name: searchTerm });
   });
 
@@ -46,7 +48,7 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
   }
 
   function generateBrandsDropdown() {
-    let options = [];
+    let options: JSX.Element[] = [];
     if (searchBrands.data) {
       const { data } = searchBrands;
       options = data.map((brand) => {
@@ -60,20 +62,21 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
     return options;
   }
 
-  function handleCheckBox({ target }) {
-    const currentId = event.target.id;
+  function handleCheckBox(event: BaseSyntheticEvent) {
+    const { target } = event;
+    const currentId = target.id;
     if (target.checked) {
-      setIngredientIds((old) => [...old, currentId]);
+      setIngredientIds((oldIds) => [...oldIds, currentId]);
     } else {
-      setIngredientIds((old) => {
-        return old.filter((item) => item !== currentId);
+      setIngredientIds((oldIds) => {
+        return oldIds.filter((item) => item !== currentId);
       });
     }
   }
 
   function generateIngredientBoxes() {
     const { data } = listIngredients;
-    const ingredientsBoxes = [];
+    const ingredientsBoxes: JSX.Element[] = [];
     if (data) {
       data.map((ingredient, index) => {
         if (index > 0 && index % 4 === 0) {
@@ -95,19 +98,6 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
     return ingredientsBoxes;
   }
 
-  function expandErrorReason(errorParams) {
-    let reasonHtml = [];
-    if (errorParams !== null) {
-      reasonHtml = Object.entries(errorParams).map(([key, value]) => (
-        <>
-          <span>{key}: </span>
-          <span>{value}</span>
-        </>
-      ));
-    }
-    return reasonHtml;
-  }
-
   function userNotice() {
     if (user) {
       if (user.role === "user") {
@@ -121,30 +111,22 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
     }
   }
 
-  // Would be great to get a debounce on this.
-  function changeBrand({ target }) {
+  // Possibly not the best way to go about this, but it works???
+  // Also, would be great to get a debounce on the mutation.
+  function changeBrand(event: BaseSyntheticEvent) {
+    const { target } = event;
     setBrandName(target.value);
-    if (target.list.children.length === 1) {
+    if (target.value === target.list.children[0]?.innerText) {
       setBrandId(target.list.children[0].dataset.id);
+    } else {
+      setBrandId("");
     }
     searchBrands.mutate(target.value);
   }
 
   function createIncenseBody() {
-    if (createResult.isLoading) {
-      return <div>Creating</div>;
-    } else if (createResult.isError) {
-      const error = createResult.error.body.error;
-      const errorDetail = error.detail;
-
-      return (
-        <div className="centeredText">
-          <div>Error: {errorDetail}</div>
-          {expandErrorReason(error.params)}
-        </div>
-      );
-    } else if (createResult.isSuccess) {
-      const { data } = createResult;
+    let { isSuccess, isLoading, isIdle, isError, error, data } = createResult;
+    if (isSuccess && data) {
       return (
         <div className="centeredText">
           <div>Success! {data.name} has been created</div>
@@ -154,7 +136,7 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
           </div>
         </div>
       );
-    } else {
+    } else if (isIdle) {
       return (
         <div className="generalForm">
           {userNotice()}
@@ -171,7 +153,7 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
               name="incense"
               onChange={({ target: { value } }) => setName(value)}
               type="text"
-              disabled={createResult.isLoading}
+              disabled={isLoading}
               value={name}
             />
             <label htmlFor="brand">Brand</label>
@@ -179,7 +161,7 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
               list="brands"
               onChange={changeBrand}
               type="text"
-              disabled={createResult.isLoading}
+              disabled={isLoading}
               value={brandName}
             />
             <datalist id="brands">{generateBrandsDropdown()}</datalist>
@@ -191,28 +173,25 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
             <textarea
               name="description"
               onChange={({ target: { value } }) => setDescription(value)}
-              type="text"
-              disabled={createResult.isLoading}
+              disabled={isLoading}
               value={description}
             />
-            <ImageUpload
-              disabled={createResult.isLoading}
-              setImageUrl={setImageUrl}
-            />
-            <button
-              type="submit"
-              disabled={invalidForm() || createResult.isLoading}
-            >
+            <ImageUpload disabled={isLoading} setImageUrl={setImageUrl} />
+            <button type="submit" disabled={invalidForm()}>
               Create
             </button>
           </form>
         </div>
       );
+    } else {
+      return (
+        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
+      );
     }
   }
 
   return (
-    <App authCheck="true" title="Incense:Create">
+    <App authCheck={true} title="Incense:Create">
       <div className="pageTitle">Create a New Incense</div>
       {createIncenseBody()}
     </App>

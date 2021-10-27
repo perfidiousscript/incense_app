@@ -6,6 +6,7 @@ import {
   QueryKeyObject,
   IncenseSearchMutationQueryKey,
   IncenseUpdateMutationQueryKey,
+  IncenseCreateQueryKey,
 } from "types";
 
 export default {
@@ -31,7 +32,7 @@ export default {
       url: Base.url(`/incenses`),
     }).then(({ body }) => Incense.array().parse(body));
   },
-  create(queryKeyObject: QueryKeyObject): Promise<Incense> {
+  create(queryKeyObject: IncenseCreateQueryKey): Promise<Incense> {
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/incenses`),
