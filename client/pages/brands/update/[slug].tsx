@@ -32,7 +32,7 @@ const BrandUpdate: NextPage<Record<string, never>> = () => {
   }: {
     isLoading: boolean;
     isError: boolean;
-    data: any;
+    data: Brand | undefined;
     error: MutationError | null;
   } = useQuery(["brand", slug], Brands.get);
 
