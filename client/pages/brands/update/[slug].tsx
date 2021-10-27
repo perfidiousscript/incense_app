@@ -1,9 +1,11 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { BaseSyntheticEvent, useState, useEffect } from "react";
 import App from "components/App";
+import RequestWrapper from "components/RequestWrapper";
 import Link from "next/link";
-import Brands from "/lib/api/brands";
+import Brands from "lib/api/brands";
+import { QueryKeyObject, Brand, MutationError } from "types";
 import { useMutation, useQuery } from "react-query";
 
 const BrandUpdate: NextPage<Record<string, never>> = () => {
@@ -14,10 +16,35 @@ const BrandUpdate: NextPage<Record<string, never>> = () => {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const { isLoading, isError, data, error } = useQuery(
-    ["brand", slug],
-    Brands.get
-  );
+  let slugString: string | undefined;
+
+  if (typeof slug === "object") {
+    slugString = slug[0];
+  } else {
+    slugString = slug;
+  }
+
+  const {
+    isLoading,
+    isError,
+    data,
+    error,
+  }: {
+    isLoading: boolean;
+    isError: boolean;
+    data: any;
+    error: MutationError | null;
+  } = useQuery(["brand", slug], Brands.get);
+
+  const updateBrand = useMutation<Brand, MutationError>(() => {
+    return Brands.update({
+      name: name,
+      country: country,
+      description: description,
+      imageUrl: imageUrl,
+      slug: slugString,
+    });
+  });
 
   useEffect(() => {
     if (data) {
@@ -28,17 +55,7 @@ const BrandUpdate: NextPage<Record<string, never>> = () => {
     }
   }, [data]);
 
-  const updateBrand = useMutation(() => {
-    return Brands.update({
-      name: name,
-      country: country,
-      description: description,
-      imageUrl: imageUrl,
-      slug: slug,
-    });
-  });
-
-  const submit = (event) => {
+  const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     updateBrand.mutate();
   };
@@ -49,43 +66,24 @@ const BrandUpdate: NextPage<Record<string, never>> = () => {
     );
   }
 
-  function expandErrorReason(errorParams) {
-    let reasonHtml = [];
-    if (errorParams !== null) {
-      reasonHtml = Object.entries(errorParams).map(([key, value]) => (
-        <>
-          <span>{key}: </span>
-          <span>{value}</span>
-        </>
-      ));
-    }
-    return reasonHtml;
-  }
-
   function createBrandBody() {
-    if (isLoading) {
-      return <div>Creating</div>;
-    } else if (isError) {
-      const errorBody = error.body.error;
-      const errorDetail = error.detail;
-
+    if (data === undefined || isError) {
       return (
-        <div className="centeredText">
-          <div>Error: {errorDetail}</div>
-          {expandErrorReason(errorBody.params)}
-        </div>
+        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
       );
     } else if (updateBrand.isSuccess) {
-      const { data } = updateBrand;
       return (
         <div className="centeredText">
-          <div>{data.name} has been sucessfully updated</div>
+          <div>{updateBrand.data.name} has been sucessfully updated</div>
           <div>
-            Return to <Link href={`/brands/${data.slug}`}>{data.name}</Link>
+            Return to{" "}
+            <Link href={`/brands/${updateBrand.data.slug}`}>
+              {updateBrand.data.name}
+            </Link>
           </div>
         </div>
       );
-    } else {
+    } else if (updateBrand.isIdle) {
       return (
         <div className="generalForm">
           <form
@@ -116,7 +114,6 @@ const BrandUpdate: NextPage<Record<string, never>> = () => {
             <textarea
               name="description"
               onChange={({ target: { value } }) => setDescription(value)}
-              type="text"
               disabled={updateBrand.isLoading}
               value={description}
             />
@@ -128,21 +125,26 @@ const BrandUpdate: NextPage<Record<string, never>> = () => {
               accept="img/*"
               disabled={updateBrand.isLoading}
             />
-            <button
-              type="submit"
-              disabled={invalidForm() || updateBrand.isLoading}
-            >
+            <button type="submit" disabled={invalidForm()}>
               Update
             </button>
           </form>
         </div>
+      );
+    } else {
+      return (
+        <RequestWrapper
+          isLoading={updateBrand.isLoading}
+          isError={updateBrand.isError}
+          error={updateBrand.error}
+        />
       );
     }
   }
 
   return (
     <App authCheck={true} modOnly={true} title={"Brand:Update"}>
-      <div className="pageTitle">Create a New Brand</div>
+      <div className="pageTitle">Update Brand {slugString}</div>
       {createBrandBody()}
     </App>
   );

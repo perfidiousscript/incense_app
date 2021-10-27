@@ -41,9 +41,13 @@ export interface BrandsCreateQueryKey {
   name: string;
   description: string;
   country: string;
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 export interface BrandsUpdateQueryKey {
+  name?: string;
+  country?: string;
+  description?: string;
+  imageUrl?: string;
   slug?: string;
 }
