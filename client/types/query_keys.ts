@@ -42,6 +42,9 @@ export interface IncenseCreateQueryKey {
 }
 
 export interface IncenseUpdateMutationQueryKey extends Incense {
+  description?: string;
+  image_url?: string;
+  ingredient_ids?: string[];
   slug?: string;
 }
 

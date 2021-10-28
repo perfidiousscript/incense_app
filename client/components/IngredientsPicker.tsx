@@ -1,13 +1,15 @@
-import { BaseSyntheticEvent } from "react";
+import { BaseSyntheticEvent, useEffect } from "react";
 import { useQuery } from "react-query";
 import Ingredients from "lib/api/ingredients";
 
 const IngredientsPicker = ({
   title,
   setIngredientIds,
+  ingredientIds,
 }: {
   title: string;
   setIngredientIds: Function;
+  ingredientIds?: string[];
 }) => {
   const listIngredients = useQuery("ingredients", Ingredients.list);
   const { data } = listIngredients;
@@ -25,6 +27,12 @@ const IngredientsPicker = ({
     }
   }
 
+  function ingredientPresent(boxId: string) {
+    if (ingredientIds) {
+      return ingredientIds.filter((id) => id === boxId).length === 1;
+    }
+  }
+
   if (data) {
     data.map((ingredient, index) => {
       if (index > 0 && index % 4 === 0) {
@@ -37,6 +45,7 @@ const IngredientsPicker = ({
             name={ingredient.name}
             id={ingredient.id}
             onChange={handleCheckBox}
+            checked={ingredientPresent(ingredient.id)}
           />
           <label htmlFor={ingredient.name}>{ingredient.name}</label>
         </span>

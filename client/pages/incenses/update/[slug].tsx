@@ -1,22 +1,25 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, BaseSyntheticEvent } from "react";
 import App from "components/App";
+import IngredientsPicker from "components/IngredientsPicker";
+import RequestWrapper from "components/RequestWrapper";
 import Link from "next/link";
-import Incenses from "/lib/api/incenses";
-import Ingredients from "/lib/api/ingredients";
+import Incenses from "lib/api/incenses";
+import Ingredients from "lib/api/ingredients";
+import { Incense, MutationError } from "types";
 import { useAuth } from "lib/auth";
 import { useMutation, useQuery } from "react-query";
 
 const IncenseUpdate: NextPage<Record<string, never>> = () => {
   const { user } = useAuth();
   const router = useRouter();
-  const { slug } = router.query;
+  const slug = router.query.slug as string;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [ingredientIds, setIngredientIds] = useState([]);
+  const [ingredientIds, setIngredientIds] = useState<string[]>([]);
 
   const { isLoading, isError, data, error } = useQuery(
     ["incense", slug],
@@ -28,13 +31,14 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
       setName(data.name);
       setDescription(data.description);
       setImageUrl(data.imageUrl);
-      setIngredientIds(data.ingredients.map((i) => i.id));
+      if (data.ingredients) {
+        setIngredientIds(data.ingredients.map((i) => i.id));
+      }
     }
   }, [data]);
 
-  const updateIncense = useMutation(() => {
+  const updateIncense = useMutation<Incense, MutationError>(() => {
     return Incenses.update({
-      name: name,
       description: description,
       image_url: imageUrl,
       ingredient_ids: ingredientIds,
@@ -42,7 +46,7 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
     });
   });
 
-  const submit = (event) => {
+  const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     updateIncense.mutate();
   };
@@ -51,58 +55,6 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
 
   function invalidForm() {
     return name.length === 0 || description.length === 0;
-  }
-
-  function handleCheckBox({ target }) {
-    const currentId = event.target.id;
-    if (target.checked) {
-      setIngredientIds((old) => [...old, currentId]);
-    } else {
-      setIngredientIds((old) => {
-        return old.filter((item) => item !== currentId);
-      });
-    }
-  }
-
-  function ingredientPresent(boxId) {
-    return ingredientIds.filter((id) => id === boxId).length === 1;
-  }
-
-  function generateIngredientBoxes() {
-    const ingredientsBoxes = [];
-    if (listIngredients.data && ingredientIds) {
-      listIngredients.data.map((ingredient, index) => {
-        if (index > 0 && index % 4 === 0) {
-          ingredientsBoxes.push(<br />);
-        }
-        ingredientsBoxes.push(
-          <span key={ingredient.id}>
-            <input
-              type="checkbox"
-              name={ingredient.name}
-              id={ingredient.id}
-              onChange={handleCheckBox}
-              checked={ingredientPresent(ingredient.id)}
-            />
-            <label htmlFor={ingredient.name}>{ingredient.name}</label>
-          </span>
-        );
-      });
-    }
-    return ingredientsBoxes;
-  }
-
-  function expandErrorReason(errorParams) {
-    let reasonHtml = [];
-    if (errorParams !== null) {
-      reasonHtml = Object.entries(errorParams).map(([key, value]) => (
-        <>
-          <span>{key}: </span>
-          <span>{value}</span>
-        </>
-      ));
-    }
-    return reasonHtml;
   }
 
   function userNotice() {
@@ -119,18 +71,7 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
   }
 
   function createIncenseBody() {
-    if (isLoading) {
-      return <div>Creating</div>;
-    } else if (isError) {
-      const errorDetail = error.detail;
-
-      return (
-        <div className="centeredText">
-          <div>Error: {errorDetail}</div>
-          {expandErrorReason(error.body.error.params)}
-        </div>
-      );
-    } else if (isSuccess) {
+    if (updateIncense.isSuccess) {
       return (
         <div className="centeredText">
           <div>Success! {updateIncense.data.name} has been created</div>
@@ -140,7 +81,7 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
           </div>
         </div>
       );
-    } else {
+    } else if (updateIncense.isIdle) {
       return (
         <div className="generalForm">
           {userNotice()}
@@ -160,15 +101,15 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
               disabled={updateIncense.isLoading}
               value={name}
             />
-            <fieldset>
-              <legend>Ingredients</legend>
-              {generateIngredientBoxes()}
-            </fieldset>
+            <IngredientsPicker
+              title="ingredients"
+              setIngredientIds={setIngredientIds}
+              ingredientIds={ingredientIds}
+            />
             <label htmlFor="description">Description</label>
             <textarea
               name="description"
               onChange={({ target: { value } }) => setDescription(value)}
-              type="text"
               disabled={updateIncense.isLoading}
               value={description}
             />
@@ -189,11 +130,16 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
           </form>
         </div>
       );
+    } else {
+      let { isLoading, isError, error } = updateIncense;
+      return (
+        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
+      );
     }
   }
 
   return (
-    <App authCheck="true" title="Incense:Create">
+    <App authCheck={true} title="Incense:Create">
       <div className="pageTitle">Create a New Incense</div>
       {createIncenseBody()}
     </App>
