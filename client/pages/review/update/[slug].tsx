@@ -10,7 +10,7 @@ import { Review, MutationError } from "types";
 import RequestWrapper from "components/RequestWrapper";
 import { RATINGS } from "lib/constants";
 
-const ReviewCreate: NextPage<Record<string, never>> = () => {
+const ReviewUpdate: NextPage<Record<string, never>> = () => {
   const router = useRouter();
   const slug = router.query.slug as string;
   const [burnTime, setBurnTime] = useState(0);
@@ -206,4 +206,4 @@ const ReviewCreate: NextPage<Record<string, never>> = () => {
   );
 };
 
-export default ReviewCreate;
+export default ReviewUpdate;

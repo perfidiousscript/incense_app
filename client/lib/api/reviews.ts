@@ -1,9 +1,9 @@
 import Request from "lib/request";
 import Base from "lib/api/base";
-import { Review, HttpMethod, QueryKeyObject } from "types";
+import { Review, HttpMethod, ReviewCreateQueryKey } from "types";
 
 export default {
-  create(queryKeyObject: QueryKeyObject): Promise<Review> {
+  create(queryKeyObject: ReviewCreateQueryKey): Promise<Review> {
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/reviews`),

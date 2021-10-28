@@ -68,3 +68,23 @@ export interface IngredientCreateQueryKey {
   description: string;
   image_url?: string;
 }
+
+export interface ReviewCreateQueryKey {
+  burn_time: number;
+  year_purchased?: number;
+  incense_slug: string;
+  review_body?: string;
+  rating: string;
+  price_paid?: number;
+  sweet: number;
+  earthy: number;
+  smokey: number;
+  woody: number;
+  ethereal: number;
+  savory: number;
+  fruity: number;
+  herbal: number;
+  spicy: number;
+  citrus: number;
+  floral: number;
+}

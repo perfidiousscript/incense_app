@@ -11,3 +11,5 @@ export const propertiesList = [
   "floral",
   "earthy",
 ];
+
+export const RATINGS = ["hate", "dislike", "neutral", "like", "love"];
