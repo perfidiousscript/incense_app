@@ -1,16 +1,18 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { useState } from "react";
+import { BaseSyntheticEvent, useState } from "react";
 import { useMutation } from "react-query";
-import Ingredients from "/lib/api/ingredients";
+import Ingredients from "lib/api/ingredients";
 import App from "components/App";
+import { Ingredient, MutationError } from "types";
+import RequestWrapper from "components/RequestWrapper";
 
 const IngredientCreate: NextPage<Record<string, never>> = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const createIngredient = useMutation(() => {
+  const createIngredient = useMutation<Ingredient, MutationError>(() => {
     return Ingredients.create({
       name: name,
       description: description,
@@ -18,23 +20,10 @@ const IngredientCreate: NextPage<Record<string, never>> = () => {
     });
   });
 
-  const submit = (event) => {
+  const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     createIngredient.mutate();
   };
-
-  function expandErrorReason(errorParams) {
-    let reasonHtml = [];
-    if (errorParams !== null) {
-      reasonHtml = Object.entries(errorParams).map(([key, value]) => (
-        <>
-          <span>{key}: </span>
-          <span>{value}</span>
-        </>
-      ));
-    }
-    return reasonHtml;
-  }
 
   function invalidForm() {
     return name.length === 0 || description.length === 0;
@@ -42,20 +31,15 @@ const IngredientCreate: NextPage<Record<string, never>> = () => {
 
   // Pull this out into an Error component.
   function createIngredientBody() {
-    if (createIngredient.isLoading) {
-      return <div>Creating Ingredient, Please Wait</div>;
-    } else if (createIngredient.isError) {
-      const error = createIngredient.error.body.error;
-      const errorDetail = error.detail;
-
-      return (
-        <div className="centeredText">
-          <div>Error: {errorDetail}</div>
-          {expandErrorReason(error.params)}
-        </div>
-      );
-    } else if (createIngredient.isSuccess) {
-      const { data } = createIngredient;
+    let {
+      isSuccess,
+      isIdle,
+      isLoading,
+      isError,
+      error,
+      data,
+    } = createIngredient;
+    if (isSuccess && data) {
       return (
         <div className="centeredText">
           <div>Success! {data.name} has been created</div>
@@ -65,7 +49,7 @@ const IngredientCreate: NextPage<Record<string, never>> = () => {
           </div>
         </div>
       );
-    } else {
+    } else if (isIdle) {
       return (
         <div className="generalForm">
           <form
@@ -88,7 +72,6 @@ const IngredientCreate: NextPage<Record<string, never>> = () => {
             <textarea
               name="description"
               onChange={({ target: { value } }) => setDescription(value)}
-              type="text"
               disabled={createIngredient.isLoading}
               value={description}
             />
@@ -109,11 +92,15 @@ const IngredientCreate: NextPage<Record<string, never>> = () => {
           </form>
         </div>
       );
+    } else {
+      return (
+        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
+      );
     }
   }
 
   return (
-    <App authCheck="true" modOnly="true" title="Ingredient:Create">
+    <App authCheck={true} modOnly={true} title="Ingredient:Create">
       <div className="pageTitle">Ingredient Create</div>
       {createIngredientBody()}
     </App>

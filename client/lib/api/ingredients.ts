@@ -1,6 +1,11 @@
 import Request from "lib/request";
 import Base from "lib/api/base";
-import { Ingredient, HttpMethod, QueryKeyObject } from "types";
+import {
+  Ingredient,
+  HttpMethod,
+  QueryKeyObject,
+  IngredientCreateQueryKey,
+} from "types";
 
 export default {
   get(queryKeyObject: QueryKeyObject): Promise<Ingredient> {
@@ -16,7 +21,7 @@ export default {
       url: Base.url(`/ingredients`),
     }).then(({ body }) => Ingredient.array().parse(body));
   },
-  create(queryKeyObject: QueryKeyObject): Promise<Ingredient> {
+  create(queryKeyObject: IngredientCreateQueryKey): Promise<Ingredient> {
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/ingredients`),

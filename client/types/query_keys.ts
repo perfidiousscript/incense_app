@@ -62,3 +62,9 @@ export interface BrandsUpdateQueryKey {
   imageUrl?: string;
   slug?: string;
 }
+
+export interface IngredientCreateQueryKey {
+  name: string;
+  description: string;
+  image_url?: string;
+}
