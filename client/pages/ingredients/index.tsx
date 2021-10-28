@@ -1,25 +1,26 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import App from "components/App";
-import Ingredients from "/lib/api/ingredients";
-import { IngredientsGrid, IngredientEntry } from "/components/IngredientsUnits";
+import RequestWrapper from "components/RequestWrapper";
+import Ingredients from "lib/api/ingredients";
+import { Ingredient, MutationError } from "types";
+import { IngredientsGrid, IngredientEntry } from "components/IngredientsUnits";
 import { useQuery } from "react-query";
 
 const IngredientsIndex: NextPage<Record<string, never>> = () => {
-  const { isLoading, isError, data, error } = useQuery(
-    "ingredients",
-    Ingredients.list
-  );
+  const {
+    isLoading,
+    isError,
+    data,
+    error,
+  }: {
+    isLoading: boolean;
+    isError: boolean;
+    data: Ingredient[] | undefined;
+    error: MutationError | null;
+  } = useQuery("ingredients", Ingredients.list);
 
   function ingredientsFetch() {
-    if (isLoading) {
-      return <span>Loading...</span>;
-    }
-
-    if (isError) {
-      return <span>Error: {error.message}</span>;
-    }
-
     if (data) {
       return data.map((ingredient) => {
         return (
@@ -28,17 +29,17 @@ const IngredientsIndex: NextPage<Record<string, never>> = () => {
           </Link>
         );
       });
+    } else {
+      return (
+        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
+      );
     }
   }
 
   return (
     <App title={"Ingredients"}>
-      <div>
-        <div>
-          <div className="pageTitle">Ingredients</div>
-          <IngredientsGrid>{ingredientsFetch()}</IngredientsGrid>
-        </div>
-      </div>
+      <div className="pageTitle">Ingredients</div>
+      <IngredientsGrid>{ingredientsFetch()}</IngredientsGrid>
     </App>
   );
 };

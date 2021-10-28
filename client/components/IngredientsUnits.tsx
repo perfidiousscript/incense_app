@@ -11,7 +11,7 @@ export const IngredientsGrid = styled.div`
 export const IngredientEntry = styled.div`
   border: 1px solid black;
   text-align: center;
-  padding-top: 21%;
+  padding: 21% 0;
   &:hover {
     z-index: 1;
     box-shadow: 2px 2px 2px 2px black;
