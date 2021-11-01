@@ -46,7 +46,7 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
         return (
           <div>
             <p>Your Review</p>
-            <ReviewEntry review={data.userReview} />
+            <ReviewEntry review={data.userReview} updatable={true} />
           </div>
         );
       } else {
@@ -111,7 +111,9 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
         <div className={styles.incenseReviewsTitle}>Reviews</div>
         <div className={styles.incenseReviews}>
           {data.reviews?.map((review) => {
-            return <ReviewEntry review={review} key={review.id} />;
+            return (
+              <ReviewEntry review={review} key={review.id} updatable={false} />
+            );
           })}
         </div>
       </App>

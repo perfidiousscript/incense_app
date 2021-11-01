@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, BaseSyntheticEvent } from "react";
-import { useMutation } from "react-query";
+import { useEffect, useState, BaseSyntheticEvent } from "react";
+import { useQuery, useMutation } from "react-query";
 import Link from "next/link";
 import RadarChart from "components/RadarChart";
 import App from "components/App";
@@ -12,9 +12,9 @@ import { RATINGS } from "lib/constants";
 
 const ReviewUpdate: NextPage<Record<string, never>> = () => {
   const router = useRouter();
-  const slug = router.query.slug as string;
-  const [burnTime, setBurnTime] = useState(0);
-  const [yearPurchased, setYearPurchased] = useState("");
+  const id = router.query.id as string;
+  const [burnTime, setBurnTime] = useState<number>();
+  const [yearPurchased, setYearPurchased] = useState<number>();
   const [reviewBody, setReviewBody] = useState("");
   const [rating, setRating] = useState("");
   const [pricePaid, setPricePaid] = useState(0);
@@ -30,11 +30,46 @@ const ReviewUpdate: NextPage<Record<string, never>> = () => {
   const [floral, setFloral] = useState(0);
   const [earthy, setEarthy] = useState(0);
 
-  const createReview = useMutation<Review, MutationError>(() => {
-    return Reviews.create({
+  const {
+    isSuccess,
+    isLoading,
+    isError,
+    data,
+    error,
+  }: {
+    isSuccess: boolean;
+    isLoading: boolean;
+    isError: boolean;
+    data: Review | undefined;
+    error: MutationError | null;
+  } = useQuery(["review", id], Reviews.get);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      setBurnTime(data.burnTime);
+      data.yearPurchased && setYearPurchased(data.yearPurchased);
+      setReviewBody(data.reviewBody);
+      setRating(data.rating);
+      setPricePaid(data.pricePaid);
+      setSweet(data.sweet);
+      setSmokey(data.smokey);
+      setWoody(data.woody);
+      setEthereal(data.ethereal);
+      setSavory(data.savory);
+      setFruity(data.fruity);
+      setHerbal(data.herbal);
+      setSpicy(data.spicy);
+      setCitrus(data.citrus);
+      setFloral(data.floral);
+      setEarthy(data.earthy);
+    }
+  }, [data]);
+
+  const updateReview = useMutation<Review, MutationError>(() => {
+    return Reviews.update({
+      id: id,
       burn_time: Number(burnTime),
       year_purchased: Number(yearPurchased),
-      incense_slug: slug,
       review_body: reviewBody,
       rating: rating,
       price_paid: Number(pricePaid),
@@ -54,7 +89,7 @@ const ReviewUpdate: NextPage<Record<string, never>> = () => {
 
   const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault;
-    createReview.mutate();
+    updateReview.mutate();
   };
 
   function generateYearsDropdown() {
@@ -96,13 +131,12 @@ const ReviewUpdate: NextPage<Record<string, never>> = () => {
       target: HTMLSelectElement;
     }
   ) {
-    const value = event.target.value;
+    const value = Number(event.target.value);
     setYearPurchased(value);
   }
 
-  function createReviewForm() {
-    let { isIdle, isSuccess, isLoading, isError, error, data } = createReview;
-    if (isIdle) {
+  function updateReviewForm() {
+    if (updateReview.isIdle) {
       return (
         <div className="generalForm">
           <form
@@ -144,13 +178,17 @@ const ReviewUpdate: NextPage<Record<string, never>> = () => {
               setEarthy={setEarthy}
             />
             <label htmlFor="ratings">Rating</label>
-            <select onChange={changeRating} disabled={isLoading} value={rating}>
+            <select
+              onChange={changeRating}
+              disabled={updateReview.isLoading}
+              value={rating}
+            >
               {generateRatingsDropdown()}
             </select>
             <label htmlFor="yearPurchased">Year Purchased</label>
             <select
               onChange={changeYear}
-              disabled={isLoading}
+              disabled={updateReview.isLoading}
               value={yearPurchased}
             >
               {generateYearsDropdown()}
@@ -160,7 +198,7 @@ const ReviewUpdate: NextPage<Record<string, never>> = () => {
               name="burnTime"
               onChange={({ target: { value } }) => setBurnTime(Number(value))}
               type="text"
-              disabled={isLoading}
+              disabled={updateReview.isLoading}
               value={burnTime}
             />
             <label htmlFor="pricePaid">Price Paid</label>
@@ -168,40 +206,43 @@ const ReviewUpdate: NextPage<Record<string, never>> = () => {
               name="pricePaid"
               onChange={({ target: { value } }) => setPricePaid(Number(value))}
               type="text"
-              disabled={createReview.isLoading}
+              disabled={updateReview.isLoading}
               value={pricePaid}
             />
             <label htmlFor="reviewBody">Review Text</label>
             <textarea
               name="reviewBody"
               onChange={({ target: { value } }) => setReviewBody(value)}
-              disabled={createReview.isLoading}
+              disabled={updateReview.isLoading}
               value={reviewBody}
             />
-            <button type="submit" disabled={createReview.isLoading}>
-              Create
+            <button type="submit" disabled={updateReview.isLoading}>
+              Update
             </button>
           </form>
         </div>
       );
-    } else if (createReview.isSuccess && data) {
+    } else if (updateReview.isSuccess && updateReview.data) {
       return (
         <div className="centeredText">
-          <div>Success! Review has been created</div>
-          <Link href={`/incenses/${slug}`}>Return to Incense Page</Link>
+          <div>Success! Review has been updated</div>
         </div>
       );
     } else {
       return (
-        <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
+        <RequestWrapper
+          isLoading={updateReview.isLoading}
+          isError={updateReview.isError}
+          error={updateReview.error}
+        />
       );
     }
   }
 
   return (
-    <App authCheck={true} title="Review:Create">
-      <div className="pageTitle">Create A New Review for {slug}</div>
-      {createReviewForm()}
+    <App authCheck={true} title="Review:Update">
+      <div className="pageTitle">Update Review</div>
+      {updateReviewForm()}
     </App>
   );
 };

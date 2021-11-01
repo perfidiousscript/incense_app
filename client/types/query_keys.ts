@@ -1,7 +1,13 @@
 import { Incense } from "/types/resources";
 
 export interface QueryKeyObject {
-  queryKey: (string | string[] | { slug: string } | undefined)[];
+  queryKey: (
+    | string
+    | string[]
+    | { id: string }
+    | { slug: string }
+    | undefined
+  )[];
 }
 
 export interface PaginatableQueryKeyObject {
@@ -69,10 +75,13 @@ export interface IngredientCreateQueryKey {
   image_url?: string;
 }
 
-export interface ReviewCreateQueryKey {
+export interface ReviewGetQueryKey {
+  queryKey: string[];
+}
+
+interface GenericReviewMutationKey {
   burn_time: number;
   year_purchased?: number;
-  incense_slug: string;
   review_body?: string;
   rating: string;
   price_paid?: number;
@@ -87,4 +96,12 @@ export interface ReviewCreateQueryKey {
   spicy: number;
   citrus: number;
   floral: number;
+}
+
+export interface ReviewCreateQueryKey extends GenericReviewMutationKey {
+  incense_slug: string;
+}
+
+export interface ReviewUpdateQueryKey extends GenericReviewMutationKey {
+  id: string;
 }

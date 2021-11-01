@@ -14,7 +14,9 @@ const UserProfile: NextPage<Record<string, never>> = () => {
         <p>Collection will go here</p>
         <div>Your Reviews</div>
         {user.reviews.map((review) => {
-          return <ReviewEntry review={review} key={review.id} />;
+          return (
+            <ReviewEntry review={review} key={review.id} updatable={true} />
+          );
         })}
       </App>
     );

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Review } from "types";
 import RadarChart from "components/RadarChart";
 import styled from "styled-components";
@@ -23,7 +24,13 @@ const ReviewBody = styled.div`
   grid-template-columns: 1fr 6fr;
 `;
 
-const ReviewEntry = ({ review }: { review: Review }) => {
+const ReviewEntry = ({
+  review,
+  updatable,
+}: {
+  review: Review;
+  updatable: boolean;
+}) => {
   return (
     <ReviewContainer>
       <div className={styles.reviewHead}>
@@ -53,6 +60,9 @@ const ReviewEntry = ({ review }: { review: Review }) => {
           interactive={false}
         />
         <div className={styles.reviewBodyText}>{review.reviewBody}</div>
+        {updatable ? (
+          <Link href={`/review/update/${review.id}`}>Update Review</Link>
+        ) : null}
       </ReviewBody>
     </ReviewContainer>
   );
