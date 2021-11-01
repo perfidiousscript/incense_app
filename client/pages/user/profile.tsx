@@ -8,16 +8,18 @@ const UserProfile: NextPage<Record<string, never>> = () => {
 
   if (user) {
     return (
-      <App auth={true} title={"Profile"}>
+      <App authCheck={true} title={"Profile"}>
         <div className="pageTitle">{user.username}</div>
         <div>Your Collection</div>
         <p>Collection will go here</p>
         <div>Your Reviews</div>
-        {user.reviews.map((review) => {
-          return (
-            <ReviewEntry review={review} key={review.id} updatable={true} />
-          );
-        })}
+        <div className="userReviews">
+          {user.reviews.map((review) => {
+            return (
+              <ReviewEntry review={review} key={review.id} updatable={true} />
+            );
+          })}
+        </div>
       </App>
     );
   } else {
