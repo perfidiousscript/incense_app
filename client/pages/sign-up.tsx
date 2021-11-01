@@ -1,8 +1,11 @@
 import App from "components/App";
-import { useState } from "react";
+import type { NextPage } from "next";
+import { useState, BaseSyntheticEvent } from "react";
 import Head from "next/head";
 import { useMutation } from "react-query";
 import { useAuth } from "lib/auth";
+import RequestWrapper from "components/RequestWrapper";
+import { User, MutationError } from "types";
 
 const SignUp: NextPage<Record<string, never>> = () => {
   const { register } = useAuth();
@@ -10,35 +13,27 @@ const SignUp: NextPage<Record<string, never>> = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const signUp = useMutation((event) => {
-    event.preventDefault();
+  const signUp = useMutation<User, MutationError>(() => {
     return register({ email: email, username: userName, password: password });
   });
 
-  function signUpError() {
-    if (signUp.isError) {
-      const errorDetail = signUp.error.body.error.detail;
-      return <div>Error:{errorDetail}</div>;
-    }
+  function submit(event: BaseSyntheticEvent) {
+    event.preventDefault();
+    signUp.mutate();
   }
 
   if (signUp.isSuccess) {
     return <div>Success! Check your e-mail!</div>;
-  } else if (signUp.isIdle || signUp.isError) {
+  } else {
     return (
-      <App>
-        <Head>
-          <title>IH::SignUp</title>
-        </Head>
-
-        {signUpError()}
+      <App title={"SignUp"}>
         <form
           style={{
             display: "flex",
             flexDirection: "column",
             maxWidth: "500px",
           }}
-          onSubmit={signUp.mutate}
+          onSubmit={submit}
         >
           <label htmlFor="email">Email</label>
           <input
@@ -68,10 +63,13 @@ const SignUp: NextPage<Record<string, never>> = () => {
             Sign In
           </button>
         </form>
+        <RequestWrapper
+          isLoading={signUp.isLoading}
+          isError={signUp.isError}
+          error={signUp.error}
+        />
       </App>
     );
-  } else if (signUp.isLoading) {
-    return <div>Loading</div>;
   }
 };
 export default SignUp;
