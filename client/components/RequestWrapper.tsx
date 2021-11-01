@@ -28,13 +28,20 @@ const RequestWrapper = ({
     if (error) {
       const errorHash = error.body?.error;
       const errorDetail = errorHash.detail;
-
-      return (
-        <div className="centeredText">
-          <div>Error: {errorDetail}</div>
-          {expandErrorReason(errorHash.params)}
-        </div>
-      );
+      if (typeof errorDetail === "string") {
+        return (
+          <div className="centeredText">
+            <div>Error: {errorDetail}</div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="centeredText">
+            <div>Error: {errorDetail}</div>
+            {expandErrorReason(errorHash.params)}
+          </div>
+        );
+      }
     } else {
       return (
         <div className="centeredText">

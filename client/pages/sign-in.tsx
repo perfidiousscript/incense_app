@@ -1,7 +1,10 @@
 import App from "components/App";
-import { useState } from "react";
+import type { NextPage } from "next";
+import { BaseSyntheticEvent, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import RequestWrapper from "components/RequestWrapper";
+import { User, MutationError } from "types";
 import { useMutation } from "react-query";
 import { useAuth } from "lib/auth";
 
@@ -10,37 +13,30 @@ const SignIn: NextPage<Record<string, never>> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = useMutation((event) => {
-    event.preventDefault();
+  const signIn = useMutation<User, MutationError>(() => {
     return login({ email: email, password: password });
   });
 
-  function signInError() {
-    if (signIn.isError) {
-      const errorDetail = signIn.error.body.error.detail;
-      return <div>Error:{errorDetail}</div>;
-    }
+  function submit(event: BaseSyntheticEvent) {
+    event.preventDefault();
+    signIn.mutate();
   }
 
-  if (signIn.isSuccess) {
+  if (signIn.isSuccess && user) {
     return <div>Welcome {user.username}!</div>;
   } else if (user) {
     return <div>Already logged in!</div>;
-  } else if (signIn.isIdle || signIn.isError) {
+  } else {
     return (
-      <App>
-        <Head>
-          <title>IH::Signin</title>
-        </Head>
+      <App title={"Sign In"}>
         <div className="pageTitle">Sign In</div>
-        {signInError()}
         <form
           style={{
             display: "flex",
             flexDirection: "column",
             maxWidth: "500px",
           }}
-          onSubmit={signIn.mutate}
+          onSubmit={submit}
         >
           <label htmlFor="email">Email</label>
           <input
@@ -62,6 +58,11 @@ const SignIn: NextPage<Record<string, never>> = () => {
             Sign In
           </button>
         </form>
+        <RequestWrapper
+          isLoading={signIn.isLoading}
+          isError={signIn.isError}
+          error={signIn.error}
+        />
         <div>
           <p>
             Don't have an account? <Link href="/sign-up">Sign Up Here!</Link>
@@ -69,8 +70,7 @@ const SignIn: NextPage<Record<string, never>> = () => {
         </div>
       </App>
     );
-  } else if (signIn.isLoading) {
-    return <div>Loading</div>;
   }
 };
+
 export default SignIn;

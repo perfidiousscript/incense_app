@@ -20,7 +20,6 @@ export interface BrandsSearchQueryKeyObject extends PaginatableQueryKeyObject {
 }
 
 export interface LoadUserQueryKey {
-  username: string;
   password: string;
   email: string;
 }
