@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useAuth } from "lib/auth";
 import App from "components/App";
+import { Review } from "types";
 import ReviewEntry from "components/ReviewEntry";
 
 const UserProfile: NextPage<Record<string, never>> = () => {
@@ -14,7 +15,7 @@ const UserProfile: NextPage<Record<string, never>> = () => {
         <p>Collection will go here</p>
         <div>Your Reviews</div>
         <div className="userReviews">
-          {user.reviews.map((review) => {
+          {user.reviews.map((review: Review) => {
             return (
               <ReviewEntry review={review} key={review.id} updatable={true} />
             );

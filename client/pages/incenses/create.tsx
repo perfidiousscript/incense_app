@@ -77,7 +77,7 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
   }
 
   // Possibly not the best way to go about this, but it works???
-  // Also, would be great to get a debounce on the mutation.
+  // Also, would be great to debounce the mutation.
   function changeBrand(event: BaseSyntheticEvent) {
     const { target } = event;
     setBrandName(target.value);

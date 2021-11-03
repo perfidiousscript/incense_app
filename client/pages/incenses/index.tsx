@@ -16,7 +16,6 @@ function displayRadarChart(incense: Incense) {
         review={incense.incenseStatistic}
         reviewId={incense.id}
         size="small"
-        isStatistic={true}
         interactive={false}
       />
     );

@@ -149,7 +149,6 @@ const ReviewUpdate: NextPage<Record<string, never>> = () => {
           >
             <RadarChart
               size="large"
-              isStatistic={false}
               interactive={true}
               reviewId={"new"}
               review={{

@@ -37,8 +37,7 @@ const IncensesSearch: NextPage<Record<string, never>> = () => {
     if (incenseStatistic) {
       return (
         <RadarChart
-          review={incenseStatistic}
-          isStatistic={true}
+          incenseStatistic={incenseStatistic}
           reviewId={incenseStatistic.id}
           size="small"
           interactive={false}

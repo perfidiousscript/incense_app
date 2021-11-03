@@ -8,7 +8,7 @@ import RequestWrapper from "components/RequestWrapper";
 import Incenses from "lib/api/incenses";
 import { useQuery } from "react-query";
 import { useAuth } from "lib/auth";
-import { Incense, MutationError } from "types";
+import { Incense, MutationError, Review } from "types";
 import styles from "styles/Incenses.module.css";
 
 const IncenseShow: NextPage<Record<string, never>> = () => {
@@ -65,8 +65,7 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
       return (
         <>
           <RadarChart
-            review={incenseStatistic}
-            isStatistic={true}
+            incenseStatistic={incenseStatistic}
             size="large"
             interactive={false}
             reviewId={incense.id}
@@ -110,7 +109,7 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
         <div>{showUserReview()}</div>
         <div className={styles.incenseReviewsTitle}>Reviews</div>
         <div className={styles.incenseReviews}>
-          {data.reviews?.map((review) => {
+          {data.reviews?.map((review: Review) => {
             return (
               <ReviewEntry review={review} key={review.id} updatable={false} />
             );

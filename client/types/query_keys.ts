@@ -1,4 +1,4 @@
-import { Incense } from "/types/resources";
+import { Incense } from "types/resources";
 
 export interface QueryKeyObject {
   queryKey: (
@@ -46,7 +46,7 @@ export interface IncenseCreateQueryKey {
   ingredient_ids?: string[];
 }
 
-export interface IncenseUpdateMutationQueryKey extends Incense {
+export interface IncenseUpdateMutationQueryKey {
   description?: string;
   image_url?: string;
   ingredient_ids?: string[];

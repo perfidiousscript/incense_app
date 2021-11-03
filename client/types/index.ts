@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { Review, IncenseStatistic } from "types/resources";
 
 export enum Status {
   IDLE = "IDLE",
@@ -26,12 +27,12 @@ export interface HttpResponse {
 
 export type Headers = Record<string, string>;
 
-export interface ReviewChart {
-  isStatistic: boolean;
+export type ReviewChart = {
   size: string;
   interactive: boolean;
   reviewId: string;
-  review: Review;
+  review?: Partial<Review>;
+  incenseStatistic?: Partial<IncenseStatistic>;
   setSavory?: Function;
   setSweet?: Function;
   setSmokey?: Function;
@@ -43,7 +44,7 @@ export interface ReviewChart {
   setCitrus?: Function;
   setFloral?: Function;
   setEarthy?: Function;
-}
+};
 
 export interface MutationError {
   status: string;
@@ -57,7 +58,7 @@ export interface MutationError {
   };
 }
 
-export type LoginError = z.infer<typeof LogInError>;
+export type LoginError = z.infer<typeof LoginError>;
 export const LoginError = z.object({
   detail: z.string(),
   status: z.string(),

@@ -35,27 +35,14 @@ const ReviewEntry = ({
     <ReviewContainer>
       <div className={styles.reviewHead}>
         <UserName className={styles.reviewUsername}>
-          {review.user ? review.user.username : null}
+          <div>{review.user?.username}</div>
           <ReviewRating>{review.rating}</ReviewRating>
         </UserName>
       </div>
       <ReviewBody>
         <RadarChart
           reviewId={review.id}
-          review={{
-            sweet: review.sweet,
-            smokey: review.smokey,
-            woody: review.woody,
-            ethereal: review.ethereal,
-            savory: review.savory,
-            fruity: review.fruity,
-            herbal: review.herbal,
-            spicy: review.spicy,
-            citrus: review.citrus,
-            floral: review.floral,
-            earthy: review.earthy,
-          }}
-          isStatistic={false}
+          review={review}
           size="small"
           interactive={false}
         />

@@ -1,14 +1,14 @@
 import { FC } from "react";
 import * as d3 from "d3";
 import { useEffect } from "react";
-import { ReviewChart } from "types";
+import { ReviewChart, Review, IncenseStatistic } from "types";
 import { propertiesList } from "lib/constants";
 
 const RadarChart = ({
-  isStatistic,
   reviewId,
   interactive,
   review,
+  incenseStatistic,
   size,
   setSavory,
   setSweet,
@@ -22,24 +22,28 @@ const RadarChart = ({
   setFloral,
   setEarthy,
 }: ReviewChart) => {
-  const scale: { [name: string]: number } = {
+  const scale: { [index: string]: number } = {
     xLarge: 12,
     large: 8,
     medium: 4,
     small: 1,
   };
 
-  const incenseProperties: { [name: string]: number } = {};
+  const incenseProperties: { [index: string]: number } = {};
 
-  if (isStatistic) {
-    propertiesList.map((property: string) => {
-      let averageProperty: string = `${property}Avg`;
-      incenseProperties[property] = review[averageProperty];
+  if (incenseStatistic) {
+    propertiesList.forEach((property: string) => {
+      let averageProperty = `${property}Avg`;
+      incenseProperties[property] = incenseStatistic[
+        averageProperty as keyof IncenseStatistic
+      ] as number;
+    });
+  } else if (review) {
+    propertiesList.forEach((property: string) => {
+      incenseProperties[property] = review[property as keyof Review] as number;
     });
   } else {
-    propertiesList.map((property: string) => {
-      incenseProperties[property] = review[property];
-    });
+    return <div>No Review provided.</div>;
   }
 
   const propertyKeys = Object.keys(incenseProperties);
