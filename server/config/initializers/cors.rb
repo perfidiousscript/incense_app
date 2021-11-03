@@ -10,7 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
   if Rails.env.production?
     allow do
-      origins 'https://www.incense-hermitage.com'
+      origins 'https://www.incense-hermitage.com','incense-app-dev.vercel.app'
       resource '*',
         headers: :any,
         methods: [:get, :post, :put, :patch, :delete, :options, :head],
