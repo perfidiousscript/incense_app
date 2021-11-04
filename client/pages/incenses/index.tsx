@@ -13,7 +13,7 @@ function displayRadarChart(incense: Incense) {
   if (incense.incenseStatistic) {
     return (
       <RadarChart
-        review={incense.incenseStatistic}
+        incenseStatistic={incense.incenseStatistic}
         reviewId={incense.id}
         size="small"
         interactive={false}
