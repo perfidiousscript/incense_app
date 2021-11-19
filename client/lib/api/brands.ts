@@ -31,21 +31,11 @@ export default {
     }).then(({ body }) => Brand.array().parse(body));
   },
   create(queryKeyObject: BrandsCreateQueryKey): Promise<Brand> {
-    const name = queryKeyObject.name;
-    const description = queryKeyObject.description;
-    const country = queryKeyObject.country;
-    const image_url = queryKeyObject.imageUrl;
+    console.log("queryKeyObject: ", queryKeyObject);
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/brands`),
-      body: {
-        brand: {
-          name,
-          description,
-          country,
-          image_url,
-        },
-      },
+      body: queryKeyObject,
     }).then(({ body }) => Brand.parse(body));
   },
   update(queryKeyObject: BrandsUpdateQueryKey): Promise<Brand> {

@@ -21,15 +21,12 @@ export default {
     headers?: Record<string, string>;
     params?: object;
   }): Promise<HttpResponse> {
-  
+
     const urlWithParams = options.params
       ? `${options.url}?${objectToParams(options.params)}`
       : options.url;
 
-    const headers: Headers = {
-      "Content-Type": "application/json",
-      ...options.headers,
-    };
+    const headers: Headers = {...options.headers};
 
     if (!process.browser) {
       /*
@@ -40,11 +37,16 @@ export default {
       if (cookies) headers["cookie"] = cookies;
     }
 
+    if(!options.body instanceof FormData){
+      options.body = JSON.stringify(options.body)
+      headers["Content-Type"] = "application/json"
+    }
+
     const response = await fetch(urlWithParams, {
       credentials: "include",
       method: options.method,
       headers,
-      body: options.body ? JSON.stringify(options.body) : undefined,
+      body: options.body,
     });
 
     const text = await response.text();

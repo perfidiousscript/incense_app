@@ -13,6 +13,8 @@ export default {
       headers: {
         Authorization: `Client-ID: ${Config.IMGUR_CLIENT_ID}`,
         Accept: "application/json",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept",
       },
       body: formdata,
     }).then(({ body }) => ImageUploadResponse.parse(body));

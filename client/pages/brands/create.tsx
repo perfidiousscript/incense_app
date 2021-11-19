@@ -14,19 +14,16 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
   const [name, setName] = useState("");
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState();
 
-  const createResult = useMutation<Brand, MutationError>(() => {
-    return Brands.create({
-      name: name,
-      country: country,
-      description: description,
-      imageUrl: imageUrl,
-    });
+  const createResult = useMutation<Brand, MutationError>((formData) => {
+    return Brands.create(formData);
   });
 
-  const submit = () => {
-    createResult.mutate();
+  const submit = (event: BaseSyntheticEvent) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    createResult.mutate(formData);
   };
 
   function invalidForm() {
@@ -58,12 +55,13 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
               display: "flex",
               flexDirection: "column",
               maxWidth: "500px",
+              id: "brand",
             }}
             onSubmit={submit}
           >
             <label htmlFor="name">Brand Name</label>
             <input
-              name="brand"
+              name="brand[name]"
               onChange={({ target: { value } }) => setName(value)}
               type="text"
               disabled={createResult.isLoading}
@@ -71,7 +69,7 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
             />
             <label htmlFor="country">Country</label>
             <input
-              name="country"
+              name="brand[country]"
               onChange={({ target: { value } }) => setCountry(value)}
               type="text"
               disabled={createResult.isLoading}
@@ -79,17 +77,16 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
             />
             <label htmlFor="description">Description</label>
             <textarea
-              name="description"
+              name="brand[description]"
               onChange={({ target: { value } }) => setDescription(value)}
               disabled={createResult.isLoading}
               value={description}
             />
-            <label htmlFor="imageUrl">Image</label>
+            <label htmlFor="image">Image</label>
             <input
-              name="imageUrl"
-              onChange={({ target: { value } }) => setImageUrl(value)}
+              name="brand[image]"
               type="file"
-              accept="img/*"
+              accept="img/png, img/jpeg"
               disabled={createResult.isLoading}
             />
             <button

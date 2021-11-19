@@ -38,6 +38,10 @@ class Brand < ApplicationRecord
   has_many :incenses
   has_one_attached :image
 
+  validates :image, {
+    presence: true
+  }
+
   def approved?
     !approved_by_id.nil?
   end
