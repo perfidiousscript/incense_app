@@ -36,6 +36,7 @@ class Brand < ApplicationRecord
   scope :filtered, -> (query_params) {Brand::Filter.new.filter(self, query_params)}
 
   has_many :incenses
+  has_one_attached :image
 
   def approved?
     !approved_by_id.nil?

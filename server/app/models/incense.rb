@@ -43,6 +43,8 @@ class Incense < ApplicationRecord
   scope :pending_approval, -> {where(approved_by_id: nil)}
   scope :filtered, -> (query_params) {Incense::Filter.new.filter(self, query_params)}
 
+  has_one_attached :image
+
   def approved?
     approved_by_id != nil
   end

@@ -67,6 +67,6 @@ class Api::V1::BrandsController < Api::V1::BaseController
   private
 
   def brand_params
-    params.require(:brand).permit(:name, :description, :country, :image_url)
+    params.require(:brand).permit(:name, :description, :country, :image)
   end
 end

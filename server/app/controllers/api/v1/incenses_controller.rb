@@ -80,7 +80,7 @@ class Api::V1::IncensesController < Api::V1::BaseController
   private
 
   def incense_params
-    params.require(:incense).permit(:name,:brand_id,:description,:image_url, ingredient_ids:[])
+    params.require(:incense).permit(:name,:brand_id,:description,:image, ingredient_ids:[])
   end
 
   def query_params

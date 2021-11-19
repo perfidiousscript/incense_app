@@ -45,6 +45,6 @@ class Api::V1::IngredientsController < Api::V1::BaseController
   private
 
   def ingredient_params
-    params.require(:ingredient).permit(:name, :description, :image_url)
+    params.require(:ingredient).permit(:name, :description, :image)
   end
 end

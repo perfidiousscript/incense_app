@@ -23,4 +23,6 @@ class Ingredient < ApplicationRecord
   has_many :ingredient_classifications, dependent: :destroy
   has_many :incenses, through: :ingredient_classifications
 
+  has_one_attached :image
+
 end

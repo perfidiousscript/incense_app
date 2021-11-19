@@ -21,6 +21,7 @@ gem 'sentry-ruby', '~>4.7'
 
 # stats command
 gem 'simple_command', '~> 0.1.0'
+# This may need to be temporarily removed during db setup
 gem 'descriptive_statistics', '~>2.5'
 
 # auth
