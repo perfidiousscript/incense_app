@@ -1,4 +1,4 @@
-require 'descriptive_statistics'
+require 'descriptive_statistics/safe'
 class IncenseStatistics::Calculate
   include Command
 
