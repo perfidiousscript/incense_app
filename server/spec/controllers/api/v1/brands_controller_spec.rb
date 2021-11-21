@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::BrandsController, type: :controller do
-  brand_params_list = %i(name description country image_url)
+  brand_params_list = %i(name description country)
 
   before :each do
     request.env["HTTP_ACCEPT"] = 'application/json'
@@ -19,7 +19,6 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: brand.description,
           country: brand.country,
-          image_url: brand.image_url
         }}
 
         assert_response :created
@@ -52,7 +51,6 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: 'great japanese incense brand',
           country: 'Chicago',
-          image_url: brand.image_url
         }}
 
         assert_response :unprocessable_entity
@@ -72,7 +70,6 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: brand.description,
           country: brand.country,
-          image_url: brand.image_url
         }}
 
         assert_response :created
@@ -91,7 +88,6 @@ RSpec.describe Api::V1::BrandsController, type: :controller do
           name: brand.name,
           description: brand.description,
           country: brand.country,
-          image_url: brand.image_url
         }}
 
         assert_response :created

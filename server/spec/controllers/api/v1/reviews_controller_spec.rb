@@ -17,7 +17,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
-        incense_id: review.incense_id,
+        incense_slug: incense.slug,
         review: {
           price_paid: review.price_paid,
           rating: review.rating,
@@ -49,7 +49,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
-        incense_id: review.incense_id,
+        incense_slug: incense.slug,
         review: {
           rating: review.rating,
         }
@@ -100,7 +100,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
-        incense_id: incense.id,
+        incense_slug: incense.slug,
         review: {
           spicy: 3.0,
         }
@@ -117,7 +117,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       expect{post :create, params: {
-        incense_id: review.incense_id,
+        incense_slug: incense.slug,
         review: {
           rating: 50,
         }
@@ -134,7 +134,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
-        incense_id: review.incense_id,
+        incense_slug: incense.slug,
         review: {
           rating: review.rating,
         }
@@ -185,7 +185,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       expect(json[:review_body]).to eq(new_review_body)
     end
 
-    it 'errors if incense_id is passed' do
+    it 'errors if incense_slug is passed' do
       user = create(:user)
       review = create(:review, user: user)
       review_id = review.id
@@ -194,13 +194,12 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
       patch :update, params: {
         id: review.id,
-        incense_id: '001',
+        incense_slug: 'a-slug',
         review: {
         }
       }
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(review.id).to be(review_id)
     end
 
     it 'does not allow updating another users review' do
@@ -232,7 +231,7 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       sign_in_as user
 
       post :create, params: {
-        incense_id: incense.id,
+        incense_slug: incense.slug,
         review: {
           sweet: 4.0,
         }
@@ -282,27 +281,6 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
       expect(response).to have_http_status(:ok)
       expect(IncenseStatistic.count).to eq(1)
       expect(IncenseStatistic.first[:sweet_avg]).to eq(3.5)
-    end
-    it 'does not run after invalid review update' do
-      user = create(:user, :moderator)
-      incense = create(:incense, :approved)
-      create(:review, incense: incense, sweet: 3)
-      review = create(:review, incense: incense, user: user, sweet: 3)
-
-      expect(IncenseStatistic.count).to eq(0)
-
-      sign_in_as user
-
-      patch :update, params: {
-        id: review.id,
-        review: {
-          incense_id: 'dead-beef',
-          sweet: 4.0,
-        }
-      }
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(IncenseStatistic.count).to eq(0)
     end
   end
 

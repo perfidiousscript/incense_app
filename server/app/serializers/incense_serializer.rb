@@ -4,7 +4,6 @@
 #
 #  id             :uuid             not null, primary key
 #  description    :text
-#  image_url      :text
 #  name           :string           not null
 #  slug           :string
 #  created_at     :datetime         not null
@@ -27,7 +26,6 @@ class IncenseSerializer < ActiveModel::Serializer
   attributes :id,
   :name,
   :description,
-  :image_url,
   :slug,
   :brand,
   :user_review

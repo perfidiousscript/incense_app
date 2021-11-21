@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::IncensesController, type: :controller do
-  incense_params_list = %i(name,brand,description,image_url)
+  incense_params_list = %i(name,brand,description)
 
   before :each do
     request.env["HTTP_ACCEPT"] = 'application/json'
@@ -19,7 +19,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           incense: {
             name: incense.name,
             description: incense.description,
-            image_url: incense.image_url,
             brand_id: brand.id
           }
         }
@@ -42,7 +41,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           incense: {
             name: incense.name,
             description: incense.description,
-            image_url: incense.image_url,
             brand_id: brand.id,
             ingredient_ids: [ingredient_1.id, ingredient_2.id]
           }
@@ -66,7 +64,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
             incense: {
               name: incense.name,
               description: incense.description,
-              image_url: incense.image_url,
               brand_id: brand.id,
               ingredient_ids: [ingredient_1.id, 'deadbeef']
             }
@@ -85,7 +82,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           incense: {
             name: incense.name,
             description: incense.description,
-            image_url: incense.image_url,
           }
         }
 
@@ -105,7 +101,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           incense: {
             name: incense.name,
             description: incense.description,
-            image_url: incense.image_url,
             brand_id: brand.id
           }
         }
@@ -127,7 +122,6 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
           incense: {
             name: incense.name,
             description: incense.description,
-            image_url: incense.image_url,
             brand_id: brand.id
           }
         }

@@ -5,7 +5,6 @@
 #  id             :uuid             not null, primary key
 #  country        :string           not null
 #  description    :text
-#  image_url      :text
 #  name           :string           not null
 #  slug           :string
 #  created_at     :datetime         not null
@@ -27,7 +26,7 @@ class BrandSerializer < ActiveModel::Serializer
   :name,
   :country,
   :description,
-  :image_url,
+  :get_image_url,
   :slug
 
   has_many :incenses

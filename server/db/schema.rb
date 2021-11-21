@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_220425) do
+ActiveRecord::Schema.define(version: 2021_11_21_223613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 2021_11_12_220425) do
     t.string "name", null: false
     t.string "country", null: false
     t.text "description"
-    t.text "image_url"
     t.uuid "approved_by_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -87,7 +86,6 @@ ActiveRecord::Schema.define(version: 2021_11_12_220425) do
   create_table "incenses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
-    t.text "image_url"
     t.uuid "brand_id", null: false
     t.uuid "approved_by_id"
     t.datetime "created_at", precision: 6, null: false
@@ -110,7 +108,6 @@ ActiveRecord::Schema.define(version: 2021_11_12_220425) do
   create_table "ingredients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "image_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"

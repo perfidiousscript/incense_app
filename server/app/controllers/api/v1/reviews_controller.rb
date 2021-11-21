@@ -4,7 +4,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   load_and_authorize_resource
 
   def create
-    raise Errors::UnprocessableEntity.new('cannot create two reviews for the same incense, update existing review instead') if Review.find_by(user_id: current_user.id, incense_id: params[:incense_id])
+    raise Errors::UnprocessableEntity.new('cannot create two reviews for the same incense, update existing review instead') if Review.find_by(user_id: current_user.id, incense_id: @incense.id)
     new_review_params = review_params.merge(user_id: current_user.id, incense_id: @incense.id)
 
     review = Review.create(new_review_params)
@@ -20,8 +20,6 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   end
 
   def update
-    raise Errors::UnprocessableEntity.new('cannot change reviews incense_id') if review_params.key?(:incense_id)
-
     review = Review.find_by(user_id: current_user.id, id: params[:id])
 
     raise Errors::NotFound.new('review') if review == nil
@@ -51,7 +49,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   private
 
   def review_params
-    params.require(:review).permit(:incense_id,
+    params.require(:review).permit(:incense_slug,
                                    :review_body,
                                    :rating,
                                    :price_paid,
@@ -72,6 +70,6 @@ class Api::V1::ReviewsController < Api::V1::BaseController
   end
 
   def find_incense
-    @incense = Incense.friendly.find(params[:review][:incense_slug])
+    @incense = Incense.friendly.find(params[:incense_slug])
   end
 end

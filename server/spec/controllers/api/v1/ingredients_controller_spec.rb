@@ -16,7 +16,6 @@ RSpec.describe Api::V1::IngredientsController, type: :controller do
           ingredient:{
             name: 'frankincense',
             description: 'cool resin',
-            image_url: 'www.my-cool-photo.com'
           }
         }
 
@@ -34,7 +33,6 @@ RSpec.describe Api::V1::IngredientsController, type: :controller do
           ingredient:{
             name: 'frankincense',
             description: 'cool resin',
-            image_url: 'www.my-cool-photo.com'
           }
         }
 
@@ -54,12 +52,12 @@ RSpec.describe Api::V1::IngredientsController, type: :controller do
       patch :update, params: {
         slug: ingredient.slug,
         ingredient:{
-          image_url: 'www.an-even-cooler-photo.com'
+          description: 'www.an-even-cooler-photo.com'
         }
       }
 
       expect(response).to have_http_status(:ok)
-      expect(Ingredient.first.image_url).to eq('www.an-even-cooler-photo.com')
+      expect(Ingredient.first.description).to eq('www.an-even-cooler-photo.com')
       end
     end
 
@@ -72,12 +70,12 @@ RSpec.describe Api::V1::IngredientsController, type: :controller do
       patch :update, params: {
         slug: ingredient.slug,
         ingredient:{
-          image_url: 'www.an-even-cooler-photo.com'
+          description: 'www.an-even-cooler-photo.com'
         }
       }
 
       expect(response).to have_http_status(:forbidden)
-      expect(Ingredient.first.image_url).to eq('www.my-cool-image.com')
+      expect(Ingredient.first.description).to eq("a resin from the middle east")
       end
     end
   end
