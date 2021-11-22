@@ -42,7 +42,7 @@ class Brand < ApplicationRecord
     !approved_by_id.nil?
   end
 
-  def get_image_url
+  def image_url
     url_for(self.image) unless self.image
   end
 

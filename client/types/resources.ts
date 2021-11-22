@@ -40,7 +40,7 @@ export type Ingredient = z.infer<typeof Ingredient>;
 export const Ingredient = z.object({
   id: z.string().uuid(),
   description: z.string(),
-  imageUrl: z.string().optional(),
+  imageUrl: z.string().nullable(),
   name: z.string(),
   slug: z.string(),
 });
@@ -81,7 +81,7 @@ export type Incense = z.infer<typeof Incense>;
 export const Incense = z.object({
   id: z.string().uuid(),
   description: z.string(),
-  imageUrl: z.string(),
+  imageUrl: z.string().nullable(),
   name: z.string(),
   incenseStatistic: IncenseStatistic.nullable().optional(),
   ingredients: Ingredient.array().optional(),
@@ -100,7 +100,7 @@ export const Brand = z.object({
   id: z.string().uuid(),
   country: z.string(),
   description: z.string(),
-  imageUrl: z.string(),
+  imageUrl: z.string().nullable(),
   name: z.string(),
   slug: z.string(),
   incenses: Incense.array().optional(),

@@ -14,5 +14,5 @@
 #  index_ingredients_on_slug  (slug) UNIQUE
 #
 class IngredientSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :slug
+  attributes :id, :name, :description, :slug, :image_url
 end

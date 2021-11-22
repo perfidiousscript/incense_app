@@ -14,6 +14,7 @@
 #  index_ingredients_on_slug  (slug) UNIQUE
 #
 class Ingredient < ApplicationRecord
+  include Rails.application.routes.url_helpers
   extend FriendlyId
   friendly_id :name, use: :slugged
   validates :name, presence: true
@@ -23,5 +24,9 @@ class Ingredient < ApplicationRecord
   has_many :incenses, through: :ingredient_classifications
 
   has_one_attached :image
+
+  def image_url
+    url_for(self.image) unless self.image
+  end
 
 end

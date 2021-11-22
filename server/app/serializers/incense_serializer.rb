@@ -28,6 +28,7 @@ class IncenseSerializer < ActiveModel::Serializer
   :description,
   :slug,
   :brand,
+  :image_url,
   :user_review
 
   has_one :incense_statistic

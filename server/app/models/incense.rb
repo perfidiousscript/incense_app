@@ -23,6 +23,7 @@
 #  fk_rails_...  (brand_id => brands.id)
 #
 class Incense < ApplicationRecord
+  include Rails.application.routes.url_helpers
   extend FriendlyId
   friendly_id :name, use: :slugged
   validates :name, presence: true
@@ -43,6 +44,10 @@ class Incense < ApplicationRecord
   scope :filtered, -> (query_params) {Incense::Filter.new.filter(self, query_params)}
 
   has_one_attached :image
+
+  def image_url
+    url_for(self.image) unless self.image
+  end
 
   def approved?
     approved_by_id != nil
