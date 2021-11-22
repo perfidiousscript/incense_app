@@ -43,7 +43,7 @@ class Brand < ApplicationRecord
   end
 
   def image_url
-    url_for(self.image) unless self.image
+    self.image.url if self.image
   end
 
 end
