@@ -75,13 +75,12 @@ const IngredientCreate: NextPage<Record<string, never>> = () => {
               disabled={createIngredient.isLoading}
               value={description}
             />
-            <label htmlFor="imageUrl">Image</label>
+            <label htmlFor="image">Image</label>
             <input
-              name="imageUrl"
-              onChange={({ target: { value } }) => setImageUrl(value)}
+              name="ingredient[image]"
               type="file"
-              accept="img/*"
-              disabled={createIngredient.isLoading}
+              accept="img/png, img/jpeg"
+              disabled={isLoading}
             />
             <button
               type="submit"

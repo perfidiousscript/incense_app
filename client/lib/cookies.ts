@@ -16,6 +16,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
   nookies.set(ctx, "fromGetInitialProps", "value", {
     maxAge: 30 * 24 * 60 * 60,
     path: "/",
+    domain: process.env.NEXT_PUBLIC_CLIENT_DOMAIN as string
   });
 
   return { cookies };

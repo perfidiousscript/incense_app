@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { BaseSyntheticEvent, useState } from "react";
 import App from "components/App";
-import ImageUpload from "components/ImageUpload";
 import RequestWrapper from "components/RequestWrapper";
 import IngredientsPicker from "components/IngredientsPicker";
 import Link from "next/link";
@@ -142,7 +141,13 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
               disabled={isLoading}
               value={description}
             />
-            <ImageUpload disabled={isLoading} setImageUrl={setImageUrl} />
+            <label htmlFor="image">Image</label>
+            <input
+              name="incense[image]"
+              type="file"
+              accept="img/png, img/jpeg"
+              disabled={isLoading}
+            />
             <button type="submit" disabled={invalidForm()}>
               Create
             </button>
