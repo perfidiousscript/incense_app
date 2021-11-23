@@ -50,6 +50,7 @@ group :development, :test do
   gem 'vcr', '~>6.0'
   gem 'webmock', '~>3.14'
   gem 'letter_opener_web', '~>1.4'
+  gem 'dotenv-rails'
 end
 
 group :development do
