@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useState, BaseSyntheticEvent } from "react";
 import App from "components/App";
 import RequestWrapper from "components/RequestWrapper";
 import Head from "next/head";
@@ -16,9 +16,11 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState();
 
-  const createResult = useMutation<Brand, MutationError>((formData) => {
-    return Brands.create(formData);
-  });
+  const createResult = useMutation<Brand, MutationError, FormData>(
+    (formData: FormData) => {
+      return Brands.create(formData);
+    }
+  );
 
   const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
@@ -55,7 +57,6 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
               display: "flex",
               flexDirection: "column",
               maxWidth: "500px",
-              id: "brand",
             }}
             onSubmit={submit}
           >

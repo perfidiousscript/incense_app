@@ -41,3 +41,11 @@ a {
   width: 66%;
   font-size: 1.3rem;
 }
+
+.button {
+  margin: 1%;
+  width: 15%;
+  color: black;
+  border: 2px solid black;
+  padding: 1%;
+}

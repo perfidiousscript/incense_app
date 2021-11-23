@@ -4,14 +4,13 @@ import {
   Brand,
   HttpMethod,
   QueryKeyObject,
-  BrandsCreateQueryKey,
   BrandsUpdateQueryKey,
   BrandsSearchQueryKeyObject,
 } from "types";
 
 export default {
-  get(queryKeyObject: QueryKeyObject): Promise<Brand> {
-    const [, slug] = queryKeyObject.queryKey;
+  get({ queryKey }: { queryKey: readonly unknown[] }): Promise<Brand> {
+    const [, slug] = queryKey;
     return Request.make({
       method: HttpMethod.GET,
       url: Base.url(`/brands/${slug}`),
@@ -30,8 +29,7 @@ export default {
       params: queryKeyObject,
     }).then(({ body }) => Brand.array().parse(body));
   },
-  create(queryKeyObject: BrandsCreateQueryKey): Promise<Brand> {
-    console.log("queryKeyObject: ", queryKeyObject);
+  create(queryKeyObject: FormData): Promise<Brand> {
     return Request.make({
       method: HttpMethod.POST,
       url: Base.url(`/brands`),

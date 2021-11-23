@@ -24,3 +24,14 @@
   align-self: center;
   grid-column: 4 / span 1;
 }
+
+.brandImage {
+  margin: 0 auto;
+}
+
+.brandBox {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  margin: 1% 0;
+  padding: 1% 1%;
+}

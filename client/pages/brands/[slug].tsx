@@ -1,28 +1,35 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import Request from "lib/request";
 import App from "components/App";
 import Brands from "lib/api/brands";
 import { useAuth } from "lib/auth";
 import { useQuery } from "react-query";
-import { Brand, HttpMethod } from "types";
+import { Brand, HttpMethod, MutationError } from "types";
 import Base from "lib/api/base";
+import RequestWrapper from "components/RequestWrapper";
 import { GetStaticPropsResult, GetStaticProps } from "next";
+import styles from "styles/Brands.module.css";
 
 const BrandShow = () => {
   const { user } = useAuth();
   const router = useRouter();
   const { slug } = router.query;
 
-  const { isLoading, isError, data, error } = useQuery(
-    ["brand", slug],
+  const { isLoading, isError, data, error } = useQuery<Brand, MutationError>(
+    ["brand", slug] as const,
     Brands.get
   );
 
   function showNewIncenseLink() {
     if (user) {
-      return <Link href="/incenses/create">Create New Incense</Link>;
+      return (
+        <div className="button">
+          <Link href="/incenses/create">Add Incense</Link>
+        </div>
+      );
     } else {
       return <div></div>;
     }
@@ -31,7 +38,7 @@ const BrandShow = () => {
   function showUpdateButton() {
     if (data && user && user.role === ("moderator" || "admin")) {
       return (
-        <div>
+        <div className="button">
           <Link href={`update/${data.slug}`}>Update Brand</Link>
         </div>
       );
@@ -40,27 +47,31 @@ const BrandShow = () => {
     }
   }
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error}</span>;
+  function displayImage(imageUrl: string | null) {
+    if (imageUrl === (undefined || null)) {
+      return <div>No Image</div>;
+    } else {
+      return <Image src={imageUrl} height={"300"} width={"300"} />;
+    }
   }
 
   if (data) {
     return (
       <App title={`${data.name}`}>
         <div className="pageTitle">{data.name}</div>
-        <div>{data.country}</div>
-        <div>{data.imageUrl}</div>
-        <div>{data.description}</div>
+        <div className={styles.brandImage}>{displayImage(data.imageUrl)}</div>
+        <div className={styles.brandBox}>{data.country}</div>
+        <div className={styles.brandBox}>{data.description}</div>
         {showUpdateButton()}
         {showNewIncenseLink()}
         <div>
           <p>Incenses</p>
         </div>
       </App>
+    );
+  } else {
+    return (
+      <RequestWrapper isLoading={isLoading} isError={isError} error={error} />
     );
   }
 };

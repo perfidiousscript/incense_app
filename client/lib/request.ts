@@ -17,7 +17,7 @@ export default {
   async make(options: {
     method: HttpMethod;
     url: string;
-    body?: object;
+    body?: object | string | void;
     headers?: Record<string, string>;
     params?: object;
   }): Promise<HttpResponse> {
@@ -37,14 +37,9 @@ export default {
       if (cookies) headers["cookie"] = cookies;
     }
 
-    console.log('options.body 1: ', options.body)
-    console.log('options.body instanceof FormData: ', options.body instanceof FormData)
-    console.log('!(options.body instanceof FormData): ', !(options.body instanceof FormData))
     if(!(options.body instanceof FormData)){
-      console.log('options.body 2: ', options.body)
       options.body = JSON.stringify(options.body)
       headers["Content-Type"] = "application/json"
-      console.log('options.body 3: ', options.body)
     }
 
     const response = await fetch(urlWithParams, {

@@ -51,7 +51,9 @@ const BrandUpdate: NextPage<Record<string, never>> = () => {
       setName(data.name);
       setCountry(data.country);
       setDescription(data.description);
-      setImageUrl(data.imageUrl);
+      if (data.imageUrl !== null) {
+        setImageUrl(data.imageUrl);
+      }
     }
   }, [data]);
 

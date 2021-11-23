@@ -53,13 +53,6 @@ export interface IncenseUpdateMutationQueryKey {
   slug?: string;
 }
 
-export interface BrandsCreateQueryKey {
-  name: string;
-  description: string;
-  country: string;
-  image?: {};
-}
-
 export interface BrandsUpdateQueryKey {
   name?: string;
   country?: string;

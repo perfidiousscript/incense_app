@@ -30,9 +30,11 @@ const IncenseUpdate: NextPage<Record<string, never>> = () => {
     if (data) {
       setName(data.name);
       setDescription(data.description);
-      setImageUrl(data.imageUrl);
       if (data.ingredients) {
         setIngredientIds(data.ingredients.map((i) => i.id));
+      }
+      if (data.imageUrl) {
+        setImageUrl(data.imageUrl);
       }
     }
   }, [data]);

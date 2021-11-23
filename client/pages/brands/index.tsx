@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import App from "components/App";
 import Head from "next/head";
 import Brands from "lib/api/brands";
@@ -15,6 +16,14 @@ const BrandsIndex: NextPage<Record<string, never>> = () => {
     Brands.list
   );
 
+  function showImage(imageUrl: string | null) {
+    if (imageUrl === (undefined || null)) {
+      return "";
+    } else {
+      return <Image src={imageUrl} height={"50"} width={"50"} />;
+    }
+  }
+
   function brandsFetch() {
     if (data) {
       return (
@@ -22,7 +31,9 @@ const BrandsIndex: NextPage<Record<string, never>> = () => {
           {data.map((brand) => (
             <Link href={`/brands/${brand.slug}`}>
               <BrandEntry key={brand.id}>
-                <div className={styles.brandImageColumn}>{brand.imageUrl}</div>
+                <div className={styles.brandImageColumn}>
+                  {showImage(brand.imageUrl)}
+                </div>
                 <div className={styles.brandNameColumn}>{brand.name}</div>
                 <div className={styles.brandCountryColumn}>{brand.country}</div>
               </BrandEntry>
