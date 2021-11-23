@@ -47,6 +47,7 @@ export default {
       method: options.method,
       headers,
       body: options.body,
+      withCredentials: true
     });
 
     const text = await response.text();
