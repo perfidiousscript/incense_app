@@ -228,6 +228,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
+    rails_same_site_cookie (0.1.9)
+      rack (>= 1.5)
+      user_agent_parser (~> 2.6)
     railties (6.1.4.1)
       actionpack (= 6.1.4.1)
       activesupport (= 6.1.4.1)
@@ -285,6 +288,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8)
+    user_agent_parser (2.8.0)
     vcr (6.0.0)
     webmock (3.14.0)
       addressable (>= 2.8.0)
@@ -321,6 +325,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.1)
+  rails_same_site_cookie (~> 0.1)
   rspec-rails (~> 5.0)
   sentry-ruby (~> 4.7)
   simple_command (~> 0.1.0)
