@@ -1,0 +1,46 @@
+if you need clarification on anything! GENERAL
+
+clearer links, hand on hover
+
+REGISTRATION
+
+"sign in error: This user could not be processed"
+needs a clearer definition
+[not a valid email]
+[not a valid password]
+
+need a "forgot your password?" option
+need more secure password (i entered a 5 character password that matched my username)
+
+INCENSE
+browse
+
+columns should be sortable v^
+ability to drill down into each cell to reach a search by the cell (search by stats, by name, by brand, by country) starting with info on the one selected
+(for example, if I click on the brand "hermann-dicki", i expect to be brough to a page with all the items by hermann-dicki, same for the country
+
+is it possible to have the statistics wheel start at 1 instead of 0? visually it will make more sense to the reader
+
+ability to click on each dimension of the statistics wheel to bring up a definition of the profile (maybe just in a hover tooltip) and clicking brings to a list of other incenses with a similar rating
+
+nice to have: stats from the company on one side, stats from the user on the other (avg reported burn time & avg reported price paid vs whats on the official website)
+
+more detailed description questions that may help guide reviews (such as prompting perceived quality, smoke amount, best for which occasion, etc). the wheel graph may also be difficult for some users to user, there should also be an option to type in the number ratings themselves
+
+clickable user profiles
+
+trusted reviews (up or down badges for reviews so other users can vet)
+
+BRANDS
+
+needs search box
+Needs sortable columns
+ability to search by country
+show a rating overall based on ones that havent been rated yet
+
+need to prevent creation of duplicate brands or have a way for users to flag possible duplicates
+
+INGREDIENTS
+
+ingredients by categories
+in ingredient card show all incenses that have that ingredient
