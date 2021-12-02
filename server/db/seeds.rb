@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 if RAILS_ENV = 'development'
-  moderator = User.create(email: 'dingleberry_jones@fake.com', password: "password", username: Faker::Name.first_name, role: 'moderator' )
-  user = User.create(email: 'user@fake.com', password: "password", username: Faker::Name.first_name, role: 'user' )
-  User.create(email: 'new_user@fake.com', password: "password", username: Faker::Name.first_name, role: 'user' )
+  moderator = User.create(email: 'dingleberry_jones@fake.com', password: "password", username: Faker::Name.first_name, role: 'moderator', email_confirmed_at: DateTime.now.to_date )
+  user = User.create(email: 'user@fake.com', password: "password", username: Faker::Name.first_name, role: 'user', email_confirmed_at: DateTime.now.to_date )
+  User.create(email: 'new_user@fake.com', password: "password", username: Faker::Name.first_name, role: 'user', email_confirmed_at: DateTime.now.to_date )
   3.times {Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword,  country: 'Japan', approved_by: user)}
   brand_1 = Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword,  country: 'Japan', approved_by: user)
   brand_2 = Brand.create!(name: Faker::Company.name, description: Faker::Company.buzzword,  country: 'Japan', approved_by: user)

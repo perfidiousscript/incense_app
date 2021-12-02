@@ -2,17 +2,19 @@
 #
 # Table name: users
 #
-#  id                 :uuid             not null, primary key
-#  confirmation_token :string(128)
-#  disabled_at        :datetime
-#  email              :string           not null
-#  encrypted_password :string(128)
-#  remember_token     :string(128)
-#  role               :integer          default("user"), not null
-#  slug               :string
-#  username           :string           not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                       :uuid             not null, primary key
+#  confirmation_token       :string(128)
+#  disabled_at              :datetime
+#  email                    :string           not null
+#  email_confirmation_token :string           default(""), not null
+#  email_confirmed_at       :datetime
+#  encrypted_password       :string(128)
+#  remember_token           :string(128)
+#  role                     :integer          default("user"), not null
+#  slug                     :string
+#  username                 :string           not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
 #
 # Indexes
 #
