@@ -4,6 +4,7 @@ FactoryBot.define do
     password { "password" }
     username { Faker::Name.first_name }
     role { :user }
+    email_confirmed_at {DateTime.now.to_date}
 
     trait :moderator do
       role { :moderator }
@@ -11,6 +12,10 @@ FactoryBot.define do
 
     trait :admin do
       role { :admin }
+    end
+
+    trait :unconfirmed do
+      email_confirmed_at {nil}
     end
 
   end

@@ -34,7 +34,22 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
+def should_deliver_email(to:, subject:)
+    expect(ActionMailer::Base.deliveries).not_to be_empty
+
+    email = ActionMailer::Base.deliveries.last
+    expect(email).to deliver_to(to)
+    expect(email).to have_subject(subject)
+end
+
+def last_email_confirmation_token
+  User.last.email_confirmation_token
+end
+
 RSpec.configure do |config|
+  config.include EmailSpec::Helpers
+  config.include EmailSpec::Matchers
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -72,8 +87,5 @@ RSpec.configure do |config|
   end
   parsed.with_indifferent_access
 end
-
-config.include EmailSpec::Helpers
-config.include EmailSpec::Matchers
 
 end

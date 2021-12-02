@@ -53,6 +53,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
     end
+
     describe 'when not logged in', :vcr do
       it 'should error' do
         user = create(:user)

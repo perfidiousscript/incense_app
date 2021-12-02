@@ -4,9 +4,10 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def create
     user = User.create(user_params.merge({ role: :user }))
+    user.email_confirmation_token = Clearance::Token.new
 
-    if user.valid?
-      sign_in user
+    if user.save
+      UserMailer.registration_confirmation(user).deliver_now
       render json: user, status: :created
     else
       raise Errors::Validation.new('user', user)
