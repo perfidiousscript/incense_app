@@ -73,4 +73,7 @@ RSpec.configure do |config|
   parsed.with_indifferent_access
 end
 
+config.include EmailSpec::Helpers
+config.include EmailSpec::Matchers
+
 end
