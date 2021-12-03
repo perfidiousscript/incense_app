@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-  fdescribe 'sign up' do
+  describe 'sign up' do
     it 'does not allow user without confirmed email to sign in' do
       user = create(:user, :unconfirmed)
       post '/api/v1/sessions', params: {session: {email: user.email, password: user.password}}
