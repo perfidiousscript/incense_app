@@ -3,7 +3,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:current, :create, :show], User
+    can [:current, :create, :show, :confirm_email], User
     can [:show, :index], Brand
     can [:show, :index], Incense
     can [:show, :index], Ingredient

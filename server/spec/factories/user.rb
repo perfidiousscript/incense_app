@@ -4,6 +4,7 @@ FactoryBot.define do
     password { "password" }
     username { Faker::Name.first_name }
     role { :user }
+    email_confirmation_token {Clearance::Token.new}
     email_confirmed_at {DateTime.now.to_date}
 
     trait :moderator do

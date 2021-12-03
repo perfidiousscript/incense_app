@@ -1,10 +1,9 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  before_action :require_login, except: [:create, :show]
+  before_action :require_login, except: [:create, :show, :confirm_email]
   load_and_authorize_resource
 
   def create
-    user = User.create(user_params.merge({ role: :user }))
-    user.email_confirmation_token = Clearance::Token.new
+    user = User.create(user_params.merge({ role: :user, email_confirmation_token: Clearance::Token.new}))
 
     if user.save
       UserMailer.registration_confirmation(user).deliver_now
@@ -45,6 +44,22 @@ class Api::V1::UsersController < Api::V1::BaseController
       raise Errors::Unauthorized.new
     end
   end
+
+  def confirm_email
+    user = User.find_by(email_confirmation_token: params[:email_confirmation_token])
+    if user && user.email_confirmed_at == nil
+      if user.update_attribute(:email_confirmed_at, DateTime.now.to_date) 
+        render json: :ok
+      else
+        raise Errors::Validation.new('user', user)
+      end
+    else
+      raise Errors::NotFound.new('user')
+    end
+
+  end
+
+  private
 
   def user_params
     params.require(:user).permit(:username, :email, :password)
