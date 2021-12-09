@@ -48,7 +48,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def confirm_email
     user = User.find_by(email_confirmation_token: params[:email_confirmation_token])
     if user && user.email_confirmed_at == nil
-      if user.update_attribute(:email_confirmed_at, DateTime.now.to_date) 
+      if user.update_attribute(:email_confirmed_at, DateTime.now.to_date)
         render json: :ok
       else
         raise Errors::Validation.new('user', user)

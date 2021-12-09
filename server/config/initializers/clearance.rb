@@ -3,4 +3,5 @@ Clearance.configure do |config|
   config.rotate_csrf_on_sign_in = false
   config.routes = false
   config.secure_cookie = true
+  config.sign_in_guards = [ConfirmedUserGuard]
 end
