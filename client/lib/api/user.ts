@@ -51,4 +51,12 @@ export default {
       url: Base.url(`/sessions`),
     }).then(({ status }) => status);
   },
+  confirmEmail(queryKeyObject: QueryKeyObject): Promise<number> {
+    const token = queryKeyObject.queryKey[1];
+    return Request.make({
+      method: HttpMethod.PATCH,
+      url: Base.url("/users/confirm_email"),
+      body: { email_confirmation_token: token },
+    }).then(({ status }) => status);
+  },
 };
