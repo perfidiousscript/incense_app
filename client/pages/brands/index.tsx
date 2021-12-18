@@ -20,7 +20,7 @@ const BrandsIndex: NextPage<Record<string, never>> = () => {
     if (imageUrl === (undefined || null)) {
       return "";
     } else {
-      return <Image src={imageUrl} height={"50"} width={"50"} />;
+      return <Image src={imageUrl} height={"50"} width={"100"} />;
     }
   }
 
