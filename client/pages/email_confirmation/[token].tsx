@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import User from "lib/api/user";
 import RequestWrapper from "components/RequestWrapper";
 import App from "components/App";
+import { MutationError } from "types";
 
 const EmailConfirmation: NextPage<Record<string, never>> = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const EmailConfirmation: NextPage<Record<string, never>> = () => {
   }: {
     isLoading: boolean;
     isError: boolean;
-    data: number;
+    data: number | undefined;
     error: MutationError | null;
   } = useQuery(["confirm_email", token], User.confirmEmail);
 

@@ -5,6 +5,7 @@ import {
   HttpMethod,
   LoadUserQueryKey,
   RegisterUserQueryKey,
+  QueryKeyObject,
 } from "types";
 
 export default {
