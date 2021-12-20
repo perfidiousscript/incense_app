@@ -47,6 +47,14 @@ const IngredientCreate: NextPage<Record<string, never>> = () => {
             See the new ingredient{" "}
             <Link href={`/ingredients/${data.slug}`}>Here</Link>
           </div>
+          <div
+            className="button"
+            onClick={() => {
+              window.location.reload(false);
+            }}
+          >
+            Create another Ingredient
+          </div>
         </div>
       );
     } else if (isIdle) {

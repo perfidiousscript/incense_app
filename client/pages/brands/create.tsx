@@ -107,6 +107,14 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
           <div>
             See your new brand <Link href={`/brands/${data.slug}`}>Here</Link>
           </div>
+          <div
+            className="button"
+            onClick={() => {
+              window.location.reload(false);
+            }}
+          >
+            Create another Brand
+          </div>
         </div>
       );
     } else {

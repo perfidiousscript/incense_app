@@ -98,6 +98,14 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
             See your new incense{" "}
             <Link href={`/incenses/${data.slug}`}>Here</Link>
           </div>
+          <div
+            className="button"
+            onClick={() => {
+              window.location.reload(false);
+            }}
+          >
+            Create another Incense
+          </div>
         </div>
       );
     } else if (isIdle) {
