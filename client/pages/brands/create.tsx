@@ -110,7 +110,7 @@ const BrandCreate: NextPage<Record<string, never>> = () => {
           <div
             className="button"
             onClick={() => {
-              window.location.reload(false);
+              window.location.reload();
             }}
           >
             Create another Brand
