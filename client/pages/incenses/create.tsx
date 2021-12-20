@@ -79,12 +79,15 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
   // Also, would be great to debounce the mutation.
   function changeBrand(event: BaseSyntheticEvent) {
     const { target } = event;
+    let brandNamesArray = [...target.list.children].map((a) => a.innerText);
     setBrandName(target.value);
-    if (target.value === target.list.children[0]?.innerText) {
+
+    if (brandNamesArray.includes(target.value)) {
       setBrandId(target.list.children[0].dataset.id);
     } else {
       setBrandId("");
     }
+
     searchBrands.mutate(target.value);
   }
 
