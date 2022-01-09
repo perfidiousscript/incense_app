@@ -1,19 +1,22 @@
 class Api::V1::IncensesController < Api::V1::BaseController
   before_action :require_login, except: [:show, :index]
-  load_and_authorize_resource :find_by => :slug
+  load_and_authorize_resource :find_by => :slug, except: :create
+  authorize_resource only: :create
 
   # We allow users without credentials to create unapproved incenses.
   # Mods and admins create inceses which are approved by them.
   def create
-    if current_user.moderator? || current_user.admin?
-      incense = Incense.create(incense_params.merge({approved_by_id: current_user.id}))
-    else
-      incense = Incense.create(incense_params)
+    ip = incense_params
+    unless ip[:ingredient_ids] == nil
+      ingredient_ids_array = JSON.parse!(ip[:ingredient_ids])
+      validate_ingredient_ids!(ingredient_ids_array)
+      ip["ingredient_ids"]= ingredient_ids_array
     end
 
-    unless params[:incense][:ingredient_ids] == nil
-      validate_ingredient_ids!
-      incense.ingredient_ids = params[:incense][:ingredient_ids]
+    if current_user.moderator? || current_user.admin?
+      incense = Incense.create(ip.merge({approved_by_id: current_user.id}))
+    else
+      incense = Incense.create(ip)
     end
 
     if incense.valid?
@@ -80,15 +83,15 @@ class Api::V1::IncensesController < Api::V1::BaseController
   private
 
   def incense_params
-    params.require(:incense).permit(:name,:brand_id,:description,:image, ingredient_ids:[])
+    params.require(:incense).permit(:name,:brand_id,:description,:image, :ingredient_ids)
   end
 
   def query_params
     params.permit(:name, :brand, :country, :page_number, :includes_ingredients , :excludes_ingredients)
   end
 
-  def validate_ingredient_ids!
-    invalid_ids = params[:incense][:ingredient_ids] - Ingredient.where(id: params[:incense][:ingredient_ids]).ids
+  def validate_ingredient_ids!(ingredient_ids_array)
+    invalid_ids = ingredient_ids_array - Ingredient.where(id: ingredient_ids_array).ids
     unless invalid_ids.empty?
       error = Errors::Validation.new('ingredient')
       invalid_ids.each do |invalid_id|

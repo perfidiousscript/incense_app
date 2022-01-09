@@ -20,19 +20,18 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
   const [brandId, setBrandId] = useState("");
   const [ingredientIds, setIngredientIds] = useState<string[]>([]);
 
-  const createResult = useMutation<Incense, MutationError>(() => {
-    return Incenses.create({
-      name: name,
-      description: description,
-      image_url: imageUrl,
-      brand_id: brandId,
-      ingredient_ids: ingredientIds,
-    });
-  });
+  const createResult = useMutation<Incense, MutationError, FormData>(
+    (formData: FormData) => {
+      return Incenses.create(formData);
+    }
+  );
 
   const submit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
-    createResult.mutate();
+    const formData = new FormData(event.target);
+    formData.append("incense[brand_id]", brandId);
+    formData.append("incense[ingredient_ids]", JSON.stringify(ingredientIds));
+    createResult.mutate(formData);
   };
 
   const searchBrands = useMutation((searchTerm: string) => {
@@ -125,21 +124,23 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
           >
             <label htmlFor="name">Incense Name</label>
             <input
-              name="incense"
+              name="incense[name]"
               onChange={({ target: { value } }) => setName(value)}
               type="text"
               disabled={isLoading}
               value={name}
             />
-            <label htmlFor="brand">Brand</label>
+            <label htmlFor="incense[brandName]">Brand</label>
             <input
-              list="brands"
+              list="incense[brandName]"
               onChange={changeBrand}
               type="text"
               disabled={isLoading}
               value={brandName}
             />
-            <datalist id="brands">{generateBrandsDropdown()}</datalist>
+            <datalist id="incense[brandName]">
+              {generateBrandsDropdown()}
+            </datalist>
             <IngredientsPicker
               title={"Ingredients"}
               setIngredientIds={setIngredientIds}
@@ -147,7 +148,7 @@ const IncenseCreate: NextPage<Record<string, never>> = () => {
 
             <label htmlFor="description">Description</label>
             <textarea
-              name="description"
+              name="incense[description]"
               onChange={({ target: { value } }) => setDescription(value)}
               disabled={isLoading}
               value={description}

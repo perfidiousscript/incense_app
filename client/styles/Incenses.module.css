@@ -25,6 +25,10 @@
   grid-column: 4 / span 1;
 }
 
+.brandImage {
+  margin: 0 auto;
+}
+
 .incenseCountryColumn {
   align-self: center;
   grid-column: 5 / span 1;

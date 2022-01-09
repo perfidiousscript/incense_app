@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import App from "components/App";
+import Image from "next/image";
 import RadarChart from "components/RadarChart";
 import ReviewEntry from "components/ReviewEntry";
 import RequestWrapper from "components/RequestWrapper";
@@ -59,6 +60,14 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
     }
   }
 
+  function displayImage(imageUrl: string | null) {
+    if (imageUrl === (undefined || null)) {
+      return <div>No Image</div>;
+    } else {
+      return <Image src={imageUrl} height={"300"} width={"300"} />;
+    }
+  }
+
   function showRadarChart(incense: Incense) {
     if (incense.incenseStatistic) {
       const { incenseStatistic } = incense;
@@ -89,7 +98,7 @@ const IncenseShow: NextPage<Record<string, never>> = () => {
     return (
       <App title={data.name}>
         <p className={styles.incenseName}>{data.name}</p>
-        <p>[Image Here] {data.imageUrl}</p>
+        <div className={styles.IncenseImage}>{displayImage(data.imageUrl)}</div>
         {showRadarChart(data)}
         {showUpdateButton()}
         <div className={styles.incenseDescription}>

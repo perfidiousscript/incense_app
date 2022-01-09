@@ -35,14 +35,13 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
         ingredient_2 = create(:ingredient, name: 'myrrh')
         incense = build(:incense)
 
-
         sign_in_as user
         post :create, params: {
           incense: {
             name: incense.name,
             description: incense.description,
             brand_id: brand.id,
-            ingredient_ids: [ingredient_1.id, ingredient_2.id]
+            ingredient_ids: [ingredient_1.id, ingredient_2.id].to_json
           }
         }
 
@@ -59,18 +58,16 @@ RSpec.describe Api::V1::IncensesController, type: :controller do
 
         sign_in_as user
 
-        expect{
-          post :create, params: {
-            incense: {
-              name: incense.name,
-              description: incense.description,
-              brand_id: brand.id,
-              ingredient_ids: [ingredient_1.id, 'deadbeef']
-            }
+        post :create, params: {
+          incense: {
+            name: incense.name,
+            description: incense.description,
+            brand_id: brand.id,
+            ingredient_ids: [ingredient_1.id, 'deadbeef'].to_json
           }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        }
 
-
+        assert_response :unprocessable_entity
       end
 
       it 'should error with no brand' do

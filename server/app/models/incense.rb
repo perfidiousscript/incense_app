@@ -46,7 +46,7 @@ class Incense < ApplicationRecord
   has_one_attached :image
 
   def image_url
-    url_for(self.image) unless self.image
+    self.image.url if self.image
   end
 
   def approved?
